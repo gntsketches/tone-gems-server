@@ -1,0 +1,12 @@
+Heroku: first link IDs our app to Heroku (the website we go to). Second is the deployment target.
+    https://protected-coast-63863.herokuapp.com/ | https://git.heroku.com/protected-coast-63863.git
+did: git remote add heroku https://git.heroku.com/protected-coast-63863.git
+did: git push heroku master
+    that deploys it!
+
+error message? do: heroku logs
+
+ALSO did: git remote add origin git@github.com:gntsketches/tone-gems-server.git
+     and: git push origin master
+     DIDN'T do: git push -u origin master
+        should check on how tracking branches interact with multiple remotes first...
