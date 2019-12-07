@@ -3,6 +3,7 @@ Heroku: first link IDs our app to Heroku (the website we go to). Second is the d
 did: git remote add heroku https://git.heroku.com/protected-coast-63863.git
 did: git push heroku master
     that deploys it!
+    heroku open (to open it in browser)
 
 error message? do: heroku logs
 
@@ -10,3 +11,23 @@ ALSO did: git remote add origin git@github.com:gntsketches/tone-gems-server.git
      and: git push origin master
      DIDN'T do: git push -u origin master
         should check on how tracking branches interact with multiple remotes first...
+
+
+Google OAuth: console.developers.google.com
+
+Error: redirect_uri_mismatch
+    https://accounts.google.com/o/oauth2/v2/auth?
+    response_type=code&
+    redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fauth%2Fgoogle%2Fcallback&
+    scope=profile%20email&
+    client_id=971037029571-27djn0ip0rpu7tpolq2tv0ctfegvdio0.apps.googleusercontent.com
+    (Fix it at: https://console.developers.google.com/apis/credentials/oauthclient/971037029571-27djn0ip0rpu7tpolq2tv0ctfegvdio0.apps.googleusercontent.com?project=971037029571)
+
+
+Mongo:
+    project: Tonegems
+    cluster: tone-gems-dev
+    my IP: 173.164.148.133
+    username: Gregory
+    password: yCn8ym6OVYOltjVU
+    Connection String Only: mongodb+srv://Gregory:<password>@tone-gems-dev-1oiso.gcp.mongodb.net/test?retryWrites=true&w=majority
