@@ -1,0 +1,107 @@
+FYI:
+    https://pages.mtu.edu/~suits/notefreqs.html
+    Base pitch: accept C-B (place in range C4) or hertz between 261.63 and 523.24
+    "Using ctrl-t for Vim Emulation"...?
+
+    TODO
+        you can actually get the login part working now...
+
+
+        grab hand (custom) cursor: https://css-tricks.com/using-css-cursors/
+        set up PianoRoll
+            https://stackoverflow.com/questions/55138855/react-this-property-is-undefined-in-render
+            ? abstract MicrotonalReference into a function which can be used in both the reference and the actual roll
+        zoom & scroll!
+        what is the easy way to add more time?
+            probs: number input field. confirm if it would delete notes.
+        https://stackoverflow.com/questions/34772957/how-to-make-canvas-responsive
+        note names and time ticks on grid
+        for PERFORMACE reasons, bet you'll have to stop printing such a HUGE CANVAS and only print the 'visible' part.
+
+
+
+    set up redux for multiple compositions
+       select to choose piece
+    https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape
+    https://www.youtube.com/results?search_query=normalize+data+javascript
+    https://github.com/reduxjs/redux/issues/432
+        https://github.com/markerikson/redux/blob/structuring-reducers-page/docs/recipes/reducers/09-ImmutableUpdatePatterns.md
+        https://github.com/markerikson/redux/blob/structuring-reducers-page/docs/recipes/StructuringReducers.md
+
+
+    function to manage drawNote data from props
+        well... for now manage pitch, start, duration, velocity
+
+    ToneJS
+        ask Seo: where do I put audio stuff?
+
+
+REFACTORING
+    Look out: newOctavePx*7 is in a bunch of places...
+
+
+Original Piano Roll: https://codepen.io/michaelphipps/pen/pZPOJP
+Maybe: each instrument is its own display component, layered on through z index?
+    grid displayed below, click registered on top
+    https://developer.ibm.com/tutorials/wa-canvashtml5layering/
+https://stackoverflow.com/questions/13576149/creating-an-html5-piano-roll-editor
+https://react.rocks/tag/Canvas
+https://philna.sh/blog/2018/09/27/techniques-for-animating-on-the-canvas-in-react/
+https://github.com/Flipboard/react-canvas
+
+
+No randomizing notes
+No UI for synth / envelope params. Build every sound deliberately.
+
+
+
+UI
+    https://casesandberg.github.io/react-color/
+
+
+Later:
+    label WesternReference with C, C#, etc.
+    Coordinate Western against Microtonal (maybe when you add open/close feature.)
+    https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
+    https://www.npmjs.com/package/react-resizable
+    is MIDI? https://devhub.io/repos/Tonejs-MidiConvert
+
+*** MIDI ******************************************************************************************
+
+The data parsed from the midi file looks like this:
+
+{
+    // the transport and timing data
+    header : {
+        bpm : Number,                     // the tempo, e.g. 120
+        timeSignature : [Number, Number], // the time signature, e.g. [4, 4],
+        PPQ : Number                      // the Pulses Per Quarter of the midi file
+    },
+    // an array of midi tracks
+    tracks : [
+        {
+            name : String, // the track name if one was given
+            notes : [
+                {
+                    midi : Number, // midi number, e.g. 60
+                    time : Number, // time in seconds
+                    note : String, // note name, e.g. "C4"
+                    velocity : Number,  // normalized 0-1 velocity
+                    duration : String   // duration between noteOn and noteOff
+                }
+            ],
+            //midi control changes
+            controlChanges : {
+                //if there are control changes in the midi file
+                '91' : [
+                    {
+                        number : Number // the cc number
+                        time : Number, // time in seconds
+                        value : Number  // normalized 0-1
+                    }
+                ],
+            },
+            instrument : String     //the instrument if one is given
+        }
+    ]
+}

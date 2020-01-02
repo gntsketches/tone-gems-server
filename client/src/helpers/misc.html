@@ -1,0 +1,22 @@
+<script>
+
+function buildPitchSet(base, cents, shaded) {
+  const pitchSet = []
+  const multiples = [0.25, 0.5, 1, 2, 4, 8, 16]
+  multiples.forEach((multiple => {
+    cents.forEach((cent, i) => {
+      const pitch = (base*multiple) * (2**(cent/1200))
+      const isShaded = shaded.includes(i+1)
+      pitchSet.push({pitch:pitch, shaded:isShaded})
+    })
+  }))
+  return pitchSet
+}
+
+const base = 261.63
+const cents = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100]
+const shaded = [2,4,7,9,11]
+
+console.log(buildPitchSet(base, cents, shaded))
+
+</script>
