@@ -3,12 +3,13 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Wrapper } from './App.styles'
-import { updateOctavePx } from './actions'
+import { fetchUser, updateOctavePx } from './actions'
 
 import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
+import Header from "./components/Header/Header"
 
-const Header = () => <h2>Header</h2>
+// const Header = () => <h2>Header</h2>
 const Community = () => <h2>Other people who do this</h2>
 const Wander = () => <h2>Explore stuff people have made</h2>
 const Profile = () => <h2>Personal details and settings</h2>
@@ -24,6 +25,10 @@ class App extends Component {
       pianoRollScrollTop: 0,
     }
   };
+
+  componentDidMount() {
+    this.props.fetchUser()
+  }
 
   togglePianoBarZoomAndScroll = (x, y) => {
     console.log('toggling')
@@ -105,7 +110,10 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { updateOctavePx: updateOctavePx }
+  {
+    fetchUser: fetchUser,
+    updateOctavePx: updateOctavePx
+  }
 )(App);
 
 

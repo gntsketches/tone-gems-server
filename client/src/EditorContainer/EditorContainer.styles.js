@@ -4,6 +4,8 @@ import styled from 'styled-components/macro';
 // https://github.com/styled-components/babel-plugin-styled-components
 
 export const Wrapper = styled.div`
+  
+  width: 100%;
 
   background: #222;
   color: #ccc;
