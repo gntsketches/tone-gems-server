@@ -7,6 +7,7 @@ const User = mongoose.model('users');
 
 // to support putting id token into cookie
 passport.serializeUser((user, done) => { // 'user' is user model returned by database
+  console.log('passport serializeUser user:', user)
   // user.id is *database* id - NOT the googleId/profile.id
     // user.id is a shortcut; on db side it will look like "_id": { "$old":  etc...
     // using this because user is not necessarily using google for OAuth!
@@ -15,6 +16,7 @@ passport.serializeUser((user, done) => { // 'user' is user model returned by dat
 
 // to support getting user from db based on id token in cookie
 passport.deserializeUser((id, done) => {  // id is token we put in cookie (from user.id)
+  console.log('passport deserializeUser id:', id)
   User.findById(id)
     .then(user => {
       done(null, user);
@@ -28,19 +30,16 @@ passport.use(
       clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback'
     },
-    (accessToken, refreshToken, profile, done) => {
-      // console.log('accessToken', accessToken); console.log('refreshToken', refreshToken); console.log('profile', profile); console.log('done', done);
-      User.findOne({ googleId: profile.id })
-        .then((existingUser) => {
-          if (existingUser) {
-            // first arg error, second is user record
+    async (accessToken, refreshToken, profile, done) => {
+      // console.log('passport using GoogleStrategy') // console.log('accessToken', accessToken); console.log('refreshToken', refreshToken); console.log('profile', profile); console.log('done', done);
+      const existingUser = await User.findOne({ googleId: profile.id })
+
+          if (existingUser) { // first arg error, second is user record
             done(null, existingUser);
-          } else {
-            new User({ googleId: profile.id })
-              .save()
-              // database returns user model, which may have had some changes on that side
-              .then(user =>  done(null, user));
+            return
           }
-        })
+          const user = await new User({ googleId: profile.id }) .save()
+            done(null, user);
+            // database returns a promise with user model, which may have had some changes on that side
     })
 );

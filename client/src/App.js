@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // import CanvasAnimationTut from "./CanvasAnimationTut/CanvasAnimationTut"
-import EditorContainer from './EditorContainer/EditorContainer';
+import Compose from './containers/Compose';
 import { Wrapper } from './App.styles';
 import { updateOctavePx } from './actions'
+
+const Header = () => <h2>Header</h2>
+
 
 class App extends Component {
   constructor() {
@@ -31,10 +35,10 @@ class App extends Component {
       const leftMod = e.clientX - (e.clientX - this.state.mouseLeft)/2
       const leftRatio = leftMod/this.state.mouseLeft
       const newOctavePx = (this.props.octavePx * leftRatio) // multiplier to adjust zoom speed? tricky... try subtracting (e.clientX-this.state.mouseLeft)/2
-      console.log('newOctavePx', newOctavePx)
+      // console.log('newOctavePx', newOctavePx)
       if (newOctavePx > 400/7 && newOctavePx < 500) {
         this.props.updateOctavePx(newOctavePx)
-        this.setState({mouseLeft: e.clientX}, ()=>console.log('newMouseLeft', this.state.mouseLeft))
+        this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
       }
 
       const scrollTopAdjust = - (e.clientY - this.state.mouseTop)
@@ -64,7 +68,7 @@ class App extends Component {
         onMouseMove={this.handleMouseMove}
         onMouseUp={this.handleOnMouseUp}
       >
-        <EditorContainer
+        <Compose
           togglePianoBarZoomAndScroll={this.togglePianoBarZoomAndScroll}
           scrollTop={this.state.pianoRollScrollTop}
         />
