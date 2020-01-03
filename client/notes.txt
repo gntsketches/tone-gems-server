@@ -6,7 +6,7 @@ FYI:
     TODO
         you can actually get the login part working now...
 
-
+        adjustingVerticalZoom rename
         grab hand (custom) cursor: https://css-tricks.com/using-css-cursors/
         set up PianoRoll
             https://stackoverflow.com/questions/55138855/react-this-property-is-undefined-in-render

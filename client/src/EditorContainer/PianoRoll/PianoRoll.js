@@ -69,7 +69,7 @@ class PianoRoll extends Component {
 
     let x = 0
     for (let i=0; i<cellCountX; i++) {
-      console.log('x', x)
+      // console.log('x', x)
       let y =  octavePx * 7
       pitchMap.forEach((pitchObj, i) => {
         const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
