@@ -5,6 +5,8 @@ FYI:
 
     TODO
         you can actually get the login part working now...
+            btw how would you bypass / fake login if offline?
+        (solved?) wait, how do you get props into Routes. do you need like a bindRouteParamsToProps?
 
         adjustingVerticalZoom rename
         grab hand (custom) cursor: https://css-tricks.com/using-css-cursors/

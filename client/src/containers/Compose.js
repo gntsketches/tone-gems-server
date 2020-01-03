@@ -9,7 +9,7 @@ class Compose extends Component {
       <div>
         <EditorContainer
           togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
-          scrollTop={this.props.pianoRollScrollTop}
+          scrollTop={this.props.scrollTop}
         />
       </div>
     )
