@@ -34,7 +34,7 @@ class MicrotoneReference extends Component {
   drawPitches() {
     let { octavePx } = this.props;
     let y =  octavePx * 7
-    console.log('y', y)
+    // console.log('y', y)
 
 
     const base = 261.63
@@ -82,7 +82,7 @@ class MicrotoneReference extends Component {
     // octavePx = octavePx/2
     // console.log('octavePx', octavePx)
     const height = octavePx * 7
-    console.log('M height', height)
+    // console.log('height', height)
     return (
       <Wrapper>
         <canvas

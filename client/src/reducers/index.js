@@ -31,29 +31,29 @@ export const notes = (notes=initialNotes, action={}) => {
    }
  };
 
-const gems = [
-  {
-    title: 'title1',
-    notes: [
-      [2, 4, 4],
-      [4, 8, 4],
-      [7, 12, 1, true]
-    ]
-  },
-];
-
-export const updateGems = (notes=initialNotes, action={}) => {
-  switch(action.type) {
-    case 'ADD_NOTE':
-      return [...notes, action.payload];
-    case 'DELETE_NOTE':
-      return notes.filter(note => {
-        return !(action.payload[0] === note[0] && action.payload[1] === note[1])
-      });
-    default:
-      return notes;
-  }
-};
+// const gems = [
+//   {
+//     title: 'title1',
+//     notes: [
+//       [2, 4, 4],
+//       [4, 8, 4],
+//       [7, 12, 1, true]
+//     ]
+//   },
+// ];
+//
+// export const updateGems = (notes=initialNotes, action={}) => {
+//   switch(action.type) {
+//     case 'ADD_NOTE':
+//       return [...notes, action.payload];
+//     case 'DELETE_NOTE':
+//       return notes.filter(note => {
+//         return !(action.payload[0] === note[0] && action.payload[1] === note[1])
+//       });
+//     default:
+//       return notes;
+//   }
+// };
 
 
 const px = 240;

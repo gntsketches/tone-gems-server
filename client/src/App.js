@@ -8,6 +8,7 @@ import { fetchUser, updateOctavePx } from './actions'
 import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
 import Header from "./components/Header/Header"
+import Landing from './components/Landing';
 
 const Community = () => <h2>Other people who do this</h2>
 const Wander = () => <h2>Explore stuff people have made</h2>
@@ -81,6 +82,7 @@ class App extends Component {
           <div>
 
             <Header />
+            <Route exact path="/" component={Landing} />
             <Route
               exact path="/compose"
               component={passPropsToEmbededComponent({

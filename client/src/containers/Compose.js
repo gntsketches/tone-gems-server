@@ -15,6 +15,6 @@ class Compose extends Component {
   }
 }
 
-function mapStateToProps() {}
+function mapStateToProps({}) {}
 
-export default connect(mapStateToProps)(Compose);
+export default connect()(Compose);

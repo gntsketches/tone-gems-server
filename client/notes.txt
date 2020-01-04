@@ -5,8 +5,16 @@ FYI:
 
     TODO
         you can actually get the login part working now...
-            btw how would you bypass / fake login if offline?
-        (solved?) wait, how do you get props into Routes. do you need like a bindRouteParamsToProps?
+            on 87
+            reviewing (start from vid 81). axios & thunk installs in 82
+                fetchAction axios call
+                    - what happens if offline?
+            note that you want to let people compose even if not logged in (login for saving)
+                FOR NOW just follow his example and use a landing page, and redirect to compose on login. see his logic on 73.
+            btw
+                non-rendering of login button when offline. should ideally say
+                how would you bypass / fake login if offline?
+        passPropsToEmbededComponent vs https://tylermcginnis.com/react-router-pass-props-to-components/
 
         adjustingVerticalZoom rename
         grab hand (custom) cursor: https://css-tricks.com/using-css-cursors/
