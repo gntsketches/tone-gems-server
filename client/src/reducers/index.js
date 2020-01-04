@@ -1,5 +1,8 @@
 import { combineReducers } from "redux";
 
+import authReducer from "./authReducer";
+
+
 const initialNotes = [
   [2, 4, 4],
   [4, 8, 4],
@@ -65,6 +68,8 @@ export const updateOctavePx = (octavePx=px, action={}) => {
 }
 
 export default combineReducers({
+  auth: authReducer,
+
   notes: notes,
   title: title,
   octavePx: updateOctavePx,

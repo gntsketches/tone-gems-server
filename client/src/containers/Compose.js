@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EditorContainer from "../EditorContainer/EditorContainer"
-import {Wrapper} from "../App.styles"
 
 class Compose extends Component {
   render() {
@@ -9,7 +8,7 @@ class Compose extends Component {
       <div>
         <EditorContainer
           togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
-          scrollTop={this.props.pianoRollScrollTop}
+          scrollTop={this.props.scrollTop}
         />
       </div>
     )

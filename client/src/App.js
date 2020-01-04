@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// import CanvasAnimationTut from "./CanvasAnimationTut/CanvasAnimationTut"
-import Compose from './containers/Compose';
-import { Wrapper } from './App.styles';
-import { updateOctavePx } from './actions'
+import { Wrapper } from './App.styles'
+import { fetchUser, updateOctavePx } from './actions'
+
+import Compose from './containers/Compose'
+import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
+import Header from "./components/Header/Header"
+
+const Community = () => <h2>Other people who do this</h2>
+const Wander = () => <h2>Explore stuff people have made</h2>
+const Profile = () => <h2>Personal details and settings</h2>
+
 
 const Header = () => <h2>Header</h2>
 
@@ -20,6 +27,10 @@ class App extends Component {
       pianoRollScrollTop: 0,
     }
   };
+
+  componentDidMount() {
+    this.props.fetchUser()
+  }
 
   togglePianoBarZoomAndScroll = (x, y) => {
     console.log('toggling')
@@ -68,15 +79,29 @@ class App extends Component {
         onMouseMove={this.handleMouseMove}
         onMouseUp={this.handleOnMouseUp}
       >
-        <Compose
-          togglePianoBarZoomAndScroll={this.togglePianoBarZoomAndScroll}
-          scrollTop={this.state.pianoRollScrollTop}
-        />
+
+        <BrowserRouter>
+          <div>
+
+            <Header />
+            <Route
+              exact path="/compose"
+              component={passPropsToEmbededComponent({
+                togglePianoBarZoomAndScroll: this.togglePianoBarZoomAndScroll,
+                scrollTop: this.state.pianoRollScrollTop
+              })(Compose)}
+            />
+            <Route exact path="/community" component={Community} />
+            <Route exact path="/wander" component={Wander} />
+            <Route exact path="/profile" component={Profile} />
+
+          </div>
+        </BrowserRouter>
+
       </Wrapper>
     );
   }
 }
-
 
 
 const mapStateToProps = state => {
@@ -89,6 +114,13 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { updateOctavePx: updateOctavePx }
+  {
+    fetchUser: fetchUser,
+    updateOctavePx: updateOctavePx
+  }
 )(App);
 
+
+
+
+{/*<Compose*/} {/*  togglePianoBarZoomAndScroll={this.togglePianoBarZoomAndScroll}*/} {/*  scrollTop={this.state.pianoRollScrollTop}*/} {/*/>*/}
