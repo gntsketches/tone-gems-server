@@ -14,9 +14,6 @@ const Wander = () => <h2>Explore stuff people have made</h2>
 const Profile = () => <h2>Personal details and settings</h2>
 
 
-const Header = () => <h2>Header</h2>
-
-
 class App extends Component {
   constructor() {
     super()
