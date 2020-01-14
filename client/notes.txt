@@ -4,17 +4,11 @@ FYI:
     "Using ctrl-t for Vim Emulation"...?
 
     TODO
-        you can actually get the login part working now...
-            on 87
-            reviewing (start from vid 81). axios & thunk installs in 82
-                fetchAction axios call
-                    - what happens if offline?
-            note that you want to let people compose even if not logged in (login for saving)
-                FOR NOW just follow his example and use a landing page, and redirect to compose on login. see his logic on 73.
-            btw
-                non-rendering of login button when offline. should ideally say
-                how would you bypass / fake login if offline?
-        passPropsToEmbededComponent vs https://tylermcginnis.com/react-router-pass-props-to-components/
+        click to add notes!
+        set up scrolling & zoom etc on redux
+            and apply scrolling to canvas
+        zip and unzip compositions to redux state
+        get things back and form from DB
 
         adjustingVerticalZoom rename
         grab hand (custom) cursor: https://css-tricks.com/using-css-cursors/
@@ -49,6 +43,15 @@ FYI:
 REFACTORING
     Look out: newOctavePx*7 is in a bunch of places...
 
+    login
+        fetchAction axios call
+            - what happens if offline?
+        note that you want to let people compose even if not logged in (login for saving)
+            FOR NOW just follow his example and use a landing page, and redirect to compose on login. see his logic on 73.
+        btw
+            non-rendering of login button when offline. should ideally say
+            how would you bypass / fake login if offline?
+    passPropsToEmbededComponent vs https://tylermcginnis.com/react-router-pass-props-to-components/
 
 Original Piano Roll: https://codepen.io/michaelphipps/pen/pZPOJP
 Maybe: each instrument is its own display component, layered on through z index?
@@ -59,6 +62,31 @@ https://react.rocks/tag/Canvas
 https://philna.sh/blog/2018/09/27/techniques-for-animating-on-the-canvas-in-react/
 https://github.com/Flipboard/react-canvas
 
+
+
+
+DON'T DRAW A HUGE CANVAS. JUST RENDER THE VISIBLE PARTS.
+    store as percentages visibleXLeft/Right and visibleYTop/Bottom
+    probably in App...
+    so how do you translate those percentages to the pitchMap?
+    you gotta treat it as if the canvas did extend above and below
+        each pitch has a variable 'height'
+        at 100% zoom-out each pitch is (canvasHeight / octaves) * (cents/1200)
+            maybe think:
+                zoomYScale (what multiplier for zoom in?)
+                & topDisplace
+        what is the 'invisible' canvas height?
+            (let's say the canvas is in the middle 50%, invisibleHeight is canvasHeight * 2)
+        displayPercent = 100 - (top-bottom)
+        ratio: canvasHeight/displayPercent = x/100
+        invisibleHeight = 100 * (canvasHeight/displayPercent)
+        visibleYTopPx = invisibleHeight * (visibleYTop / 100)
+        visibleYBottomPx = invisibleHeight * (visibleYBottom / 100)
+        THEN you say, what would the scale be for the whole vertical roll to take up that whole space
+        so the height of each pitch is (invisibleHeight / octaves) * (cents/1200)
+        so for each cell:
+            check if the cellTopY is >= visibleTopYPx
+            if so find that cell's height:
 
 No randomizing notes
 No UI for synth / envelope params. Build every sound deliberately.

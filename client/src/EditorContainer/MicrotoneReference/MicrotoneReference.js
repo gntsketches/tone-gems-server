@@ -30,6 +30,15 @@ class MicrotoneReference extends Component {
     //  transposing: just a matter of changing pitchesArray,
     // if the array is different notes are moved (by *cents*) to the closest value by rounding
 
+  mapCentsAndPxHeights(centsArr) {
+    let { octavePx } = this.props
+    const centsAndPxHeights = []
+    centsArr.forEach(cents => {
+      const refObj = { cents, px: (cents/1200) * octavePx }
+      centsAndPxHeights.push(refObj)
+    })
+    this.setState({ centsAndPxHeights })
+  }
 
   drawPitches() {
     let { octavePx } = this.props;

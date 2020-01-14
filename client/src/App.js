@@ -23,6 +23,7 @@ class App extends Component {
       mouseLeft: '',
       mouseTop: '',
       pianoRollScrollTop: 0,
+
     }
   };
 
@@ -87,7 +88,7 @@ class App extends Component {
               exact path="/compose"
               component={passPropsToEmbededComponent({
                 togglePianoBarZoomAndScroll: this.togglePianoBarZoomAndScroll,
-                scrollTop: this.state.pianoRollScrollTop
+                scrollTop: this.state.pianoRollScrollTop,
               })(Compose)}
             />
             <Route exact path="/community" component={Community} />

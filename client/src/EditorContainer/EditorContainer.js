@@ -20,7 +20,7 @@ class EditorContainer extends Component {
     this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
   componentDidUpdate() {
-    console.log('scrollTop prop', this.props.scrollTop)
+    // console.log('scrollTop prop', this.props.scrollTop)
     this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 

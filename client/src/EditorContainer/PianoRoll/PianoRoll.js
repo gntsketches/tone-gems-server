@@ -12,7 +12,9 @@ class PianoRoll extends Component {
     this.canvasRef = React.createRef();
     this.state = {
       cellwidth: 50,
-      cellCountX: 128
+      cellCountX: 128,
+      // const cents = [0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]
+      centsAndPxHeights: []
     };
   }
 
@@ -22,36 +24,58 @@ class PianoRoll extends Component {
     // this.w = this.canvas.scrollWidth;
     // this.h = this.canvas.scrollHeight;
     // this.cellheight = 20
+    this.mapCentsAndPxHeights([0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100])
     this.drawPianoGrid();
-    // this.drawNotes()
+    this.drawNotes()
   }
 
   componentDidUpdate() {
     this.drawPianoGrid();
-    // this.drawNotes()
+    this.drawNotes()
+  }
+
+  mapCentsAndPxHeights(centsArr) {
+    let { octavePx } = this.props
+    const centsAndPxHeights = []
+    centsArr.forEach(cents => {
+      const refObj = { cents, px: (cents/1200) * octavePx }
+      centsAndPxHeights.push(refObj)
+    })
+    this.setState({ centsAndPxHeights })
   }
 
   drawNotes() {
-    // this.state.notes.forEach(noteArr => this.drawNote(noteArr))
-    this.props.notes.forEach(noteArr => this.drawNote(noteArr))
-    console.log('notes', this.props.notes)
+    const notes = [
+      { octave: 3, cents: 0, start: 0, duration: 4, selected: false },
+      { octave: 4, cents: 200, start: 4, duration: 2, selected: false },
+      { octave: 4, cents: 400, start: 8, duration: 3, selected: true }
+    ]
+    // this.props.notes.forEach(noteArr => this.drawNote(noteArr))
+    // console.log('notes', this.props.notes)
+    notes.forEach((noteObject, index) => this.drawNote(noteObject, index))
   }
 
-  drawNote(noteArray) {
-    let x = noteArray[0];
-    let y = noteArray[1];
-    let length = noteArray[2];
-    let selected = noteArray[3] || false;
-    x=x * this.state.cellwidth;
-    y=y * this.state.cellheight;
+  drawNote(noteObject ) {
+    const { cellwidth, centsAndPxHeights } = this.state
+    const { octavePx } = this.props
+    const octavesHeight = octavePx * noteObject.octave
+    const centsHeight = octavePx * (noteObject.cents/1200)
+
+    const index = centsAndPxHeights.findIndex(el => el.cents === noteObject.cents)
+    const nextStep = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1] : 1200
+    const cellHeight = octavePx * ((nextStep.cents - noteObject.cents) / 1200)
+
+    const canvasBottom =  octavePx * 7
+    const noteTop = canvasBottom - (octavesHeight + centsHeight + cellHeight)
+
     this.ctx.beginPath();
     this.ctx.fillStyle = "rgb(128,128,128)";
-    if(selected){
+    if(noteObject.selected){
       this.ctx.strokeStyle = "rgb(255,255,255)";
     }else{
       this.ctx.strokeStyle = "rgb(24,24,24)";
     }
-    this.ctx.rect(x, y, this.cellwidth*length, this.cellheight);
+    this.ctx.rect(cellwidth*noteObject.start, noteTop, cellwidth*noteObject.duration, cellHeight);
     this.ctx.fill()
     this.ctx.stroke();
   }
@@ -97,6 +121,7 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
+    console.log('handle click')
     const rect = e.target.getBoundingClientRect()
     const xPix = e.clientX - rect.left;
     const yPix = e.clientY - rect.top;

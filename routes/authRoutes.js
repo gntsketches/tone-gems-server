@@ -10,7 +10,12 @@ module.exports = (app) => {
 
   app.get(
     '/auth/google/callback',
-    passport.authenticate('google')
+    passport.authenticate('google'),
+    //#90 .authenticate is a middleware. takes code from URL, fetches profile, then calls callback in GoogleStrategy sends request on to
+    // after all that, it passes req to next middleware:
+    (req, res) => {
+      res.redirect('/compose');
+    }
   );
 
   app.get(
@@ -19,8 +24,8 @@ module.exports = (app) => {
       // passport automatically attaches .logout to req object
         // this takes the cookie that containers user.id, and kills the id
       req.logout();
-      // inform the user that they are no longer signed in
-      res.send(req.user);
+      // res.send(req.user); // inform the user that they are no longer signed in
+      res.redirect('/');
     }
   );
 
