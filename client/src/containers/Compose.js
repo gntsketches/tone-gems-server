@@ -8,6 +8,7 @@ class Compose extends Component {
       <div>
         <EditorContainer
           togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
+          handlePianoRollScroll={this.props.handlePianoRollScroll}
           scrollTop={this.props.scrollTop}
         />
       </div>

@@ -22,9 +22,12 @@ class App extends Component {
       adjustingVerticalZoom: false,
       mouseLeft: '',
       mouseTop: '',
-      pianoRollScrollTop: 0,
-
+      pianoRollScrollTop: 100,
+      // scrollTimer: -1
+      // scrolling: false,
     }
+    this.scrollTimer = -1
+
   };
 
   componentDidMount() {
@@ -64,11 +67,38 @@ class App extends Component {
     }
   }
 
-  handleOnMouseUp = e => {
+  handleOnMouseUp = () => {
     if (this.state.adjustingVerticalZoom) {
-      console.log('up', e)
+      console.log('up')
       this.togglePianoBarZoomAndScroll()
     }
+  }
+
+  handlePianoRollScroll = scrollTop => {
+    console.log('handlin', scrollTop)
+    // if (this.state.adjustingVerticalZoom === true) { return }
+      this.setState({
+        // scrolling: true,
+        pianoRollScrollTop: scrollTop,
+      })
+
+
+    // console.log('this.scrollTimer', this.scrollTimer)
+    // if (this.scrollTimer !== -1) {
+    //   clearTimeout(this.scrollTimer);
+    // }
+    //
+    //   this.scrollTimer = window.setTimeout(() => {
+    //     console.log('calling scrollTimer')
+    //     this.scrollFinished(scrollTop)
+    //   } , 500)
+
+  }
+
+  scrollFinished = (scrollTop) => {
+    console.log('in ScrollFinished', this.scrollTimer)
+    this.scrollTimer = -1
+    this.setState({ pianoRollScrollTop: scrollTop })
   }
 
   render() {
@@ -89,6 +119,7 @@ class App extends Component {
               component={passPropsToEmbededComponent({
                 togglePianoBarZoomAndScroll: this.togglePianoBarZoomAndScroll,
                 scrollTop: this.state.pianoRollScrollTop,
+                handlePianoRollScroll: this.handlePianoRollScroll
               })(Compose)}
             />
             <Route exact path="/community" component={Community} />

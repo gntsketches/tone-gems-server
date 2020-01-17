@@ -4,6 +4,10 @@ FYI:
     "Using ctrl-t for Vim Emulation"...?
 
     TODO
+        solve The Scroll Loop Mystery!
+            https://medium.com/bb-tutorials-and-thoughts/when-should-we-use-setstate-in-react-202e3e86bc75
+            https://codepen.io/gntsketches/pen/MWYqeeZ?editors=0110
+            https://stackoverflow.com/questions/49783936/how-to-clear-a-settimeout-in-react
         click to add notes!
         set up scrolling & zoom etc on redux
             and apply scrolling to canvas

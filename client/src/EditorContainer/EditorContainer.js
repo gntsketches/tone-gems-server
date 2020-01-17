@@ -17,15 +17,22 @@ class EditorContainer extends Component {
   }
 
   componentDidMount() {
-    this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
-  }
-  componentDidUpdate() {
-    // console.log('scrollTop prop', this.props.scrollTop)
+    console.log('mounted scrollTop', this.props.scrollTop)
     this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 
+  // componentDidUpdate() {
+  //   console.log('scrollTop prop', this.props.scrollTop)
+  //   this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
+  // }
+
   handleTitleChange = (e) => {
     console.log(this.props.changeTitle(e.target.value));
+  }
+
+  handleOnScroll = (e) => {
+    console.log('onScroll in Editor Container', e.target.scrollTop)
+    this.props.handlePianoRollScroll(e.target.scrollTop)
   }
 
   render() {
@@ -41,12 +48,13 @@ class EditorContainer extends Component {
         <div
           className="pianoRollWrap"
           ref={this.pianoRollWrapRef}
+          onScroll={this.handleOnScroll}
         >
           {/*<ReferenceRoll />*/}
           <MicrotoneReference
             togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
           />
-          <PianoRoll  />
+          {/*<PianoRoll  />*/}
         </div>
       </Wrapper>
     );
