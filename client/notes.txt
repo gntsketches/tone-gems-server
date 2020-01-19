@@ -4,10 +4,12 @@ FYI:
     "Using ctrl-t for Vim Emulation"...?
 
     TODO
+        zomg, the piano roll moves up and down when U zoom. Gotta set scroll to go along with it...
         https://thoughtbot.com/blog/react-rendering-misconception
         https://lucybain.com/blog/2017/react-js-when-to-rerender/
         &https://lucybain.com/blog/2018/react-js-pure-component/
             After the initial TodoItems render, they never render again even though their parent renders multiple times.
+        https://60devs.com/pure-component-in-react.html
         https://stackoverflow.com/questions/30862921/avoid-re-rendering-on-scroll-and-increase-performance-in-a-react-web-application
         click to add notes!
         set up scrolling & zoom etc on redux

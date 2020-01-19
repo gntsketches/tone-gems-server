@@ -42,7 +42,7 @@ class App extends Component {
     const newOctavePx = this.props.octavePx !== nextProps.octavePx
     const newScrollTop = this.props.octavePx !== nextProps.scrollTop
     console.log('nextProps.scrollTop', nextProps.scrollTop)
-    return newOctavePx
+    return false
   }
 
   togglePianoBarZoomAndScroll = (x, y) => {
