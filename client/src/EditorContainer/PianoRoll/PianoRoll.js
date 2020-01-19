@@ -14,7 +14,8 @@ class PianoRoll extends Component {
       cellwidth: 50,
       cellCountX: 128,
       // const cents = [0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]
-      centsAndPxHeights: []
+      centsAndPxHeights: this.mapCentsAndPxHeights([0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]),
+      pitchMap: buildPitchSet(261.63, [0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100], [2,4,7,9,11])
     };
   }
 
@@ -24,9 +25,10 @@ class PianoRoll extends Component {
     // this.w = this.canvas.scrollWidth;
     // this.h = this.canvas.scrollHeight;
     // this.cellheight = 20
-    this.mapCentsAndPxHeights([0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100])
     this.drawPianoGrid();
     this.drawNotes()
+    console.log('centsAndPxHeights', this.state.centsAndPxHeights)
+    console.log('pitchMap', this.state.pitchMap)
   }
 
   componentDidUpdate() {
@@ -41,17 +43,12 @@ class PianoRoll extends Component {
       const refObj = { cents, px: (cents/1200) * octavePx }
       centsAndPxHeights.push(refObj)
     })
-    this.setState({ centsAndPxHeights })
+    return centsAndPxHeights
   }
 
   drawNotes() {
-    const notes = [
-      { octave: 3, cents: 0, start: 0, duration: 4, selected: false },
-      { octave: 4, cents: 200, start: 4, duration: 2, selected: false },
-      { octave: 4, cents: 400, start: 8, duration: 3, selected: true }
-    ]
-    // this.props.notes.forEach(noteArr => this.drawNote(noteArr))
-    // console.log('notes', this.props.notes)
+    const { notes } = this.props
+    console.log('notes', notes)
     notes.forEach((noteObject, index) => this.drawNote(noteObject, index))
   }
 
@@ -62,8 +59,9 @@ class PianoRoll extends Component {
     const centsHeight = octavePx * (noteObject.cents/1200)
 
     const index = centsAndPxHeights.findIndex(el => el.cents === noteObject.cents)
-    const nextStep = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1] : 1200
-    const cellHeight = octavePx * ((nextStep.cents - noteObject.cents) / 1200)
+    const nextCents = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1].cents : 1200
+    console.log('nextCents', nextCents)
+    const cellHeight = octavePx * ((nextCents- noteObject.cents) / 1200)
 
     const canvasBottom =  octavePx * 7
     const noteTop = canvasBottom - (octavesHeight + centsHeight + cellHeight)
@@ -84,18 +82,11 @@ class PianoRoll extends Component {
     const { cellwidth, cellCountX } = this.state
     let { octavePx } = this.props
 
-    const base = 261.63
-    const cents = [0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]
-    // const cents = [0, 54.54, 109.08, ] // 22edo ... edos add each value? or division feature?
-    //  lets say cents input accepts a string which converts to an array of numbers OR '11edo', 22 tet', etc...
-    const shaded = [2,4,7,9,11]
-    const pitchMap = buildPitchSet(base, cents, shaded)
-
     let x = 0
     for (let i=0; i<cellCountX; i++) {
       // console.log('x', x)
       let y =  octavePx * 7
-      pitchMap.forEach((pitchObj, i) => {
+      this.state.pitchMap.forEach((pitchObj, i) => {
         const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
         // console.log('cellheight', cellheight)
         const celltop = y - cellheight
@@ -121,17 +112,31 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
-    console.log('handle click')
     const rect = e.target.getBoundingClientRect()
     const xPix = e.clientX - rect.left;
-    const yPix = e.clientY - rect.top;
-    const x = Math.floor(xPix / this.cellwidth)
-    const y = Math.floor(yPix / this.cellheight)
-    this.props.addRemoveNote(this.props.notes, [x, y, 1]);
+    const yPix = rect.bottom - e.clientY;
+    console.log('xPIx', xPix)
+    console.log('yPix', yPix)
+    const noteInfo = {}
+    this.state.pitchMap.forEach((pitchObj, index)=>{
+      const cellStart = (pitchObj.totalCents/1200) * this.props.octavePx
+      const cellEnd = (pitchObj.totalCentsNext/1200) * this.props.octavePx
+      if (yPix >= cellStart && yPix < cellEnd) {
+        noteInfo.octave = Math.floor(yPix / this.props.octavePx)
+        noteInfo.cents = pitchObj.cents
+        noteInfo.start = Math.floor(xPix / this.state.cellwidth)
+        noteInfo.duration = 1
+        noteInfo.selected = false
+      }
+    })
+    console.log('noteInfo', noteInfo)
+
+    // const y = Math.floor(yPix / this.cellheight)
+    this.props.addRemoveNote(noteInfo);
   }
 
   render() {
-    console.log('PianoRoll.js rendering')
+    // console.log('PianoRoll.js rendering')
     const { cellwidth, cellCountX } = this.state
     let { octavePx } = this.props
     const height = octavePx * 7

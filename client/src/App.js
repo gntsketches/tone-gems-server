@@ -41,7 +41,7 @@ class App extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     const newOctavePx = this.props.octavePx !== nextProps.octavePx
     const newScrollTop = this.props.octavePx !== nextProps.scrollTop
-    console.log('nextProps.scrollTop', nextProps.scrollTop)
+    // console.log('nextProps.scrollTop', nextProps.scrollTop)
     return false
   }
 
@@ -89,7 +89,7 @@ class App extends Component {
 
 
   render() {
-    console.log('App.js rendering')
+    // console.log('App.js rendering')
     return (
       <Wrapper
         onMouseMove={this.handleMouseMove}

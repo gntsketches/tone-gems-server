@@ -10,20 +10,11 @@ export const fetchUser = () => async dispatch => {
 
 // ************************************************************
 
-export const addRemoveNote = (stateNotes, newNote) => {
-  if (stateNotes.some(note => {
-    return newNote[0]===note[0] && newNote[1]===note[1]
-  })
-  ) {
+export const addRemoveNote = (note) => {
     return {
-      type: 'DELETE_NOTE',
-      payload: newNote
+      type: 'PROCESS_NOTE_EVENT',
+      payload: note
     }
-  }
-  return {
-    type: 'ADD_NOTE',
-    payload: newNote
-  }
 };
 
 export const changeTitle = value => {
@@ -46,3 +37,21 @@ export const setScrollTop = value => {
     payload: value,
   }
 };
+
+
+
+// export const addRemoveNote = (stateNotes, newNote) => {
+//   if (stateNotes.some(note => {
+//     return newNote[0]===note[0] && newNote[1]===note[1]
+//   })
+//   ) {
+//     return {
+//       type: 'DELETE_NOTE',
+//       payload: newNote
+//     }
+//   }
+//   return {
+//     type: 'ADD_NOTE',
+//     payload: newNote
+//   }
+// };

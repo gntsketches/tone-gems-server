@@ -43,7 +43,7 @@ class EditorContainer extends Component {
   }
 
   render() {
-    console.log('editor container rendering')
+    // console.log('EditorContainer.js rendering')
     return (
       <Wrapper>
         <span>Title: </span>

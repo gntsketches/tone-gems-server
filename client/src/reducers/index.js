@@ -4,19 +4,27 @@ import authReducer from "./authReducer";
 
 
 const initialNotes = [
-  [2, 4, 4],
-  [4, 8, 4],
-  [7, 12, 1, true]
-];
+  { octave: 3, cents: 0, start: 0, duration: 4, selected: false },
+  { octave: 4, cents: 200, start: 4, duration: 2, selected: false },
+  { octave: 4, cents: 400, start: 8, duration: 3, selected: true }
+]
 
 export const notes = (notes=initialNotes, action={}) => {
+  console.log('action.payload', action.payload)
   switch(action.type) {
-    case 'ADD_NOTE':
+    case 'PROCESS_NOTE_EVENT':
+      if (notes.some(note => {
+          return (action.payload.octave===note.octave &&
+                  action.payload.cents===note.cents &&
+                  action.payload.start===note.start)
+      })) {
+        return notes.filter(note => {
+          return !(action.payload.octave===note.octave &&
+                   action.payload.cents===note.cents &&
+                   action.payload.start===note.start)
+        })
+      }
       return [...notes, action.payload];
-    case 'DELETE_NOTE':
-      return notes.filter(note => {
-        return !(action.payload[0] === note[0] && action.payload[1] === note[1])
-      });
     default:
       return notes;
   }
@@ -60,6 +68,19 @@ export default combineReducers({
   octavePx: updateOctavePx,
   scrollTop: setScrollTop,
 });
+
+// export const notes = (notes=initialNotes, action={}) => {
+//   switch(action.type) {
+//     case 'ADD_NOTE':
+//       return [...notes, action.payload];
+//     case 'DELETE_NOTE':
+//       return notes.filter(note => {
+//         return !(action.payload[0] === note[0] && action.payload[1] === note[1])
+//       });
+//     default:
+//       return notes;
+//   }
+// };
 
 // const gems = [
 //   {

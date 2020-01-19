@@ -10,21 +10,25 @@
 export function buildPitchSet(base, centsArr, shaded) {
   const pitchSet = []
   const multiples = [0.25, 0.5, 1, 2, 4, 8, 16]
-  multiples.forEach((multiple => {
-    centsArr.forEach((cents, i) => {
+  multiples.forEach((multiple, i) => {
+    centsArr.forEach((cents, j) => {
       const pitch = (base*multiple) * (2**(cents/1200))
-      const isShaded = shaded.includes(i+1)
-      const nextCents = i===centsArr.length-1 ? 1200 : centsArr[i+1]
+      const isShaded = shaded.includes(j+1)
+      const nextCents = j===centsArr.length-1 ? 1200 : centsArr[j+1]
+      const totalCents = (i*1200) + cents
+      const totalCentsNext = (i*1200) + nextCents
       pitchSet.push({
-        pitch:pitch,
-        cents: cents,
-        nextCents: nextCents,
+        pitch,
+        cents,
+        nextCents,
+        totalCents,
+        totalCentsNext,
         index: i,
         max: centsArr.length-1,
         shaded:isShaded
       })
     })
-  }))
+  })
 
   // vertically resizable scroll... make sure top 'C' is always there // canvasHeight = octavePX * totalOctaves //   + i think: (octavePx * ((pitchSet[pitchSet.length-1].nextCents - pitchSet[pitchSet.length-1].cents) / 1200)) // pitchSet.push({
   //   pitch: (base*32) * (2**(centsArr[0]/1200)),
