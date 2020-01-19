@@ -31,6 +31,36 @@ export const notes = (notes=initialNotes, action={}) => {
    }
  };
 
+
+const px = 240;
+
+export const updateOctavePx = (octavePx=px, action={}) => {
+  switch(action.type) {
+    case 'UPDATE_PX':
+      return action.payload;
+    default:
+      return octavePx;
+  }
+}
+
+export const setScrollTop = (scrollTop=0, action={}) => {
+  switch(action.type) {
+    case 'SET_SCROLL_TOP':
+      return action.payload;
+    default:
+      return scrollTop;
+  }
+}
+
+export default combineReducers({
+  auth: authReducer,
+
+  notes: notes,
+  title: title,
+  octavePx: updateOctavePx,
+  scrollTop: setScrollTop,
+});
+
 // const gems = [
 //   {
 //     title: 'title1',
@@ -53,24 +83,3 @@ export const notes = (notes=initialNotes, action={}) => {
 //     default:
 //       return notes;
 //   }
-// };
-
-
-const px = 240;
-
-export const updateOctavePx = (octavePx=px, action={}) => {
-  switch(action.type) {
-    case 'UPDATE_PX':
-      return action.payload;
-    default:
-      return octavePx;
-  }
-}
-
-export default combineReducers({
-  auth: authReducer,
-
-  notes: notes,
-  title: title,
-  octavePx: updateOctavePx,
-});

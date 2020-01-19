@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { changeTitle } from '../actions';
+import { changeTitle, setScrollTop } from '../actions';
 import { Wrapper } from './EditorContainer.styles';
 import ReferenceRoll from './WesternReference/WesternReference';
 import MicrotoneReference from './MicrotoneReference/MicrotoneReference';
@@ -17,26 +17,33 @@ class EditorContainer extends Component {
   }
 
   componentDidMount() {
-    console.log('mounted scrollTop', this.props.scrollTop)
+    // console.log('mounted scrollTop', this.props.scrollTop)
     this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 
-  // componentDidUpdate() {
-  //   console.log('scrollTop prop', this.props.scrollTop)
-  //   this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
-  // }
+  componentDidUpdate() {
+    // what, what actually does UPDATE mean?
+      // note that loads of rerenders happen in the piano roll without this ever being called...
+    console.log('updated scrollTop', this.props.scrollTop)
+    this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return false
+  }
 
   handleTitleChange = (e) => {
     console.log(this.props.changeTitle(e.target.value));
   }
 
+
   handleOnScroll = (e) => {
-    console.log('onScroll in Editor Container', e.target.scrollTop)
-    this.props.handlePianoRollScroll(e.target.scrollTop)
+    // console.log('onScroll in Editor Container', e.target.scrollTop)
+    this.props.setScrollTop(e.target.scrollTop);
   }
 
   render() {
-    const { toggleAdjustingVerticalZoom } = this.props
+    console.log('editor container rendering')
     return (
       <Wrapper>
         <span>Title: </span>
@@ -54,7 +61,7 @@ class EditorContainer extends Component {
           <MicrotoneReference
             togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
           />
-          {/*<PianoRoll  />*/}
+          <PianoRoll  />
         </div>
       </Wrapper>
     );
@@ -64,12 +71,17 @@ class EditorContainer extends Component {
 const mapStateToProps = state => {
   return {
     notes: state.notes,
-    title: state.title
+    title: state.title,
+    scrollTop: state.scrollTop,
   };
 };
 
 
 export default connect(
   mapStateToProps,
-  { changeTitle: changeTitle }
+  {
+    changeTitle: changeTitle,
+    setScrollTop: setScrollTop,
+  }
+
 )(EditorContainer);

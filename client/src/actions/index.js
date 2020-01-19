@@ -39,3 +39,10 @@ export const updateOctavePx = value => {
     payload: value
   }
 };
+
+export const setScrollTop = value => {
+  return {
+    type: 'SET_SCROLL_TOP',
+    payload: value,
+  }
+};

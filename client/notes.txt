@@ -4,10 +4,11 @@ FYI:
     "Using ctrl-t for Vim Emulation"...?
 
     TODO
-        solve The Scroll Loop Mystery!
-            https://medium.com/bb-tutorials-and-thoughts/when-should-we-use-setstate-in-react-202e3e86bc75
-            https://codepen.io/gntsketches/pen/MWYqeeZ?editors=0110
-            https://stackoverflow.com/questions/49783936/how-to-clear-a-settimeout-in-react
+        https://thoughtbot.com/blog/react-rendering-misconception
+        https://lucybain.com/blog/2017/react-js-when-to-rerender/
+        &https://lucybain.com/blog/2018/react-js-pure-component/
+            After the initial TodoItems render, they never render again even though their parent renders multiple times.
+        https://stackoverflow.com/questions/30862921/avoid-re-rendering-on-scroll-and-increase-performance-in-a-react-web-application
         click to add notes!
         set up scrolling & zoom etc on redux
             and apply scrolling to canvas

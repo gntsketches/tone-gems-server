@@ -131,6 +131,7 @@ class PianoRoll extends Component {
   }
 
   render() {
+    console.log('PianoRoll.js rendering')
     const { cellwidth, cellCountX } = this.state
     let { octavePx } = this.props
     const height = octavePx * 7

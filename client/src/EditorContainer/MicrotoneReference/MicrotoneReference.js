@@ -87,6 +87,7 @@ class MicrotoneReference extends Component {
 
 
   render() {
+    console.log('reference rendering')
     let { octavePx } = this.props
     // octavePx = octavePx/2
     // console.log('octavePx', octavePx)

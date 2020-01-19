@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Wrapper } from './App.styles'
-import { fetchUser, updateOctavePx } from './actions'
+import { fetchUser, updateOctavePx, setScrollTop } from './actions'
 
 import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
@@ -34,6 +34,17 @@ class App extends Component {
     this.props.fetchUser()
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('App.js updated')
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    const newOctavePx = this.props.octavePx !== nextProps.octavePx
+    const newScrollTop = this.props.octavePx !== nextProps.scrollTop
+    console.log('nextProps.scrollTop', nextProps.scrollTop)
+    return newOctavePx
+  }
+
   togglePianoBarZoomAndScroll = (x, y) => {
     console.log('toggling')
     this.setState({
@@ -56,12 +67,12 @@ class App extends Component {
 
       const scrollTopAdjust = - (e.clientY - this.state.mouseTop)
       console.log('scrollTopAdjust', scrollTopAdjust)
-      const newPianoRollScrollTop = this.state.pianoRollScrollTop + scrollTopAdjust
+      const newPianoRollScrollTop = this.props.scrollTop + scrollTopAdjust
       if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= newOctavePx*7) {
         this.setState({
-          pianoRollScrollTop: newPianoRollScrollTop,
           mouseTop: e.clientY
         })
+        this.props.setScrollTop(newPianoRollScrollTop);
       }
 
     }
@@ -74,35 +85,11 @@ class App extends Component {
     }
   }
 
-  handlePianoRollScroll = scrollTop => {
-    console.log('handlin', scrollTop)
-    // if (this.state.adjustingVerticalZoom === true) { return }
-      this.setState({
-        // scrolling: true,
-        pianoRollScrollTop: scrollTop,
-      })
 
 
-    // console.log('this.scrollTimer', this.scrollTimer)
-    // if (this.scrollTimer !== -1) {
-    //   clearTimeout(this.scrollTimer);
-    // }
-    //
-    //   this.scrollTimer = window.setTimeout(() => {
-    //     console.log('calling scrollTimer')
-    //     this.scrollFinished(scrollTop)
-    //   } , 500)
-
-  }
-
-  scrollFinished = (scrollTop) => {
-    console.log('in ScrollFinished', this.scrollTimer)
-    this.scrollTimer = -1
-    this.setState({ pianoRollScrollTop: scrollTop })
-  }
 
   render() {
-
+    console.log('App.js rendering')
     return (
       <Wrapper
         onMouseMove={this.handleMouseMove}
@@ -118,8 +105,8 @@ class App extends Component {
               exact path="/compose"
               component={passPropsToEmbededComponent({
                 togglePianoBarZoomAndScroll: this.togglePianoBarZoomAndScroll,
-                scrollTop: this.state.pianoRollScrollTop,
-                handlePianoRollScroll: this.handlePianoRollScroll
+                // scrollTop: this.state.pianoRollScrollTop,
+                // handlePianoRollScroll: this.handlePianoRollScroll
               })(Compose)}
             />
             <Route exact path="/community" component={Community} />
@@ -138,7 +125,8 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     // notes: state.notes,
-    octavePx: state.octavePx
+    octavePx: state.octavePx,
+    scrollTop: state.scrollTop,
   };
 };
 
@@ -146,8 +134,9 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    fetchUser: fetchUser,
-    updateOctavePx: updateOctavePx
+    fetchUser,
+    updateOctavePx,
+    setScrollTop,
   }
 )(App);
 
