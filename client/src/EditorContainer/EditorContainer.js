@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { changeTitle, setScrollTop } from '../actions';
 import { Wrapper } from './EditorContainer.styles';
+import TimeScroll from "./TimeScroll/TimeScroll"
 import ReferenceRoll from './WesternReference/WesternReference';
 import MicrotoneReference from './MicrotoneReference/MicrotoneReference';
 import PianoRoll from './PianoRoll/PianoRoll';
@@ -28,13 +29,6 @@ class EditorContainer extends Component {
     this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return false
-  }
-
-  handleTitleChange = (e) => {
-    console.log(this.props.changeTitle(e.target.value));
-  }
 
 
   handleOnScroll = (e) => {
@@ -44,14 +38,11 @@ class EditorContainer extends Component {
 
   render() {
     // console.log('EditorContainer.js rendering')
+    const { title } = this.props
+    console.log('title', title)
     return (
       <Wrapper>
-        <span>Title: </span>
-        <input
-          type="text"
-          value={this.props.title}
-          onChange={(e)=>this.handleTitleChange(e)}
-        />
+        {/*<TimeScroll />*/}
         <div
           className="pianoRollWrap"
           ref={this.pianoRollWrapRef}
@@ -69,6 +60,7 @@ class EditorContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('state', state)
   return {
     notes: state.notes,
     title: state.title,
@@ -83,5 +75,4 @@ export default connect(
     changeTitle: changeTitle,
     setScrollTop: setScrollTop,
   }
-
 )(EditorContainer);

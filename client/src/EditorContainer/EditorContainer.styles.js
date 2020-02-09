@@ -5,20 +5,21 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
   
-  width: 100%;
+  width: 90%;
+  height: 100%;
 
-  background: #222;
+  background: #666;
   color: #ccc;
 
-  >.pianoRollWrap {   
+  >.pianoRollWrap {
+    box-sizing: border-box;   
     display: flex;
     overflow: auto;
-    height: 400px;
-    width: 600px;
-    background: #333;
-    color: white;
+    // height: 400px;
+    height: 100%;
+    // width: 600px;
+    width: 100%;
   }
-
 
 `;
 

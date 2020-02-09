@@ -22,9 +22,6 @@ class App extends Component {
       adjustingVerticalZoom: false,
       mouseLeft: '',
       mouseTop: '',
-      pianoRollScrollTop: 100,
-      // scrollTimer: -1
-      // scrolling: false,
     }
     this.scrollTimer = -1
 
@@ -86,8 +83,6 @@ class App extends Component {
   }
 
 
-
-
   render() {
     // console.log('App.js rendering')
     return (
@@ -97,7 +92,7 @@ class App extends Component {
       >
 
         <BrowserRouter>
-          <div>
+          {/*<div>*/}
 
             <Header />
             <Route exact path="/" component={Landing} />
@@ -105,15 +100,13 @@ class App extends Component {
               exact path="/compose"
               component={passPropsToEmbededComponent({
                 togglePianoBarZoomAndScroll: this.togglePianoBarZoomAndScroll,
-                // scrollTop: this.state.pianoRollScrollTop,
-                // handlePianoRollScroll: this.handlePianoRollScroll
               })(Compose)}
             />
             <Route exact path="/community" component={Community} />
             <Route exact path="/wander" component={Wander} />
             <Route exact path="/profile" component={Profile} />
 
-          </div>
+          {/*</div>*/}
         </BrowserRouter>
 
       </Wrapper>
@@ -124,7 +117,6 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    // notes: state.notes,
     octavePx: state.octavePx,
     scrollTop: state.scrollTop,
   };
@@ -143,4 +135,3 @@ export default connect(
 
 
 
-{/*<Compose*/} {/*  togglePianoBarZoomAndScroll={this.togglePianoBarZoomAndScroll}*/} {/*  scrollTop={this.state.pianoRollScrollTop}*/} {/*/>*/}

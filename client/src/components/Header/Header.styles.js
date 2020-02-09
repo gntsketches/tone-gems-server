@@ -3,9 +3,9 @@ import styled from 'styled-components/macro';
 export const NavWrapper = styled.nav`
 
   width: 100%;
+  // height: 5vh;
   display: flex;
   justify-content: space-between;
-  // height: 5vh;
   background: #444;
   align-items: center;
  

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { addRemoveNote } from '../../actions';
+import { processNoteEvent } from '../../actions';
 import { Wrapper } from './PianoRoll.styles';
 import {buildPitchSet} from "../../helpers/helpers"
 
@@ -27,8 +27,8 @@ class PianoRoll extends Component {
     // this.cellheight = 20
     this.drawPianoGrid();
     this.drawNotes()
-    console.log('centsAndPxHeights', this.state.centsAndPxHeights)
-    console.log('pitchMap', this.state.pitchMap)
+    // console.log('centsAndPxHeights', this.state.centsAndPxHeights)
+    // console.log('pitchMap', this.state.pitchMap)
   }
 
   componentDidUpdate() {
@@ -48,7 +48,7 @@ class PianoRoll extends Component {
 
   drawNotes() {
     const { notes } = this.props
-    console.log('notes', notes)
+    // console.log('notes', notes)
     notes.forEach((noteObject, index) => this.drawNote(noteObject, index))
   }
 
@@ -60,7 +60,7 @@ class PianoRoll extends Component {
 
     const index = centsAndPxHeights.findIndex(el => el.cents === noteObject.cents)
     const nextCents = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1].cents : 1200
-    console.log('nextCents', nextCents)
+    // console.log('nextCents', nextCents)
     const cellHeight = octavePx * ((nextCents- noteObject.cents) / 1200)
 
     const canvasBottom =  octavePx * 7
@@ -112,11 +112,11 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
+    const { processNoteEvent } = this.props
     const rect = e.target.getBoundingClientRect()
     const xPix = e.clientX - rect.left;
     const yPix = rect.bottom - e.clientY;
-    console.log('xPIx', xPix)
-    console.log('yPix', yPix)
+    // console.log('xPIx', xPix); console.log('yPix', yPix);
     const noteInfo = {}
     this.state.pitchMap.forEach((pitchObj, index)=>{
       const cellStart = (pitchObj.totalCents/1200) * this.props.octavePx
@@ -129,10 +129,9 @@ class PianoRoll extends Component {
         noteInfo.selected = false
       }
     })
-    console.log('noteInfo', noteInfo)
+    // console.log('noteInfo', noteInfo)
 
-    // const y = Math.floor(yPix / this.cellheight)
-    this.props.addRemoveNote(noteInfo);
+    processNoteEvent(noteInfo);
   }
 
   render() {
@@ -165,7 +164,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addRemoveNote: addRemoveNote }
+  { processNoteEvent: processNoteEvent }
 )(PianoRoll);
 
 

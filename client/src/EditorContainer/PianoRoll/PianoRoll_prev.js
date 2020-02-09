@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { addRemoveNote } from '../../actions';
+import { processNoteEvent } from '../../actions';
 import { Wrapper } from './PianoRoll.styles';
 
 
@@ -155,5 +155,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addRemoveNote: addRemoveNote }
+  { addRemoveNote: processNoteEvent }
 )(PianoRoll);

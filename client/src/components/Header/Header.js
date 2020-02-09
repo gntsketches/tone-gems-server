@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { loadComposition, saveComposition } from "../../actions"
 import { NavWrapper } from "./Header.styles"
+import { bundleComposition } from "../../helpers/helpers"
 
 
 class Header extends Component {
@@ -32,6 +34,14 @@ class Header extends Component {
           </Link>
         </div>
 
+        <div onClick={()=>this.props.loadComposition('34fsh98h2dj3')}>
+          Load
+        </div>
+
+        <div onClick={()=>this.props.saveComposition(bundleComposition(this.props.state))}>
+          Save
+        </div>
+
         <div>
           <ul>
             { this.renderContent() }
@@ -43,8 +53,14 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
-  return { auth }
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    state: state
+  }
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(
+  mapStateToProps,
+  { loadComposition, saveComposition }
+)(Header);

@@ -10,7 +10,6 @@ const initialNotes = [
 ]
 
 export const notes = (notes=initialNotes, action={}) => {
-  console.log('action.payload', action.payload)
   switch(action.type) {
     case 'PROCESS_NOTE_EVENT':
       if (notes.some(note => {
@@ -30,7 +29,8 @@ export const notes = (notes=initialNotes, action={}) => {
   }
 };
 
- export const title = (title='', action={}) => {
+ export const title = (title='test', action={}) => {
+   console.log('title action in reducers', action)
    switch(action.type) {
      case 'CHANGE_TITLE':
        return action.payload;
@@ -59,6 +59,9 @@ export const setScrollTop = (scrollTop=0, action={}) => {
       return scrollTop;
   }
 }
+
+
+
 
 export default combineReducers({
   auth: authReducer,
