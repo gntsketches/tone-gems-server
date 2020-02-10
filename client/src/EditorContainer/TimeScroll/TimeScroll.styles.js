@@ -4,11 +4,16 @@ import styled from 'styled-components/macro';
 // https://github.com/styled-components/babel-plugin-styled-components
 
 export const Wrapper = styled.div`
-
-    height: 50px;
-    background: blue;
-    color: white;
-
+  
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 2;
+  grid-column-end: 4; 
+  
+  canvas {
+   width: 100%;
+   height: 100%;
+  } 
 
 `;
 

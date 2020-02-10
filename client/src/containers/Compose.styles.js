@@ -2,17 +2,30 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
 
-  width: 100%;
-  height: 100%;
-  // display: flex;
-  background: pink;
-  align-items: center;
+  grid-row-start: 2;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 4;  
+
+  background: skyblue;
+  
+  display: grid;
+  grid-template-rows: 1fr 8fr 1fr;
+  grid-template-columns: 1fr 8fr 1fr;
+  
+  overflow: auto;
   
   .title {
-    height: 20%;
+    background: #adadcf;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;  
   }
 
 `;
+
+
 
 
 

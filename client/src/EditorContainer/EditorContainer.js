@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { changeTitle, setScrollTop } from '../actions';
 import { Wrapper } from './EditorContainer.styles';
 import TimeScroll from "./TimeScroll/TimeScroll"
-import ReferenceRoll from './WesternReference/WesternReference';
+// import ReferenceRoll from './WesternReference/WesternReference';
 import MicrotoneReference from './MicrotoneReference/MicrotoneReference';
 import PianoRoll from './PianoRoll/PianoRoll';
 
@@ -19,14 +19,14 @@ class EditorContainer extends Component {
 
   componentDidMount() {
     // console.log('mounted scrollTop', this.props.scrollTop)
-    this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
+    // this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 
   componentDidUpdate() {
     // what, what actually does UPDATE mean?
       // note that loads of rerenders happen in the piano roll without this ever being called...
     console.log('updated scrollTop', this.props.scrollTop)
-    this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
+    // this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 
 
@@ -42,24 +42,22 @@ class EditorContainer extends Component {
     console.log('title', title)
     return (
       <Wrapper>
-        {/*<TimeScroll />*/}
-        <div
-          className="pianoRollWrap"
-          ref={this.pianoRollWrapRef}
-          onScroll={this.handleOnScroll}
-        >
-          {/*<ReferenceRoll />*/}
-          <MicrotoneReference
-            togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
-          />
-          <PianoRoll  />
-        </div>
+        <TimeScroll />
+        <MicrotoneReference
+          togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
+        />
+        {/*<PianoRoll  />*/}
       </Wrapper>
     );
   }
 }
 
-const mapStateToProps = state => {
+// <div THAT FORMERLY WRAPPED THE REFERENCE AND PIANO-ROLLS
+//   className="pianoRollWrap"
+//   ref={this.pianoRollWrapRef}
+//   onScroll={this.handleOnScroll}
+// >
+  const mapStateToProps = state => {
   console.log('state', state)
   return {
     notes: state.notes,

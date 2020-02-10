@@ -18,12 +18,11 @@ class MicrotoneReference extends Component {
   componentDidMount() {
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d');
-    this.cellwidth = 50
-    this.drawPitches();
+    // this.drawPitches();
   }
 
   componentDidUpdate() {
-    this.drawPitches();
+    // this.drawPitches();
   }
 
   // each gem gets a pitch array, notes get assigned to an index for pitchClass and an octave
@@ -96,9 +95,7 @@ class MicrotoneReference extends Component {
     return (
       <Wrapper>
         <canvas
-          // id="pianoroll"
-          height={height}
-          width="50"
+          style={{background: 'blue'}}
           ref={this.canvasRef}
           onMouseDown={(e) => this.handleOnMouseDown(e)}
         />

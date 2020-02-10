@@ -11,14 +11,14 @@ class Compose extends Component {
     return (
       <Wrapper>
 
-        {/*<div className="title">*/}
-        {/*  <span>Title: </span>*/}
-        {/*  <input*/}
-        {/*    type="text"*/}
-        {/*    value={title}*/}
-        {/*    onChange={(e)=>this.handleTitleChange(e)}*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div className="title">
+          <span>Title: </span>
+          <input
+            type="text"
+            value={title}
+            onChange={(e)=>this.handleTitleChange(e)}
+          />
+        </div>
 
         <EditorContainer
           togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}

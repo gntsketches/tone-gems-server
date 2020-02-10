@@ -22,18 +22,13 @@ class PianoRoll extends Component {
   componentDidMount() {
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d');
-    // this.w = this.canvas.scrollWidth;
-    // this.h = this.canvas.scrollHeight;
-    // this.cellheight = 20
     this.drawPianoGrid();
     this.drawNotes()
-    // console.log('centsAndPxHeights', this.state.centsAndPxHeights)
-    // console.log('pitchMap', this.state.pitchMap)
   }
 
   componentDidUpdate() {
     this.drawPianoGrid();
-    this.drawNotes()
+    // this.drawNotes()
   }
 
   mapCentsAndPxHeights(centsArr) {
@@ -144,8 +139,7 @@ class PianoRoll extends Component {
     return (
       <Wrapper>
         <canvas
-          height={height}
-          width={width}
+          style={{color: 'darkblue'}}
           ref={this.canvasRef}
           onClick={(e) => this.handleClick(e)}
         />

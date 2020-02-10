@@ -5,21 +5,18 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
   
-  width: 90%;
-  height: 100%;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 2;
+  grid-column-end: 3;  
 
+  // overflow: auto;
   background: #666;
-  color: #ccc;
+  
+  display: grid;
+  grid-template-rows: 1fr 8fr 1fr;
+  grid-template-columns: 1fr 8fr 1fr;
 
-  >.pianoRollWrap {
-    box-sizing: border-box;   
-    display: flex;
-    overflow: auto;
-    // height: 400px;
-    height: 100%;
-    // width: 600px;
-    width: 100%;
-  }
 
 `;
 
