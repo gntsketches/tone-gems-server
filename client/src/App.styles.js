@@ -10,9 +10,8 @@ export const Wrapper = styled.div`
   text-align: center;
   background: #306745;
   
-  display: grid;
-  grid-template-rows: 1fr 8fr 1fr;
-  grid-template-columns: 1fr 8fr 1fr;
+  display: flex;
+  flex-direction: column;
 
 `;
 

@@ -46,7 +46,7 @@ class EditorContainer extends Component {
         <MicrotoneReference
           togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
         />
-        {/*<PianoRoll  />*/}
+        <PianoRoll />
       </Wrapper>
     );
   }

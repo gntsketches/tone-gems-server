@@ -2,10 +2,7 @@ import styled from 'styled-components/macro';
 
 export const NavWrapper = styled.nav`
 
-  grid-row-start: 1;
-  grid-row-end: 2;
-  grid-column-start: 1;
-  grid-column-end: 4;  
+  // height: 
   
   // height: 5vh;
   display: flex;

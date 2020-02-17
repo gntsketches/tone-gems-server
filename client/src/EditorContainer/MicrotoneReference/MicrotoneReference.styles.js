@@ -10,6 +10,8 @@ export const Wrapper = styled.div`
   grid-column-start: 1;
   grid-column-end: 2; 
   
+  // overflow: auto;
+  
   canvas {
    width: 100%;
    height: 100%;

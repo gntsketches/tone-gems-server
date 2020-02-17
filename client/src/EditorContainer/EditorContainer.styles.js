@@ -10,7 +10,10 @@ export const Wrapper = styled.div`
   grid-column-start: 2;
   grid-column-end: 3;  
 
-  // overflow: auto;
+  // width: 100%;
+  // height: 100%;
+
+  overflow: auto;
   background: #666;
   
   display: grid;

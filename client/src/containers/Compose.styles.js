@@ -2,10 +2,7 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
 
-  grid-row-start: 2;
-  grid-row-end: 4;
-  grid-column-start: 1;
-  grid-column-end: 4;  
+
 
   background: skyblue;
   
