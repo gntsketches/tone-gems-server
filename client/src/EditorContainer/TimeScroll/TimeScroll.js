@@ -39,7 +39,7 @@ class TimeScroll extends Component {
     return (
       <Wrapper>
         <canvas
-          style={{background: 'green'}}
+          style={{background: 'orange'}}
           ref={this.canvasRef}
           onMouseDown={(e) => this.handleOnMouseDown(e)}
         />

@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
   // height: 100%;
 
   overflow: auto;
-  background: #666;
+  background: #aaa;
   
   display: grid;
   grid-template-rows: 1fr 8fr 1fr;

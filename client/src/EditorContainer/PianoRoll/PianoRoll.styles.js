@@ -9,6 +9,14 @@ export const Wrapper = styled.div`
   grid-row-end: 4;
   grid-column-start: 2;
   grid-column-end: 4;  
+  
+  overflow: auto;
+  
+  canvas {
+    z-index: 10;
+    // width: 100%;
+    // height: 100%;
+   }
 
 
 `;
