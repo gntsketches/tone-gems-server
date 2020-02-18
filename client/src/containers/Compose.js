@@ -32,13 +32,13 @@ class Compose extends Component {
 
   handleTitleChange = (e) => {
     const { changeTitle } = this.props;
-    console.log(e.target.value);
+    // console.log(e.target.value);
     changeTitle(e.target.value)
   }
 }
 
 const mapStateToProps = state => {
-  console.log('state', state)
+  // console.log('state', state)
   return { title: state.title };
 };
 

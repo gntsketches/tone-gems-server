@@ -56,7 +56,7 @@ export function buildPitchSet(base, pitchData) {
 }
 
 const pitchSet = buildPitchSet(261.63, pitchData)
-console.log('new pitchSet', pitchSet)
+// console.log('new pitchSet', pitchSet)
 
 
 

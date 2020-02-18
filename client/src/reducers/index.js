@@ -30,7 +30,7 @@ export const notes = (notes=initialNotes, action={}) => {
 };
 
  export const title = (title='test', action={}) => {
-   console.log('title action in reducers', action)
+   // console.log('title action in reducers', action)
    switch(action.type) {
      case 'CHANGE_TITLE':
        return action.payload;

@@ -10,6 +10,7 @@ class PianoRoll extends Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
+    this.offscreen = document.createElement('canvas');
     this.state = {
       cellwidth: 50,
       cellCountX: 128,
@@ -38,17 +39,17 @@ class PianoRoll extends Component {
   componentDidMount() {
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d');
-    // this.w = this.canvas.scrollWidth;
-    // this.h = this.canvas.scrollHeight;
-    // this.cellheight = 20
-    this.drawPianoGrid();
+    // this.drawPianoGrid();
+    this.drawOffScreen()
+    this.drawOnScreen()
     this.drawNotes()
-    // console.log('centsAndPxHeights', this.state.centsAndPxHeights)
-    // console.log('pitchMap', this.state.pitchMap)
+
   }
 
   componentDidUpdate() {
-    this.drawPianoGrid();
+    // this.drawPianoGrid();
+    this.drawOffScreen()
+    this.drawOnScreen()
     this.drawNotes()
   }
 
@@ -70,6 +71,7 @@ class PianoRoll extends Component {
 
   drawNote(noteObject ) {
     const { cellwidth, centsAndPxHeights } = this.state
+    console.log('centsAndPxHeights', centsAndPxHeights)
     const { octavePx } = this.props
     const octavesHeight = octavePx * noteObject.octave
     const centsHeight = octavePx * (noteObject.cents/1200)
@@ -94,6 +96,7 @@ class PianoRoll extends Component {
     this.ctx.stroke();
   }
 
+  /*
   drawPianoGrid() {
     console.log('pitchMap', this.state.pitchMap)
     const { cellwidth, cellCountX } = this.state
@@ -122,6 +125,38 @@ class PianoRoll extends Component {
       })
       x+=cellwidth
     }
+  }
+   */
+
+  drawOffScreen() {
+    const { cellwidth, cellCountX } = this.state
+    let { octavePx } = this.props
+
+    const ctx = this.offscreen.getContext('2d')
+
+    let x = 0
+    for (let i=0; i<cellCountX; i++) {
+      // console.log('x', x)
+      let y =  octavePx * 7
+      this.state.pitchMap.forEach((pitchObj, i) => {
+        const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
+        // console.log('cellheight', cellheight)
+        const celltop = y - cellheight
+        ctx.beginPath();
+        ctx.fillStyle = pitchObj.color;
+        ctx.strokeStyle = "rgb(24,24,24)";
+        ctx.fillRect(x, celltop, cellwidth, cellheight);
+        ctx.strokeRect(x, celltop, cellwidth, cellheight);
+
+
+        y -= cellheight
+      })
+      x+=cellwidth
+    }
+  }
+
+  drawOnScreen() {
+    this.ctx.drawImage(this.offscreen, 0, 0);
   }
 
   handleClick(e) {

@@ -39,7 +39,7 @@ class EditorContainer extends Component {
   render() {
     // console.log('EditorContainer.js rendering')
     const { title } = this.props
-    console.log('title', title)
+    // console.log('title', title)
     return (
       <Wrapper>
         <TimeScroll />
@@ -58,7 +58,7 @@ class EditorContainer extends Component {
 //   onScroll={this.handleOnScroll}
 // >
   const mapStateToProps = state => {
-  console.log('state', state)
+  // console.log('state', state)
   return {
     notes: state.notes,
     title: state.title,
