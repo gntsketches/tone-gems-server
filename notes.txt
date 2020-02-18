@@ -10,6 +10,13 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
         Offscreen would be a bit cleaner code because then you're not having to deal with those two render methods.
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
+TODO NEXT 2/17
+    ? Are you still going to be using 'octavePx'
+    - build top and side scrolls
+        - scroll 'em and resize
+    - add/remove notes by click
+
+
 
 
 Heroku: first link IDs our app to Heroku (the website we go to). Second is the deployment target.

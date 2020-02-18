@@ -60,12 +60,19 @@ export const setScrollTop = (scrollTop=0, action={}) => {
   }
 }
 
-
+export const compositionLength = (length=128, action={}) => {
+  switch(action.type) {
+    case 'SET_COMPOSITION_LENGTH':
+      return action.payload;
+    default:
+      return length;
+  }
+}
 
 
 export default combineReducers({
   auth: authReducer,
-
+  compositionLength: compositionLength,
   notes: notes,
   title: title,
   octavePx: updateOctavePx,

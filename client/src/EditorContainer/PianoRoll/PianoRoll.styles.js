@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
   grid-column-start: 2;
   grid-column-end: 4;  
   
-  overflow: auto;
+  overflow: hidden;
   
   canvas {
     z-index: 10;
