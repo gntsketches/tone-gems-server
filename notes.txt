@@ -11,12 +11,21 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
-    ? Are you still going to be using 'octavePx'
+    ? (how) Are you still going to be using 'octavePx'
+        betcha just as a constant. probs octavePx for onscreen will be offscreenOctavePx * zoomY
+    Did state fields: zoomX, zoomY, scrollX, scrollY
+    - TRY the alternate render option..
     - build top and side scrolls
         - scroll 'em and resize
     - add/remove notes by click
 
+CANVAS RENDER QUESTIONS
+    - x & y scroll zones as separate canvas or render to just one offscreen?
+    - notes: render to offscreen? layer as separate canvas?
 
+PLAYBACK
+    noteHead
+    u need the 'follow' option (scroll playHead vs scroll composition)
 
 
 Heroku: first link IDs our app to Heroku (the website we go to). Second is the deployment target.

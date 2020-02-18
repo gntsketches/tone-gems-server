@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { processNoteEvent } from '../../actions';
 import { Wrapper } from './PianoRoll.styles';
 import { buildPitchSet } from "../../helpers/helpers";
-import { octaves } from "../../config/constants";
+import { octaves, offscreenOctavePx, offscreenCellWidth } from "../../config/constants";
 
 
 class PianoRoll extends Component {
@@ -12,7 +12,7 @@ class PianoRoll extends Component {
     super(props);
     this.canvasRef = React.createRef();
 
-    this.offscreen = new OffscreenCanvas(this.props.compositionLength * 50, octaves * this.props.octavePx);
+    this.offscreen = new OffscreenCanvas(this.props.compositionLength * offscreenCellWidth, octaves * offscreenOctavePx);
       // SO the offscreen hard-codes a base cell size here (scaling octave by 12 also as a base...)
 
     this.state = {
@@ -134,14 +134,16 @@ class PianoRoll extends Component {
   }
 
   drawOnScreen() {
-    console.log('measures', this.props.compositionLength * 50, octaves * 12 * 25);
+    const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop } = this.props;
+    console.log('measures', compositionLength * 50, octaves * 12 * 25);
     console.log('offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
+    console.log('zoomz', zoomX, zoomY)
     this.ctx.drawImage(
       this.offscreen,
+      scrollLeft, 0,
+      (compositionLength * offscreenCellWidth) / zoomX + scrollLeft,
+      (octaves * offscreenOctavePx) / zoomY + scrollTop,
       0, 0,
-      this.props.compositionLength * 50, octaves * this.props.octavePx,
-      0, 0,
-      // this.props.compositionLength * 50, octaves * 12 * 25,
       this.canvas.offsetWidth, this.canvas.offsetHeight
     );
   }
@@ -197,6 +199,10 @@ const mapStateToProps = state => {
     octavePx: state.octavePx,
     notes: state.notes,
     compositionLength: state.compositionLength,
+    zoomX: state.zoomX,
+    zoomY: state.zoomY,
+    scrollLeft: state.scrollLeft,
+    scrollTop: state.scrollTop
   };
 };
 

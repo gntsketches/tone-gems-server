@@ -40,14 +40,32 @@ export const notes = (notes=initialNotes, action={}) => {
  };
 
 
-const px = 240;
 
-export const updateOctavePx = (octavePx=px, action={}) => {
+export const updateOctavePx = (octavePx=240, action={}) => {
   switch(action.type) {
     case 'UPDATE_PX':
       return action.payload;
     default:
       return octavePx;
+  }
+}
+
+
+export const compositionLength = (length=128, action={}) => {
+  switch(action.type) {
+    case 'SET_COMPOSITION_LENGTH':
+      return action.payload;
+    default:
+      return length;
+  }
+}
+
+export const setScrollLeft = (scrollLeft=0, action={}) => {
+  switch(action.type) {
+    case 'SET_SCROLL_LEFT':
+      return action.payload;
+    default:
+      return scrollLeft;
   }
 }
 
@@ -60,23 +78,35 @@ export const setScrollTop = (scrollTop=0, action={}) => {
   }
 }
 
-export const compositionLength = (length=128, action={}) => {
+export const setZoomX = (zoomX=4, action={}) => {
   switch(action.type) {
-    case 'SET_COMPOSITION_LENGTH':
+    case 'SET_ZOOM_X':
       return action.payload;
     default:
-      return length;
+      return zoomX;
   }
 }
 
+export const setZoomY = (zoomY=4, action={}) => {
+  switch(action.type) {
+    case 'SET_ZOOM_Y':
+      return action.payload;
+    default:
+      return zoomY;
+  }
+}
 
 export default combineReducers({
   auth: authReducer,
-  compositionLength: compositionLength,
-  notes: notes,
+
   title: title,
+  notes: notes,
+  compositionLength: compositionLength,
   octavePx: updateOctavePx,
+  scrollLeft: setScrollLeft,
   scrollTop: setScrollTop,
+  zoomX: setZoomX,
+  zoomY: setZoomY,
 });
 
 // export const notes = (notes=initialNotes, action={}) => {
