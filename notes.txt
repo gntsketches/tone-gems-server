@@ -11,6 +11,8 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
+    conditional render per dirty...
+        incorporate with scroll feature...
     const { cellwidth, cellCountX } = this.state
       // aren't those on redux now?
     ? (how) Are you still going to be using 'octavePx'
@@ -20,6 +22,18 @@ TODO NEXT 2/17
     - build top and side scrolls
         - scroll 'em and resize
     - add/remove notes by click
+    - what's coming from redux? vs constants?
+        octavePx: state.octavePx,
+
+color: "#aaa"
+name: "C"
+cents: 0
+pitch: 65.4075
+nextCents: 75
+totalCents: 0
+totalCentsNext: 75
+index: 0
+max: 11
 
 CANVAS RENDER QUESTIONS
     - x & y scroll zones as separate canvas or render to just one offscreen?
@@ -28,6 +42,7 @@ CANVAS RENDER QUESTIONS
     Seo:
      - window size or scroll/zoom dirties onScreen
      - window.onResize (or whatever) put that in componentDidMount (of PinaoRoll or anything where it needs to know.)
+        - eafaa7: open console and then scroll/resize on Microtonal reference - it clips like 60% to re-size and the right 40% doesn't
     - set flags to true when you make 'em dirty
     Example:
         drawOnScreen() {

@@ -6,7 +6,7 @@ const Landing = () => {
       <h1>
         Tone Gems
       </h1>
-      Social music composition by the nugget.
+      Social composition in miniature.
     </div>
   )
 }

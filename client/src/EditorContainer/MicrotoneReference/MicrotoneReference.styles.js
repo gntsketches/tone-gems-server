@@ -5,16 +5,16 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
 
-  grid-row-start: 1;
+  grid-row-start: 2;
   grid-row-end: 4;
   grid-column-start: 1;
   grid-column-end: 2; 
   
-  // overflow: auto;
+  overflow: hidden;
   
   canvas {
-   width: 100%;
-   height: 100%;
+   // width: 100%;
+   // height: 100%;
   } 
 
 `;

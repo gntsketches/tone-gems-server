@@ -12,12 +12,16 @@ class PianoRoll extends Component {
     super(props);
     this.canvasRef = React.createRef();
 
-    this.offscreen = new OffscreenCanvas(this.props.compositionLength * offscreenCellWidth, octaves * offscreenOctavePx);
+    const offscreenWidth = this.props.compositionLength * offscreenCellWidth;
+    const offscreenHeight = octaves * offscreenOctavePx;
+    console.log('piano offscreenHeight', offscreenHeight)
+    this.offscreen = new OffscreenCanvas(offscreenWidth, offscreenHeight);
       // SO the offscreen hard-codes a base cell size here (scaling octave by 12 also as a base...)
 
     this.state = {
       cellwidth: 50,
       cellCountX: 128,
+
       // const cents = [0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]
       centsAndPxHeights: this.mapCentsAndPxHeights([0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]),
       pitchMap: buildPitchSet(
@@ -49,7 +53,6 @@ class PianoRoll extends Component {
     this.canvas.height = this.canvas.offsetHeight;
       // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
 
-    // this.drawPianoGrid();
     this.drawOffScreen()
     this.drawOnScreen()
     this.drawNotes()
@@ -64,7 +67,6 @@ class PianoRoll extends Component {
   // }
 
   componentDidUpdate() {
-    // this.drawPianoGrid();
     this.drawOffScreen()
     this.drawOnScreen()
     this.drawNotes()
@@ -88,7 +90,7 @@ class PianoRoll extends Component {
 
   drawNote(noteObject ) {
     const { cellwidth, centsAndPxHeights } = this.state
-    console.log('centsAndPxHeights', centsAndPxHeights)
+    // console.log('centsAndPxHeights', centsAndPxHeights)
     const { octavePx } = this.props
     const octavesHeight = octavePx * noteObject.octave
     const centsHeight = octavePx * (noteObject.cents/1200)
@@ -124,7 +126,7 @@ class PianoRoll extends Component {
     let x = 0
     for (let i=0; i<cellCountX; i++) {
       let y =  octavePx * 7
-      console.log('y', y)
+      // console.log('y', y)
       this.state.pitchMap.forEach((pitchObj, i) => {
         const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
         // console.log('cellheight', cellheight)
@@ -143,12 +145,12 @@ class PianoRoll extends Component {
 
   drawOnScreen() {
     const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop } = this.props;
-    console.log('measures', compositionLength * 50, octaves * 12 * 25);
-    console.log('offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
-    console.log('zoomz', zoomX, zoomY)
+    // console.log('measures', compositionLength * 50, octaves * 12 * 25);
+    console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
+    // console.log('zoomz', zoomX, zoomY)
     this.ctx.drawImage(
       this.offscreen,
-      scrollLeft, 0,
+      scrollLeft, scrollTop,
       (compositionLength * offscreenCellWidth) / zoomX + scrollLeft,
       (octaves * offscreenOctavePx) / zoomY + scrollTop,
       0, 0,

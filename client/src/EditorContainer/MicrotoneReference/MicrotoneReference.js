@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { octaves, offscreenOctavePx, offscreenCellWidth, offscreenReferenceWidth} from "../../config/constants";
 // import { addRemoveNote } from '../../actions';
 import { buildPitchSet } from '../../helpers/helpers'
 import { Wrapper } from './MicrotoneReference.styles';
@@ -10,6 +11,12 @@ class MicrotoneReference extends Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
+
+    const offscreenHeight = octaves * offscreenOctavePx;
+    console.log('reference offscreenHeight', offscreenHeight)
+
+    this.offscreen = new OffscreenCanvas(offscreenReferenceWidth, offscreenHeight);
+
     this.state = {
       mouseDown: false
     };
@@ -18,16 +25,20 @@ class MicrotoneReference extends Component {
   componentDidMount() {
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d');
-    // this.drawPitches();
+    this.canvas.style.width='100%';
+    this.canvas.style.height='100%';
+    this.canvas.width  = this.canvas.offsetWidth;
+    this.canvas.height = this.canvas.offsetHeight;
+    // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
+
+    this.drawOffscreen();
+    this.drawOnScreen()
   }
 
   componentDidUpdate() {
-    // this.drawPitches();
+    this.drawOffscreen();
+    this.drawOnScreen()
   }
-
-  // each gem gets a pitch array, notes get assigned to an index for pitchClass and an octave
-    //  transposing: just a matter of changing pitchesArray,
-    // if the array is different notes are moved (by *cents*) to the closest value by rounding
 
   mapCentsAndPxHeights(centsArr) {
     let { octavePx } = this.props
@@ -39,62 +50,80 @@ class MicrotoneReference extends Component {
     this.setState({ centsAndPxHeights })
   }
 
-  drawPitches() {
+  drawOffscreen() {
+    let cellwidth = this.canvas.offsetWidth;
     let { octavePx } = this.props;
     let y =  octavePx * 7
     // console.log('y', y)
+    const ctx = this.offscreen.getContext('2d')
 
+    const pitchMap = buildPitchSet(
+      261.63,
+      [
+        {cents:0,    color: '#aaa', name: 'C' },
+        {cents:75,   color: '#99a', name: 'c#'},
+        {cents:200,  color: '#aaa', name: 'D' },
+        {cents:250,  color: '#99a', name: 'd#'},
+        {cents:400,  color: '#aaa', name: 'E' },
+        {cents:500,  color: '#aaa', name: 'F' },
+        {cents:600,  color: '#99a', name: 'F#'},
+        {cents:700,  color: '#aaa', name: 'G' },
+        {cents:800,  color: '#99a', name: 'G#'},
+        {cents:850,  color: '#aaa', name: 'a' },
+        {cents:1000, color: '#99a', name: 'A#'},
+        {cents:1100, color: '#aaa', name: 'B' },
+      ]
+    )
 
-    const base = 261.63
-    const cents = [0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]
-    // const cents = [0, 54.54, 109.08, ] // 22edo ... edos add each value? or division feature?
-    //  lets say cents input accepts a string which converts to an array of numbers OR '11edo', 22 tet', etc...
-    const shaded = [2,4,7,9,11]
-    const pitchMap = buildPitchSet(base, cents, shaded)
-
-    // console.log(pitchMap)
+    console.log(pitchMap)
     pitchMap.forEach((pitchObj, i) => {
        // console.log(pitchObj.pitch, i)
-      // let nextPitch // if (i===pitchMap.length-1) { nextPitch = pitchMap[i]+20 } // this isn't displaying... yet... // else { nextPitch = pitchMap[i+1].pitch } // const cellheight = octavePx * Math.log2(nextPitch / pitchObj.pitch)
       const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
       // console.log('cellheight', cellheight)
       const celltop = y - cellheight
-      this.ctx.beginPath();
-      if (pitchObj.shaded) {
-        this.ctx.fillStyle = "rgb(132,132,132)";
-      } else {
-        this.ctx.fillStyle = "rgb(225,225,225)";
-      }
-      this.ctx.strokeStyle = "rgb(24,24,24)";
-      this.ctx.fillRect(0, celltop, this.cellwidth, cellheight);
-      this.ctx.strokeRect(0, celltop, this.cellwidth, cellheight);
+      ctx.beginPath();
+      ctx.fillStyle = pitchObj.color;
+      ctx.strokeStyle = "rgb(24,24,24)";
+      ctx.fillRect(0, celltop, cellwidth, cellheight);
+      ctx.strokeRect(0, celltop, cellwidth, cellheight);
 
-      this.ctx.fillStyle = "blue";
-      this.ctx.font = "8px Arial";
+      ctx.fillStyle = 'blue'
+      ctx.font = "8px Arial";
       const text = pitchObj.index===0 ? 'HZ: '+pitchObj.pitch : '+'+pitchObj.cents+'c'
-      this.ctx.fillText(text, 20, celltop+cellheight-2);
+      ctx.fillText(text, 10, celltop+cellheight-2);
 
       y -= cellheight
     })
   }
 
+  drawOnScreen() {
+    const { zoomY, scrollTop } = this.props;
+    console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
+    console.log('zoomY', zoomY)
+    this.ctx.drawImage(
+      this.offscreen,
+      0, scrollTop,
+      offscreenReferenceWidth,
+      (octaves * offscreenOctavePx) / zoomY + scrollTop,
+      0, 0,
+      this.canvas.offsetWidth, this.canvas.offsetHeight
+    );
+  }
 
   handleOnMouseDown(e) {
     console.log('scrollTop', e.target.scrollTop)
-    this.props.togglePianoBarZoomAndScroll(e.clientX, e.clientY)
+    // this.props.togglePianoBarZoomAndScroll(e.clientX, e.clientY)
   }
 
 
   render() {
     // console.log('MicrotoneReference.js rendering')
-    let { octavePx } = this.props
-    // octavePx = octavePx/2
-    // console.log('octavePx', octavePx)
-    const height = octavePx * 7
-    // console.log('height', height)
+    const offscreenHeight = octaves * offscreenOctavePx;
+
     return (
       <Wrapper>
         <canvas
+          // height={offscreenHeight}
           style={{background: 'blue'}}
           ref={this.canvasRef}
           onMouseDown={(e) => this.handleOnMouseDown(e)}
@@ -107,7 +136,11 @@ class MicrotoneReference extends Component {
 
 const mapStateToProps = state => {
   return {
-    octavePx: state.octavePx
+    octavePx: state.octavePx,
+    // zoomX: state.zoomX,
+    zoomY: state.zoomY,
+    // scrollLeft: state.scrollLeft,
+    scrollTop: state.scrollTop
   };
 };
 

@@ -84,7 +84,7 @@ class App extends Component {
 
 
   render() {
-    console.log('App.js rendering')
+    // console.log('App.js rendering')
     return (
       <Wrapper
         onMouseMove={this.handleMouseMove}

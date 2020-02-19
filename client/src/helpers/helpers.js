@@ -39,7 +39,7 @@ export function buildPitchSet(base, pitchData) {
         nextCents,
         totalCents,
         totalCentsNext,
-        index: i,
+        index: j,
         max: pitchData.length-1,
       })
     })
