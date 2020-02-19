@@ -42,7 +42,7 @@ CANVAS RENDER QUESTIONS
     Seo:
      - window size or scroll/zoom dirties onScreen
      - window.onResize (or whatever) put that in componentDidMount (of PinaoRoll or anything where it needs to know.)
-        - eafaa7: open console and then scroll/resize on Microtonal reference - it clips like 60% to re-size and the right 40% doesn't
+        - (eafaa7: open console and then scroll/resize on Microtonal reference - it clips like 60% to re-size and the right 40% doesn't
     - set flags to true when you make 'em dirty
     Example:
         drawOnScreen() {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Wrapper } from './MicrotoneReference.styles';
 import { octaves, offscreenOctavePx, offscreenCellWidth, offscreenReferenceWidth} from "../../config/constants";
 // import { addRemoveNote } from '../../actions';
 import { buildPitchSet } from '../../helpers/helpers'
-import { Wrapper } from './MicrotoneReference.styles';
 
 
 class MicrotoneReference extends Component {
@@ -13,8 +13,7 @@ class MicrotoneReference extends Component {
     this.canvasRef = React.createRef();
 
     const offscreenHeight = octaves * offscreenOctavePx;
-    console.log('reference offscreenHeight', offscreenHeight)
-
+    // console.log('reference offscreenHeight', offscreenHeight)
     this.offscreen = new OffscreenCanvas(offscreenReferenceWidth, offscreenHeight);
 
     this.state = {
@@ -55,7 +54,7 @@ class MicrotoneReference extends Component {
     let { octavePx } = this.props;
     let y =  octavePx * 7
     // console.log('y', y)
-    const ctx = this.offscreen.getContext('2d')
+    const offscreenCtx = this.offscreen.getContext('2d')
 
     const pitchMap = buildPitchSet(
       261.63,
@@ -75,22 +74,22 @@ class MicrotoneReference extends Component {
       ]
     )
 
-    console.log(pitchMap)
+    // console.log(pitchMap)
     pitchMap.forEach((pitchObj, i) => {
        // console.log(pitchObj.pitch, i)
       const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
       // console.log('cellheight', cellheight)
       const celltop = y - cellheight
-      ctx.beginPath();
-      ctx.fillStyle = pitchObj.color;
-      ctx.strokeStyle = "rgb(24,24,24)";
-      ctx.fillRect(0, celltop, cellwidth, cellheight);
-      ctx.strokeRect(0, celltop, cellwidth, cellheight);
+      offscreenCtx.beginPath();
+      offscreenCtx.fillStyle = pitchObj.color;
+      offscreenCtx.strokeStyle = "rgb(24,24,24)";
+      offscreenCtx.fillRect(0, celltop, cellwidth, cellheight);
+      offscreenCtx.strokeRect(0, celltop, cellwidth, cellheight);
 
-      ctx.fillStyle = 'blue'
-      ctx.font = "8px Arial";
+      offscreenCtx.fillStyle = 'blue'
+      offscreenCtx.font = "8px Arial";
       const text = pitchObj.index===0 ? 'HZ: '+pitchObj.pitch : '+'+pitchObj.cents+'c'
-      ctx.fillText(text, 10, celltop+cellheight-2);
+      offscreenCtx.fillText(text, 10, celltop+cellheight-2);
 
       y -= cellheight
     })
