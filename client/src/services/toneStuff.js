@@ -1,0 +1,9 @@
+// just sayin...
+// this is where the ToneJS goes...
+// create a singleton and export it...
+
+
+// sagas maybe?
+// start with a component and see how that goes
+
+// but with sagas you can just intercept your actions and deal with them directly...!

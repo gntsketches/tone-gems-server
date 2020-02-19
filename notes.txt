@@ -11,6 +11,8 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
+    const { cellwidth, cellCountX } = this.state
+      // aren't those on redux now?
     ? (how) Are you still going to be using 'octavePx'
         betcha just as a constant. probs octavePx for onscreen will be offscreenOctavePx * zoomY
     Did state fields: zoomX, zoomY, scrollX, scrollY
@@ -21,7 +23,25 @@ TODO NEXT 2/17
 
 CANVAS RENDER QUESTIONS
     - x & y scroll zones as separate canvas or render to just one offscreen?
-    - notes: render to offscreen? layer as separate canvas?
+    - pitches/notes: render to offscreen? layer as separate canvas?
+
+    Seo:
+     - window size or scroll/zoom dirties onScreen
+     - window.onResize (or whatever) put that in componentDidMount (of PinaoRoll or anything where it needs to know.)
+    - set flags to true when you make 'em dirty
+    Example:
+        drawOnScreen() {
+            if (this.state.offscreenBufferDirty) {
+                drawOffScreen()
+                & set it to clean
+            }
+            if (!this.state.onscreenBufferDirty) { return }
+            & then do all the code... drawImage(parms, parms, parms...
+        }
+        render() {
+            this.drawOnScreen()
+        }
+
 
 PLAYBACK
     noteHead

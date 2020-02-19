@@ -56,6 +56,13 @@ class PianoRoll extends Component {
 
   }
 
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    // POSSIBLY test HERE if there's a reason to re render?
+    // "offscreenBufferDirty" as a state flag.
+    // "onscreenBufferDirty" also as a stae flag
+      // that means Do rerender it...
+  // }
+
   componentDidUpdate() {
     // this.drawPianoGrid();
     this.drawOffScreen()
@@ -109,6 +116,7 @@ class PianoRoll extends Component {
 
   drawOffScreen() {
     const { cellwidth, cellCountX } = this.state
+      // aren't those on redux now?
     let { octavePx } = this.props
 
     const ctx = this.offscreen.getContext('2d')
