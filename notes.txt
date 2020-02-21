@@ -11,6 +11,8 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
+    centsAndPxHeights to go?
+    octavePx to go?
     conditional render per dirty...
         incorporate with scroll feature...
     const { cellwidth, cellCountX } = this.state

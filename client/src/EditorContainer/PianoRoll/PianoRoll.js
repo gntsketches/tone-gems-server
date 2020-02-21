@@ -52,8 +52,8 @@ class PianoRoll extends Component {
       // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
 
     this.drawOffScreen()
-    this.drawOnScreen()
     this.drawNotes()
+    this.drawOnScreen()
 
   }
 
@@ -66,8 +66,8 @@ class PianoRoll extends Component {
 
   componentDidUpdate() {
     this.drawOffScreen()
-    this.drawOnScreen()
     this.drawNotes()
+    this.drawOnScreen()
   }
 
   mapCentsAndPxHeights(centsArr) {
@@ -86,33 +86,39 @@ class PianoRoll extends Component {
     notes.forEach((noteObject, index) => this.drawNote(noteObject, index))
   }
 
-  drawNote(noteObject ) {
-    const { cellwidth, centsAndPxHeights } = this.state
-        // cellwidth > constants.offscreenCellWidth
+  drawNote(noteObject) {
+    // console.log('drawing note', noteObject)
+    const { centsAndPxHeights } = this.state
+    const offscreenCtx = this.offscreen.getContext('2d')
 
-    // console.log('centsAndPxHeights', centsAndPxHeights)
-    const { octavePx } = this.props
-    const octavesHeight = octavePx * noteObject.octave
-    const centsHeight = octavePx * (noteObject.cents/1200)
-
+    console.log('centsAndPxHeights', centsAndPxHeights)
+    const octavesHeight = offscreenOctavePx * noteObject.octave
+    const centsHeight = offscreenOctavePx * (noteObject.cents/1200)
     const index = centsAndPxHeights.findIndex(el => el.cents === noteObject.cents)
     const nextCents = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1].cents : 1200
-    // console.log('nextCents', nextCents)
-    const cellHeight = octavePx * ((nextCents- noteObject.cents) / 1200)
+    console.log('nextCents', nextCents)
+    const cellHeight = offscreenOctavePx * ((nextCents- noteObject.cents) / 1200)
+    console.log('cellHeight', cellHeight)
 
-    const canvasBottom =  octavePx * 7
+    const canvasBottom = offscreenOctavePx * 7
     const noteTop = canvasBottom - (octavesHeight + centsHeight + cellHeight)
 
-    this.ctx.beginPath();
-    this.ctx.fillStyle = "rgb(128,128,128)";
-    if(noteObject.selected){
-      this.ctx.strokeStyle = "rgb(255,255,255)";
-    }else{
-      this.ctx.strokeStyle = "rgb(24,24,24)";
-    }
-    this.ctx.rect(cellwidth*noteObject.start, noteTop, cellwidth*noteObject.duration, cellHeight);
-    this.ctx.fill()
-    this.ctx.stroke();
+    offscreenCtx.beginPath();
+    offscreenCtx.fillStyle = "rgb(128,128,128)";
+    // offscreenCtx.fillStyle = "#000";
+    // if(noteObject.selected){
+    //   offscreenCtx.strokeStyle = "rgb(255,255,255)";
+    // }else{
+    //   offscreenCtx.strokeStyle = "rgb(24,24,24)";
+    // }
+    const x = offscreenCellWidth*noteObject.start;
+    const y = noteTop
+    const width = offscreenCellWidth*noteObject.duration
+    const height = cellHeight
+    console.log('coords', x, y, width, height)
+    offscreenCtx.rect(x, y, width, height);
+    offscreenCtx.fill()
+    offscreenCtx.stroke();
   }
 
 
@@ -131,6 +137,8 @@ class PianoRoll extends Component {
         const celltop = y - cellheight
         offscreenCtx.beginPath();
         offscreenCtx.fillStyle = pitchObj.color;
+        // offscreenCtx.fillStyle = "#000";
+
         offscreenCtx.strokeStyle = "rgb(24,24,24)";
         offscreenCtx.fillRect(x, celltop, offscreenCellWidth, cellheight);
         offscreenCtx.strokeRect(x, celltop, offscreenCellWidth, cellheight);

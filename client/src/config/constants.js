@@ -4,4 +4,4 @@ export const offscreenOctavePx = 240;
 export const offscreenCellWidth = 50;
 
 export const offscreenTimeScrollHeight = 75;
-export const offscreenReferenceWidth = 75;
+export const offscreenReferenceWidth = 90;

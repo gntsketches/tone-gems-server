@@ -45,7 +45,7 @@ class TimeScroll extends Component {
 
     let x = 0;
     for (let i=0; i < compositionLength ; i++) {
-      console.log('x', x)
+      // console.log('x', x)
       if (i % 4 === 0) {
         offscreenCtx.strokeStyle = "#000";
         offscreenCtx.beginPath();
@@ -67,7 +67,7 @@ class TimeScroll extends Component {
   drawOnScreen() {
     const { compositionLength, zoomX, scrollLeft } = this.props;
     // console.log('measures', compositionLength * 50, octaves * 12 * 25);
-    console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
+    // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('zoomz', zoomX, zoomY)
     this.ctx.drawImage(
       this.offscreen,
