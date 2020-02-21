@@ -43,6 +43,8 @@ class PianoRoll extends Component {
   }
 
   componentDidMount() {
+    console.log(this.state.pitchMap)
+    console.log('centsAndPxHeights', this.state.centsAndPxHeights)
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d')
     this.canvas.style.width='100%';
@@ -91,14 +93,13 @@ class PianoRoll extends Component {
     const { centsAndPxHeights } = this.state
     const offscreenCtx = this.offscreen.getContext('2d')
 
-    console.log('centsAndPxHeights', centsAndPxHeights)
     const octavesHeight = offscreenOctavePx * noteObject.octave
     const centsHeight = offscreenOctavePx * (noteObject.cents/1200)
     const index = centsAndPxHeights.findIndex(el => el.cents === noteObject.cents)
     const nextCents = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1].cents : 1200
     console.log('nextCents', nextCents)
     const cellHeight = offscreenOctavePx * ((nextCents- noteObject.cents) / 1200)
-    console.log('cellHeight', cellHeight)
+    // console.log('cellHeight', cellHeight)
 
     const canvasBottom = offscreenOctavePx * 7
     const noteTop = canvasBottom - (octavesHeight + centsHeight + cellHeight)
@@ -165,24 +166,28 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
-    const { processNoteEvent } = this.props
+    const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop,
+      processNoteEvent } = this.props
     const rect = e.target.getBoundingClientRect()
     const xPix = e.clientX - rect.left;
     const yPix = rect.bottom - e.clientY;
-    // console.log('xPIx', xPix); console.log('yPix', yPix);
+    console.log('xPIx', xPix); console.log('yPix', yPix);
+    const xOffscreen = (xPix + scrollLeft) * zoomX;
+    const yOffscreen = (yPix + scrollTop) * zoomY;
+    console.log('xOff', xOffscreen, 'yOff', yOffscreen)
     const noteInfo = {}
     this.state.pitchMap.forEach((pitchObj, index)=>{
       const cellStart = (pitchObj.totalCents/1200) * this.props.octavePx
       const cellEnd = (pitchObj.totalCentsNext/1200) * this.props.octavePx
-      if (yPix >= cellStart && yPix < cellEnd) {
-        noteInfo.octave = Math.floor(yPix / this.props.octavePx)
+      if (yOffscreen >= cellStart && yOffscreen < cellEnd) {
+        noteInfo.octave = Math.floor(yOffscreen / offscreenOctavePx)
         noteInfo.cents = pitchObj.cents
-        noteInfo.start = Math.floor(xPix / this.state.cellwidth)
+        noteInfo.start = Math.floor(xOffscreen / offscreenCellWidth)
         noteInfo.duration = 1
         noteInfo.selected = false
       }
     })
-    // console.log('noteInfo', noteInfo)
+    console.log('noteInfo', noteInfo)
 
     processNoteEvent(noteInfo);
   }
