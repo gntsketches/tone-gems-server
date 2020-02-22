@@ -52,7 +52,7 @@ export const updateOctavePx = (octavePx=240, action={}) => {
 }
 
 
-export const compositionLength = (length=128, action={}) => {
+export const compositionLength = (length=32, action={}) => {
   switch(action.type) {
     case 'SET_COMPOSITION_LENGTH':
       return action.payload;
@@ -79,7 +79,7 @@ export const setScrollTop = (scrollTop=0, action={}) => {
   }
 }
 
-export const setZoomX = (zoomX=4, action={}) => {
+export const setZoomX = (zoomX=1, action={}) => {
   switch(action.type) {
     case 'SET_ZOOM_X':
       return action.payload;
@@ -88,7 +88,7 @@ export const setZoomX = (zoomX=4, action={}) => {
   }
 }
 
-export const setZoomY = (zoomY=4, action={}) => {
+export const setZoomY = (zoomY=1, action={}) => {
   switch(action.type) {
     case 'SET_ZOOM_Y':
       return action.payload;

@@ -9,24 +9,25 @@
 //   261.63, 277.18, 293.66, 311.13,    329.63, 349.23, 369.99, 392.00,
 //   415.30, 440.00, 466.16, 493.88,    523.25  ]
 
-const pitchData = [
-    {cents:0,    color: '#aaa', name: 'C' },
-    {cents:75,   color: '#99a', name: 'c#'},
-    {cents:200,  color: '#aaa', name: 'D' },
-    {cents:250,  color: '#99a', name: 'd#'},
-    {cents:400,  color: '#aaa', name: 'E' },
-    {cents:500,  color: '#aaa', name: 'F' },
-    {cents:600,  color: '#99a', name: 'F#'},
-    {cents:700,  color: '#aaa', name: 'G' },
-    {cents:800,  color: '#99a', name: 'G#'},
-    {cents:850,  color: '#aaa', name: 'a' },
-    {cents:1000, color: '#99a', name: 'A#'},
-    {cents:1100, color: '#aaa', name: 'B' },
-  ]
+// const pitchData = [
+//     {cents:0,    color: '#aaa', name: 'C' },
+//     {cents:75,   color: '#99a', name: 'c#'},
+//     {cents:200,  color: '#aaa', name: 'D' },
+//     {cents:250,  color: '#99a', name: 'd#'},
+//     {cents:400,  color: '#aaa', name: 'E' },
+//     {cents:500,  color: '#aaa', name: 'F' },
+//     {cents:600,  color: '#99a', name: 'F#'},
+//     {cents:700,  color: '#aaa', name: 'G' },
+//     {cents:800,  color: '#99a', name: 'G#'},
+//     {cents:850,  color: '#aaa', name: 'a' },
+//     {cents:1000, color: '#99a', name: 'A#'},
+//     {cents:1100, color: '#aaa', name: 'B' },
+//   ]
 
 export function buildPitchSet(base, pitchData) {
   const pitchSet = []
-  const multiples = [0.25, 0.5, 1, 2, 4, 8, 16]
+  // const multiples = [0.25, 0.5, 1, 2, 4, 8, 16]
+  const multiples = [0.25, 0.5, 1]
   multiples.forEach((multiple, i) => {
     pitchData.forEach((pitchObj, j) => {
       const pitch = (base*multiple) * (2**(pitchObj.cents/1200))
@@ -57,7 +58,7 @@ export function buildPitchSet(base, pitchData) {
   return pitchSet
 }
 
-const pitchSet = buildPitchSet(261.63, pitchData)
+// const pitchSet = buildPitchSet(261.63, pitchData)
 // console.log('new pitchSet', pitchSet)
 
 

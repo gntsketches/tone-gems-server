@@ -25,7 +25,7 @@ class PianoRoll extends Component {
       pitchMap: buildPitchSet(
         261.63,
         [
-          {cents:0,    color: '#aaa', name: 'C' },
+          {cents:0,    color: '#fff', name: 'C' },
           {cents:75,   color: '#99a', name: 'c#'},
           {cents:200,  color: '#aaa', name: 'D' },
           {cents:250,  color: '#99a', name: 'd#'},
@@ -36,7 +36,7 @@ class PianoRoll extends Component {
           {cents:800,  color: '#99a', name: 'G#'},
           {cents:850,  color: '#aaa', name: 'a' },
           {cents:1000, color: '#99a', name: 'A#'},
-          {cents:1100, color: '#aaa', name: 'B' },
+          {cents:1100, color: '#333', name: 'B' },
         ]
       )
     };
@@ -100,7 +100,7 @@ class PianoRoll extends Component {
     const cellHeight = offscreenOctavePx * ((nextCents- noteObject.cents) / 1200)
     // console.log('cellHeight', cellHeight)
 
-    const canvasBottom = offscreenOctavePx * 7
+    const canvasBottom = offscreenOctavePx * octaves
     const noteTop = canvasBottom - (octavesHeight + centsHeight + cellHeight)
 
     offscreenCtx.beginPath();
@@ -129,7 +129,7 @@ class PianoRoll extends Component {
 
     let x = 0
     for (let i=0; i<compositionLength; i++) {
-      let y =  offscreenOctavePx * 7
+      let y =  offscreenOctavePx * octaves
       // console.log('y', y)
       this.state.pitchMap.forEach((pitchObj, i) => {
         const cellheight = offscreenOctavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
