@@ -1,9 +1,9 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Wrapper } from './TimeScroll.styles';
-import { octaves, offscreenOctavePx, offscreenCellWidth,
-  offscreenTimeScrollHeight, offscreenReferenceWidth
+import { offscreenCellWidth, offscreenTimeScrollHeight, offscreenReferenceWidth
 } from "../../config/constants";
 
 
@@ -87,11 +87,6 @@ class TimeScroll extends Component {
 
   render() {
     // console.log('MicrotoneReference.js rendering')
-    let { octavePx } = this.props
-    // octavePx = octavePx/2
-    // console.log('octavePx', octavePx)
-    const height = octavePx * 7
-    // console.log('height', height)
     return (
       <Wrapper>
         <canvas
@@ -107,7 +102,6 @@ class TimeScroll extends Component {
 
 const mapStateToProps = state => {
   return {
-    octavePx: state.octavePx,
     // notes: state.notes,
     compositionLength: state.compositionLength,
     zoomX: state.zoomX,

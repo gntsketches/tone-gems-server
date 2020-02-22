@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 
 // Log forumulas per wikipedia "cents"
 //  n = 1200 * log2() * (b/a) // b = a * 2^(n/1200)

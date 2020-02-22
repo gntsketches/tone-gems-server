@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -39,20 +40,9 @@ class MicrotoneReference extends Component {
     this.drawOnScreen()
   }
 
-  mapCentsAndPxHeights(centsArr) {
-    let { octavePx } = this.props
-    const centsAndPxHeights = []
-    centsArr.forEach(cents => {
-      const refObj = { cents, px: (cents/1200) * octavePx }
-      centsAndPxHeights.push(refObj)
-    })
-    this.setState({ centsAndPxHeights })
-  }
-
   drawOffscreen() {
     let cellwidth = this.canvas.offsetWidth;
-    let { octavePx } = this.props;
-    let y =  octavePx * 7
+    let y =  offscreenOctavePx * 7
     // console.log('y', y)
     const offscreenCtx = this.offscreen.getContext('2d')
 
@@ -77,7 +67,7 @@ class MicrotoneReference extends Component {
     // console.log(pitchMap)
     pitchMap.forEach((pitchObj, i) => {
        // console.log(pitchObj.pitch, i)
-      const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
+      const cellheight = offscreenOctavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
       // console.log('cellheight', cellheight)
       const celltop = y - cellheight
       offscreenCtx.beginPath();

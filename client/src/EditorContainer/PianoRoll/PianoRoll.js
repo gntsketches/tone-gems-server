@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -20,7 +21,6 @@ class PianoRoll extends Component {
 
     this.state = {
 
-      // const cents = [0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]
       centsAndPxHeights: this.mapCentsAndPxHeights([0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]),
       pitchMap: buildPitchSet(
         261.63,
@@ -73,10 +73,9 @@ class PianoRoll extends Component {
   }
 
   mapCentsAndPxHeights(centsArr) {
-    let { octavePx } = this.props
     const centsAndPxHeights = []
     centsArr.forEach(cents => {
-      const refObj = { cents, px: (cents/1200) * octavePx }
+      const refObj = { cents, px: (cents/1200) * offscreenOctavePx }
       centsAndPxHeights.push(refObj)
     })
     return centsAndPxHeights
@@ -125,15 +124,15 @@ class PianoRoll extends Component {
 
   drawOffScreen() {
       // aren't those on redux now?
-    let { octavePx, compositionLength } = this.props;
+    let { compositionLength } = this.props;
     const offscreenCtx = this.offscreen.getContext('2d')
 
     let x = 0
     for (let i=0; i<compositionLength; i++) {
-      let y =  octavePx * 7
+      let y =  offscreenOctavePx * 7
       // console.log('y', y)
       this.state.pitchMap.forEach((pitchObj, i) => {
-        const cellheight = octavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
+        const cellheight = offscreenOctavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
         // console.log('cellheight', cellheight)
         const celltop = y - cellheight
         offscreenCtx.beginPath();
@@ -177,8 +176,8 @@ class PianoRoll extends Component {
     console.log('xOff', xOffscreen, 'yOff', yOffscreen)
     const noteInfo = {}
     this.state.pitchMap.forEach((pitchObj, index)=>{
-      const cellStart = (pitchObj.totalCents/1200) * this.props.octavePx
-      const cellEnd = (pitchObj.totalCentsNext/1200) * this.props.octavePx
+      const cellStart = (pitchObj.totalCents/1200) * offscreenOctavePx
+      const cellEnd = (pitchObj.totalCentsNext/1200) * offscreenOctavePx
       if (yOffscreen >= cellStart && yOffscreen < cellEnd) {
         noteInfo.octave = Math.floor(yOffscreen / offscreenOctavePx)
         noteInfo.cents = pitchObj.cents
@@ -194,19 +193,11 @@ class PianoRoll extends Component {
 
   render() {
     // console.log('PianoRoll.js rendering')
-    const { cellwidth, cellCountX } = this.state
-    let { octavePx } = this.props
-    const height = octavePx * 7
-    const width = cellwidth * cellCountX
     // console.log('ctx', this.ctx) // NOTE: undefined on initial render
 
     return (
       <Wrapper>
         <canvas
-          // height={height}
-          // height="100%"
-          // width={width}
-          // width="100%"
           ref={this.canvasRef}
           onClick={(e) => this.handleClick(e)}
         />
@@ -217,7 +208,6 @@ class PianoRoll extends Component {
 
 const mapStateToProps = state => {
   return {
-    octavePx: state.octavePx,
     notes: state.notes,
     compositionLength: state.compositionLength,
     zoomX: state.zoomX,
