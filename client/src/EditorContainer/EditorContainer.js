@@ -26,7 +26,7 @@ class EditorContainer extends Component {
   componentDidUpdate() {
     // what, what actually does UPDATE mean?
       // note that loads of rerenders happen in the piano roll without this ever being called...
-    console.log('updated scrollTop', this.props.scrollTop)
+    // console.log('updated scrollTop', this.props.scrollTop)
     // this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 

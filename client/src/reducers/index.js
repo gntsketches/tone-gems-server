@@ -7,7 +7,7 @@ const initialNotes = [
   // { octave: 3, cents: 0, start: 0, duration: 4, selected: false },
   // { octave: 4, cents: 200, start: 4, duration: 2, selected: false },
   // { octave: 4, cents: 400, start: 8, duration: 3, selected: true },
-  { octave: 6, cents: 850, start: 1, duration: 3, selected: true },
+  { octave: 0, cents: 850, start: 1, duration: 3, selected: true },
 ]
 
 export const notes = (notes=initialNotes, action={}) => {
@@ -79,7 +79,7 @@ export const setScrollTop = (scrollTop=0, action={}) => {
   }
 }
 
-export const setZoomX = (zoomX=1, action={}) => {
+export const setZoomX = (zoomX=2, action={}) => {
   switch(action.type) {
     case 'SET_ZOOM_X':
       return action.payload;
@@ -88,7 +88,7 @@ export const setZoomX = (zoomX=1, action={}) => {
   }
 }
 
-export const setZoomY = (zoomY=1, action={}) => {
+export const setZoomY = (zoomY=3, action={}) => {
   switch(action.type) {
     case 'SET_ZOOM_Y':
       return action.payload;

@@ -48,13 +48,8 @@ export function buildPitchSet(base, pitchData) {
     })
   })
 
-  // vertically resizable scroll... make sure top 'C' is always there // canvasHeight = octavePX * totalOctaves //   + i think: (octavePx * ((pitchSet[pitchSet.length-1].nextCents - pitchSet[pitchSet.length-1].cents) / 1200)) // pitchSet.push({
-  //   pitch: (base*32) * (2**(centsArr[0]/1200)),
-  //   cents: centsArr[0],
-  //   nextCents: centsArr[1],
-  //   index: 0,
-  //   shaded: shaded.includes(1)
-  // })
+  // pitchSet.reverse()  // maybe later...
+
   return pitchSet
 }
 

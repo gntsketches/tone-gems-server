@@ -44,7 +44,7 @@ class PianoRoll extends Component {
 
   componentDidMount() {
     console.log(this.state.pitchMap)
-    console.log('centsAndPxHeights', this.state.centsAndPxHeights)
+    // console.log('centsAndPxHeights', this.state.centsAndPxHeights)
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d')
     this.canvas.style.width='100%';
@@ -96,7 +96,7 @@ class PianoRoll extends Component {
     const centsHeight = offscreenOctavePx * (noteObject.cents/1200)
     const index = centsAndPxHeights.findIndex(el => el.cents === noteObject.cents)
     const nextCents = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1].cents : 1200
-    console.log('nextCents', nextCents)
+    // console.log('nextCents', nextCents)
     const cellHeight = offscreenOctavePx * ((nextCents- noteObject.cents) / 1200)
     // console.log('cellHeight', cellHeight)
 
@@ -123,7 +123,6 @@ class PianoRoll extends Component {
 
 
   drawOffScreen() {
-      // aren't those on redux now?
     let { compositionLength } = this.props;
     const offscreenCtx = this.offscreen.getContext('2d')
 
@@ -152,7 +151,8 @@ class PianoRoll extends Component {
   drawOnScreen() {
     const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop } = this.props;
     // console.log('measures', compositionLength * 50, octaves * 12 * 25);
-    console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
+    // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
+    // console.log('piano width', this.canvas.width)
     // console.log('zoomz', zoomX, zoomY)
     this.ctx.drawImage(
       this.offscreen,
@@ -167,19 +167,38 @@ class PianoRoll extends Component {
   handleClick(e) {
     const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop,
       processNoteEvent } = this.props
+    const offscreenWidth = this.offscreen.width;
+    console.log('canvasHeight', this.canvas.height)
+    const offscreenHeight = this.offscreen.height;
+    console.log('offscreenHeight', offscreenHeight)
     const rect = e.target.getBoundingClientRect()
     const xPix = e.clientX - rect.left;
-    const yPix = rect.bottom - e.clientY;
-    console.log('xPIx', xPix); console.log('yPix', yPix);
-    const xOffscreen = (xPix + scrollLeft) * zoomX;
-    const yOffscreen = (yPix + scrollTop) * zoomY;
-    console.log('xOff', xOffscreen, 'yOff', yOffscreen)
+    // const yPix = rect.bottom - e.clientY;
+    const yPix = e.clientY - rect.top;
+    // console.log('xPIx', xPix)
+    console.log('yPix', yPix);
+    const xScale = offscreenWidth / this.canvas.width
+    const yScale = offscreenHeight / this.canvas.height
+    // console.log('yScale', yScale)
+    // const xOffscreen = (xPix + scrollLeft) * zoomX;
+    // const yOffscreen = (yPix + scrollTop) * zoomY;
+    const xOffscreen = (xPix * xScale) / zoomX
+    const yAdding = offscreenHeight - (offscreenHeight / zoomY)
+    console.log('yAdding', yAdding) // YEAH except for SCROLL
+    const yOffscreen = (yPix * yScale) / zoomY
+    // console.log('xOff', xOffscreen)
+    console.log('yOff', yOffscreen)
+    const yFlipOff = offscreenHeight - yOffscreen
+    console.log('yFlipOff', yFlipOff)
     const noteInfo = {}
-    this.state.pitchMap.forEach((pitchObj, index)=>{
+    // HMM: this is a map of where each cell is on the OFFSCREEN (I think)
+    this.state.pitchMap.forEach((pitchObj, index)=> {
       const cellStart = (pitchObj.totalCents/1200) * offscreenOctavePx
       const cellEnd = (pitchObj.totalCentsNext/1200) * offscreenOctavePx
-      if (yOffscreen >= cellStart && yOffscreen < cellEnd) {
-        noteInfo.octave = Math.floor(yOffscreen / offscreenOctavePx)
+      if (yFlipOff >= cellStart && yFlipOff < cellEnd) {
+        console.log('cell clicked', cellStart, cellEnd)
+        console.log('yOff/offOctPx', yFlipOff / offscreenOctavePx)
+        noteInfo.octave = Math.floor(yFlipOff / offscreenOctavePx)
         noteInfo.cents = pitchObj.cents
         noteInfo.start = Math.floor(xOffscreen / offscreenCellWidth)
         noteInfo.duration = 1

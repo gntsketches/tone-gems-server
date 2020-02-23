@@ -11,10 +11,16 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
+    add/draw note
+        note that note 'octaves' starts at 0.
     octavePx to go?
         removed from use, leaving old code on App for reference
+    mapCentsAndPxHeight
+        u can get rid of by attaching nextCents in handleClick pitchMap.forEach
+
     conditional render per dirty...
         incorporate with scroll feature...
+    HMMM, use of offsetwidth in componentDidMount
     const { cellwidth, cellCountX } = this.state
       // aren't those on redux now?
     ? (how) Are you still going to be using 'octavePx'
@@ -26,6 +32,7 @@ TODO NEXT 2/17
     - add/remove notes by click
     - what's coming from redux? vs constants?
         octavePx: state.octavePx,
+
 
 color: "#aaa"
 name: "C"

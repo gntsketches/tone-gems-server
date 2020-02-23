@@ -87,8 +87,8 @@ class MicrotoneReference extends Component {
 
   drawOnScreen() {
     const { zoomY, scrollTop } = this.props;
-    console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
-    console.log('zoomY', zoomY)
+    // console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
+    // console.log('zoomY', zoomY)
     this.ctx.drawImage(
       this.offscreen,
       0, scrollTop,
@@ -100,7 +100,7 @@ class MicrotoneReference extends Component {
   }
 
   handleOnMouseDown(e) {
-    console.log('scrollTop', e.target.scrollTop)
+    // console.log('scrollTop', e.target.scrollTop)
     // this.props.togglePianoBarZoomAndScroll(e.clientX, e.clientY)
   }
 
