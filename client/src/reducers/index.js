@@ -6,7 +6,7 @@ import authReducer from "./authReducer";
 const initialNotes = [
   // { octave: 3, cents: 0, nextCents: 75, start: 0, duration: 4, selected: false },
   // { octave: 4, cents: 200, nextCents: 250, start: 4, duration: 2, selected: false },
-  { octave: 0, cents: 850, nextCents: 1000, start: 1, duration: 3, selected: true },
+  { octave: 2, cents: 850, nextCents: 1000, start: 1, duration: 3, selected: true },
 ]
 
 export const notes = (notes=initialNotes, action={}) => {
@@ -60,7 +60,7 @@ export const compositionLength = (length=32, action={}) => {
   }
 }
 
-export const setScrollLeft = (scrollLeft=0, action={}) => {
+export const setScrollLeft = (scrollLeft=25, action={}) => {
   switch(action.type) {
     case 'SET_SCROLL_LEFT':
       return action.payload;
@@ -69,7 +69,7 @@ export const setScrollLeft = (scrollLeft=0, action={}) => {
   }
 }
 
-export const setScrollTop = (scrollTop=0, action={}) => {
+export const setScrollTop = (scrollTop=50, action={}) => {
   switch(action.type) {
     case 'SET_SCROLL_TOP':
       return action.payload;
@@ -78,7 +78,7 @@ export const setScrollTop = (scrollTop=0, action={}) => {
   }
 }
 
-export const setZoomX = (zoomX=2, action={}) => {
+export const setZoomX = (zoomX=1, action={}) => {
   switch(action.type) {
     case 'SET_ZOOM_X':
       return action.payload;
@@ -87,7 +87,7 @@ export const setZoomX = (zoomX=2, action={}) => {
   }
 }
 
-export const setZoomY = (zoomY=3, action={}) => {
+export const setZoomY = (zoomY=1, action={}) => {
   switch(action.type) {
     case 'SET_ZOOM_Y':
       return action.payload;

@@ -42,7 +42,7 @@ class PianoRoll extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.pitchMap)
+    // console.log(this.state.pitchMap)
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d')
     this.canvas.style.width='100%';
@@ -83,7 +83,7 @@ class PianoRoll extends Component {
     const octavesHeight = offscreenOctavePx * noteObject.octave
     const centsHeight = offscreenOctavePx * (noteObject.cents/1200)
     const nextCents = noteObject.nextCents
-    console.log('nextCents', nextCents)
+    // console.log('nextCents', nextCents)
     const cellHeight = offscreenOctavePx * ((nextCents- noteObject.cents) / 1200)
     // console.log('cellHeight', cellHeight)
 
@@ -102,7 +102,7 @@ class PianoRoll extends Component {
     const y = noteTop
     const width = offscreenCellWidth*noteObject.duration
     const height = cellHeight
-    console.log('coords', x, y, width, height)
+    // console.log('coords', x, y, width, height)
     offscreenCtx.rect(x, y, width, height);
     offscreenCtx.fill()
     offscreenCtx.stroke();
@@ -137,12 +137,16 @@ class PianoRoll extends Component {
     // console.log('measures', compositionLength * 50, octaves * 12 * 25);
     // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('piano width', this.canvas.width)
-    // console.log('zoomz', zoomX, zoomY)
+    console.log('zoomz', zoomX, zoomY)
+    const offscreenWidth = this.props.compositionLength * offscreenCellWidth;
+    const offscreenHeight = octaves * offscreenOctavePx;
     this.ctx.drawImage(
       this.offscreen,
       scrollLeft, scrollTop,
-      (compositionLength * offscreenCellWidth) / zoomX + scrollLeft,
-      (octaves * offscreenOctavePx) / zoomY + scrollTop,
+      // offscreenWidth / zoomX + scrollLeft,
+      // offscreenHeight / zoomY + scrollTop,
+      offscreenWidth / zoomX,
+      offscreenHeight / zoomY,
       0, 0,
       this.canvas.offsetWidth, this.canvas.offsetHeight
     );
@@ -155,17 +159,26 @@ class PianoRoll extends Component {
       processNoteEvent } = this.props
     const offscreenWidth = this.offscreen.width;
     const offscreenHeight = this.offscreen.height;
-    const rect = e.target.getBoundingClientRect()
-    const xPix = e.clientX - rect.left;
-    const yPix = e.clientY - rect.top;
-    // console.log('xPIx', xPix)
-    // console.log('yPix', yPix);
     const xScale = offscreenWidth / this.canvas.width
     const yScale = offscreenHeight / this.canvas.height
-    const xOffscreen = (xPix * xScale) / zoomX
-    const yOffscreen = (yPix * yScale) / zoomY
+    const rect = e.target.getBoundingClientRect()
+
+    const xPixN = e.clientX - rect.left
+    const xPix = e.clientX - rect.left
+    const yPix = e.clientY - rect.top;
+    // console.log('xPIxN', xPixN)
+    console.log('xPIx', xPix)
+    // console.log('yPix', yPix);
+
+    const scrollScaled = scrollLeft * xScale
+    console.log('scrollScaled', scrollScaled)
+    // const xOffscreen = ((xPix * xScale) / zoomX) + scrollLeft
+    //  really seems like this should work. Perhaps it has to do with the blank right edge of onscreen canvas
+
+    const xOffscreen = ((xPix * xScale) / zoomX) + scrollLeft
+    const yOffscreen = (yPix * yScale) / zoomY + scrollTop
     const yFlipOff = offscreenHeight - yOffscreen
-    // console.log('xOff', xOffscreen)
+    console.log('xOff', xOffscreen)
     // console.log('yOff', yOffscreen)
     // console.log('yFlipOff', yFlipOff)
     const noteInfo = {}
