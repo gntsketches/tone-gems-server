@@ -21,7 +21,6 @@ class PianoRoll extends Component {
 
     this.state = {
 
-      centsAndPxHeights: this.mapCentsAndPxHeights([0, 75, 200, 250, 400, 500, 600, 700, 800, 850, 1000, 1100]),
       pitchMap: buildPitchSet(
         261.63,
         [
@@ -44,7 +43,6 @@ class PianoRoll extends Component {
 
   componentDidMount() {
     console.log(this.state.pitchMap)
-    // console.log('centsAndPxHeights', this.state.centsAndPxHeights)
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d')
     this.canvas.style.width='100%';
@@ -72,15 +70,6 @@ class PianoRoll extends Component {
     this.drawOnScreen()
   }
 
-  mapCentsAndPxHeights(centsArr) {
-    const centsAndPxHeights = []
-    centsArr.forEach(cents => {
-      const refObj = { cents, px: (cents/1200) * offscreenOctavePx }
-      centsAndPxHeights.push(refObj)
-    })
-    return centsAndPxHeights
-  }
-
   drawNotes() {
     const { notes } = this.props
     // console.log('notes', notes)
@@ -89,14 +78,12 @@ class PianoRoll extends Component {
 
   drawNote(noteObject) {
     // console.log('drawing note', noteObject)
-    const { centsAndPxHeights } = this.state
     const offscreenCtx = this.offscreen.getContext('2d')
 
     const octavesHeight = offscreenOctavePx * noteObject.octave
     const centsHeight = offscreenOctavePx * (noteObject.cents/1200)
-    const index = centsAndPxHeights.findIndex(el => el.cents === noteObject.cents)
-    const nextCents = index < centsAndPxHeights.length-1 ? centsAndPxHeights[index+1].cents : 1200
-    // console.log('nextCents', nextCents)
+    const nextCents = noteObject.nextCents
+    console.log('nextCents', nextCents)
     const cellHeight = offscreenOctavePx * ((nextCents- noteObject.cents) / 1200)
     // console.log('cellHeight', cellHeight)
 
@@ -129,14 +116,11 @@ class PianoRoll extends Component {
     let x = 0
     for (let i=0; i<compositionLength; i++) {
       let y =  offscreenOctavePx * octaves
-      // console.log('y', y)
       this.state.pitchMap.forEach((pitchObj, i) => {
         const cellheight = offscreenOctavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
-        // console.log('cellheight', cellheight)
         const celltop = y - cellheight
         offscreenCtx.beginPath();
         offscreenCtx.fillStyle = pitchObj.color;
-        // offscreenCtx.fillStyle = "#000";
 
         offscreenCtx.strokeStyle = "rgb(24,24,24)";
         offscreenCtx.fillRect(x, celltop, offscreenCellWidth, cellheight);
@@ -165,41 +149,36 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
+    // console.log('canvasHeight', this.canvas.height)
+    // console.log('offscreenHeight', offscreenHeight)
     const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop,
       processNoteEvent } = this.props
     const offscreenWidth = this.offscreen.width;
-    console.log('canvasHeight', this.canvas.height)
     const offscreenHeight = this.offscreen.height;
-    console.log('offscreenHeight', offscreenHeight)
     const rect = e.target.getBoundingClientRect()
     const xPix = e.clientX - rect.left;
-    // const yPix = rect.bottom - e.clientY;
     const yPix = e.clientY - rect.top;
     // console.log('xPIx', xPix)
-    console.log('yPix', yPix);
+    // console.log('yPix', yPix);
     const xScale = offscreenWidth / this.canvas.width
     const yScale = offscreenHeight / this.canvas.height
-    // console.log('yScale', yScale)
-    // const xOffscreen = (xPix + scrollLeft) * zoomX;
-    // const yOffscreen = (yPix + scrollTop) * zoomY;
     const xOffscreen = (xPix * xScale) / zoomX
-    const yAdding = offscreenHeight - (offscreenHeight / zoomY)
-    console.log('yAdding', yAdding) // YEAH except for SCROLL
     const yOffscreen = (yPix * yScale) / zoomY
-    // console.log('xOff', xOffscreen)
-    console.log('yOff', yOffscreen)
     const yFlipOff = offscreenHeight - yOffscreen
-    console.log('yFlipOff', yFlipOff)
+    // console.log('xOff', xOffscreen)
+    // console.log('yOff', yOffscreen)
+    // console.log('yFlipOff', yFlipOff)
     const noteInfo = {}
     // HMM: this is a map of where each cell is on the OFFSCREEN (I think)
     this.state.pitchMap.forEach((pitchObj, index)=> {
       const cellStart = (pitchObj.totalCents/1200) * offscreenOctavePx
       const cellEnd = (pitchObj.totalCentsNext/1200) * offscreenOctavePx
       if (yFlipOff >= cellStart && yFlipOff < cellEnd) {
-        console.log('cell clicked', cellStart, cellEnd)
-        console.log('yOff/offOctPx', yFlipOff / offscreenOctavePx)
-        noteInfo.octave = Math.floor(yFlipOff / offscreenOctavePx)
+        // console.log('cell clicked', cellStart, cellEnd)
+        // console.log('yOff/offOctPx', yFlipOff / offscreenOctavePx)
+        noteInfo.octave = Math.floor(yFlipOff / offscreenOctavePx) // note that octave starts at 0.
         noteInfo.cents = pitchObj.cents
+        noteInfo.nextCents = pitchObj.nextCents
         noteInfo.start = Math.floor(xOffscreen / offscreenCellWidth)
         noteInfo.duration = 1
         noteInfo.selected = false

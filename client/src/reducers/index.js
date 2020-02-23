@@ -4,10 +4,9 @@ import authReducer from "./authReducer";
 
 
 const initialNotes = [
-  // { octave: 3, cents: 0, start: 0, duration: 4, selected: false },
-  // { octave: 4, cents: 200, start: 4, duration: 2, selected: false },
-  // { octave: 4, cents: 400, start: 8, duration: 3, selected: true },
-  { octave: 0, cents: 850, start: 1, duration: 3, selected: true },
+  // { octave: 3, cents: 0, nextCents: 75, start: 0, duration: 4, selected: false },
+  // { octave: 4, cents: 200, nextCents: 250, start: 4, duration: 2, selected: false },
+  { octave: 0, cents: 850, nextCents: 1000, start: 1, duration: 3, selected: true },
 ]
 
 export const notes = (notes=initialNotes, action={}) => {

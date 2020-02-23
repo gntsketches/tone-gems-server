@@ -11,13 +11,13 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
+    next to get scroll working...
     add/draw note
-        note that note 'octaves' starts at 0.
     octavePx to go?
         removed from use, leaving old code on App for reference
-    mapCentsAndPxHeight
-        u can get rid of by attaching nextCents in handleClick pitchMap.forEach
 
+    LINES PianoRoll var
+        note you can add a prevCents (as well as nextCents) to help calc click placement
     conditional render per dirty...
         incorporate with scroll feature...
     HMMM, use of offsetwidth in componentDidMount
