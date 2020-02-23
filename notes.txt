@@ -17,6 +17,7 @@ TODO NEXT 2/17
     octavePx to go?
         removed from use, leaving old code on App for reference
 
+
     LINES PianoRoll var
         note you can add a prevCents (as well as nextCents) to help calc click placement
     conditional render per dirty...

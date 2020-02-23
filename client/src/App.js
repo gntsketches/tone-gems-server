@@ -10,6 +10,7 @@ import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
 import Header from "./components/Header/Header"
 import Landing from './components/Landing';
+import { octaves, offscreenOctavePx, offscreenCellWidth } from "./config/constants";
 
 const Community = () => <h2>Other people who do this</h2>
 const Wander = () => <h2>Explore stuff people have made</h2>
@@ -23,6 +24,7 @@ class App extends Component {
       adjustingVerticalZoom: false,
       mouseLeft: '',
       mouseTop: '',
+      canvasHeight: null
     }
     this.scrollTimer = -1
 
@@ -34,6 +36,10 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     console.log('App.js updated')
+  }
+
+  setCanvasHeight(height) {
+    this.setState({canvasHeight: height })
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -57,16 +63,21 @@ class App extends Component {
       const leftMod = e.clientX - (e.clientX - this.state.mouseLeft)/2
       const leftRatio = leftMod/this.state.mouseLeft
       const newOctavePx = (this.props.octavePx * leftRatio) // multiplier to adjust zoom speed? tricky... try subtracting (e.clientX-this.state.mouseLeft)/2
-      // console.log('newOctavePx', newOctavePx)
-      if (newOctavePx > 400/7 && newOctavePx < 500) {
-        this.props.updateOctavePx(newOctavePx)
-        this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
+      if (newOctavePx > 400/octaves && newOctavePx < 500) {
+        // this.props.updateOctavePx(newOctavePx)
+        // this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
       }
 
+      const offscreenHeight = offscreenOctavePx*octaves
+      const yScale = offscreenHeight / this.state.canvasHeight
+      // const onscreenOctavePx =
       const scrollTopAdjust = - (e.clientY - this.state.mouseTop)
-      console.log('scrollTopAdjust', scrollTopAdjust)
+      // console.log('scrollTopAdjust', scrollTopAdjust)
+      console.log('newOctavePx*octaves', newOctavePx*octaves)
       const newPianoRollScrollTop = this.props.scrollTop + scrollTopAdjust
-      if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= newOctavePx*7) {
+      console.log('newPianoRollScrollTop', newPianoRollScrollTop)
+      // if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= newOctavePx*octaves) {
+      if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= newOctavePx*octaves) {
         this.setState({
           mouseTop: e.clientY
         })
@@ -100,6 +111,7 @@ class App extends Component {
             <Route
               exact path="/compose"
               component={passPropsToEmbededComponent({
+                setCanvasHeight: this.setCanvasHeight,
                 togglePianoBarZoomAndScroll: this.togglePianoBarZoomAndScroll,
               })(Compose)}
             />

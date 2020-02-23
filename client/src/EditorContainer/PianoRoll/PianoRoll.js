@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { processNoteEvent } from '../../actions';
+import { processNoteEvent, setScrollTop } from '../../actions';
 import { Wrapper } from './PianoRoll.styles';
 import { buildPitchSet } from "../../helpers/helpers";
 import { octaves, offscreenOctavePx, offscreenCellWidth } from "../../config/constants";
@@ -50,6 +50,8 @@ class PianoRoll extends Component {
     this.canvas.width  = this.canvas.offsetWidth;
     this.canvas.height = this.canvas.offsetHeight;
       // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
+
+    this.props.setCanvasHeight(this.canvas.height)
 
     this.drawOffScreen()
     this.drawNotes()
@@ -202,6 +204,15 @@ class PianoRoll extends Component {
     processNoteEvent(noteInfo);
   }
 
+  handleWheel(e) {
+    e.preventDefault()
+    e.stopPropagation();
+    // [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive. See https://www.chromestatus.com/features/6662647093133312
+    // console.log('e.deltaX', e.deltaX)
+    // console.log('e.deltaY', e.deltaY)
+    // this.props.setScrollTop(e.deltaY)
+  }
+
   render() {
     // console.log('PianoRoll.js rendering')
     // console.log('ctx', this.ctx) // NOTE: undefined on initial render
@@ -210,7 +221,9 @@ class PianoRoll extends Component {
       <Wrapper>
         <canvas
           ref={this.canvasRef}
+          onMouseDown={(e) => {}}
           onClick={(e) => this.handleClick(e)}
+          // onWheel={(e) => { this.handleWheel(e) }}
         />
       </Wrapper>
     );
@@ -231,7 +244,10 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { processNoteEvent: processNoteEvent }
+  {
+    processNoteEvent,
+    setScrollTop
+  }
 )(PianoRoll);
 
 
@@ -243,47 +259,6 @@ export default connect(
 //   ctx.lineTo(x,h);
 //   ctx.shadowBlur=0;
 //   ctx.stroke();
-// }
-
-
-// drawPianoGrid() {
-//   for(let y=0; y < this.h; y=y+this.cellheight){
-//     for(let x=0; x < this.w; x=x+this.cellwidth){
-// // horizontal lines strangely fade at the far right side
-// if(y % (12*this.cellheight) === 0){
-//   this.ctx.beginPath();
-//   this.ctx.moveTo(0, y);
-//   this.ctx.strokeStyle = "#aaa";
-//   this.ctx.lineTo(this.w, y);
-//   this.ctx.shadowBlur=0;
-//   this.ctx.stroke();
-// }
-// if(x % (4*this.cellwidth) === 0){
-//   this.ctx.beginPath();
-//   this.ctx.moveTo(x,0);
-//   this.ctx.strokeStyle = "black";
-//   this.ctx.lineTo(x, this.h);
-//   this.ctx.shadowBlur=0;
-//   this.ctx.stroke();
-// }
-// this.ctx.beginPath();
-// if(
-//   (y+11*this.cellheight) % (12*this.cellheight)===0 ||
-//   (y+9*this.cellheight) % (12*this.cellheight)===0 ||
-//   (y+7*this.cellheight) % (12*this.cellheight)===0 ||
-//   (y+4*this.cellheight) % (12*this.cellheight)===0 ||
-//   (y+2*this.cellheight) % (12*this.cellheight)===0
-// ){
-//   this.ctx.fillStyle = "rgb(32,32,32)";
-// }else{
-//   this.ctx.fillStyle = "rgb(45,45,80)";
-// }
-// this.ctx.strokeStyle = "rgb(24,24,24)";
-// this.ctx.rect(x, y, this.cellwidth, this.cellheight);
-// this.ctx.fill()
-// this.ctx.stroke();
-// }
-// }
 // }
 
 

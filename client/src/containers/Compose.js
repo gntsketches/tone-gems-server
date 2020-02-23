@@ -22,6 +22,7 @@ class Compose extends Component {
         </div>
 
         <EditorContainer
+          setCanvasHeight={this.props.setCanvasHeight}
           togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
           // handlePianoRollScroll={this.props.handlePianoRollScroll}
           // scrollTop={this.props.scrollTop}

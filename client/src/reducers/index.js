@@ -60,7 +60,7 @@ export const compositionLength = (length=32, action={}) => {
   }
 }
 
-export const setScrollLeft = (scrollLeft=25, action={}) => {
+export const setScrollLeft = (scrollLeft=0, action={}) => {
   switch(action.type) {
     case 'SET_SCROLL_LEFT':
       return action.payload;
@@ -69,7 +69,7 @@ export const setScrollLeft = (scrollLeft=25, action={}) => {
   }
 }
 
-export const setScrollTop = (scrollTop=50, action={}) => {
+export const setScrollTop = (scrollTop=100, action={}) => {
   switch(action.type) {
     case 'SET_SCROLL_TOP':
       return action.payload;
@@ -87,7 +87,8 @@ export const setZoomX = (zoomX=1, action={}) => {
   }
 }
 
-export const setZoomY = (zoomY=1, action={}) => {
+export const setZoomY = (zoomY=2, action={}) => {
+  // note how zoom setting affects scroll speed...
   switch(action.type) {
     case 'SET_ZOOM_Y':
       return action.payload;

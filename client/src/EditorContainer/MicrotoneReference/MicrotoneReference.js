@@ -42,14 +42,14 @@ class MicrotoneReference extends Component {
 
   drawOffscreen() {
     let cellwidth = this.canvas.offsetWidth;
-    let y =  offscreenOctavePx * 7
+    let y =  offscreenOctavePx * octaves
     // console.log('y', y)
     const offscreenCtx = this.offscreen.getContext('2d')
 
     const pitchMap = buildPitchSet(
       261.63,
       [
-        {cents:0,    color: '#aaa', name: 'C' },
+        {cents:0,    color: '#fff', name: 'C' },
         {cents:75,   color: '#99a', name: 'c#'},
         {cents:200,  color: '#aaa', name: 'D' },
         {cents:250,  color: '#99a', name: 'd#'},
@@ -60,7 +60,8 @@ class MicrotoneReference extends Component {
         {cents:800,  color: '#99a', name: 'G#'},
         {cents:850,  color: '#aaa', name: 'a' },
         {cents:1000, color: '#99a', name: 'A#'},
-        {cents:1100, color: '#aaa', name: 'B' },
+        {cents:1100, color: '#333', name: 'B' },
+
       ]
     )
 
@@ -89,11 +90,12 @@ class MicrotoneReference extends Component {
     const { zoomY, scrollTop } = this.props;
     // console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('zoomY', zoomY)
+    const offscreenHeight = octaves * offscreenOctavePx;
     this.ctx.drawImage(
       this.offscreen,
       0, scrollTop,
       offscreenReferenceWidth,
-      (octaves * offscreenOctavePx) / zoomY + scrollTop,
+      offscreenHeight / zoomY,
       0, 0,
       this.canvas.offsetWidth, this.canvas.offsetHeight
     );
@@ -101,7 +103,7 @@ class MicrotoneReference extends Component {
 
   handleOnMouseDown(e) {
     // console.log('scrollTop', e.target.scrollTop)
-    // this.props.togglePianoBarZoomAndScroll(e.clientX, e.clientY)
+    this.props.togglePianoBarZoomAndScroll(e.clientX, e.clientY)
   }
 
 
