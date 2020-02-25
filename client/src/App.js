@@ -38,7 +38,7 @@ class App extends Component {
     console.log('App.js updated')
   }
 
-  setCanvasHeight(height) {
+  setCanvasHeight = height => {
     this.setState({canvasHeight: height })
   }
 
@@ -70,14 +70,16 @@ class App extends Component {
 
       const offscreenHeight = offscreenOctavePx*octaves
       const yScale = offscreenHeight / this.state.canvasHeight
-      // const onscreenOctavePx =
+      const onscreenOctavePx = offscreenOctavePx / yScale * this.props.zoomY
+      console.log('onscreenOctavePx', onscreenOctavePx)
       const scrollTopAdjust = - (e.clientY - this.state.mouseTop)
+      // console.log('e.clientY', e.clientY, 'mouseTop', this.state.mouseTop)
       // console.log('scrollTopAdjust', scrollTopAdjust)
-      console.log('newOctavePx*octaves', newOctavePx*octaves)
       const newPianoRollScrollTop = this.props.scrollTop + scrollTopAdjust
       console.log('newPianoRollScrollTop', newPianoRollScrollTop)
-      // if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= newOctavePx*octaves) {
-      if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= newOctavePx*octaves) {
+      console.log('onscreenOctavePx*octaves', onscreenOctavePx*octaves)
+      console.log('onscreenOctavePx*octaves-height', onscreenOctavePx*octaves-this.state.canvasHeight)
+      if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= onscreenOctavePx*octaves - this.state.canvasHeight) {
         this.setState({
           mouseTop: e.clientY
         })
@@ -132,6 +134,8 @@ const mapStateToProps = state => {
   return {
     octavePx: state.octavePx,
     scrollTop: state.scrollTop,
+    zoomX: state.zoomX,
+    zoomY: state.zoomY
   };
 };
 

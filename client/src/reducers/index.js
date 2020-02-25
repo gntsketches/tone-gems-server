@@ -69,7 +69,7 @@ export const setScrollLeft = (scrollLeft=0, action={}) => {
   }
 }
 
-export const setScrollTop = (scrollTop=100, action={}) => {
+export const setScrollTop = (scrollTop=0, action={}) => {
   switch(action.type) {
     case 'SET_SCROLL_TOP':
       return action.payload;
@@ -78,7 +78,7 @@ export const setScrollTop = (scrollTop=100, action={}) => {
   }
 }
 
-export const setZoomX = (zoomX=1, action={}) => {
+export const setZoomX = (zoomX=2, action={}) => {
   switch(action.type) {
     case 'SET_ZOOM_X':
       return action.payload;

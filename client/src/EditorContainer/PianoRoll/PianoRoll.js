@@ -163,6 +163,7 @@ class PianoRoll extends Component {
     const offscreenHeight = this.offscreen.height;
     const xScale = offscreenWidth / this.canvas.width
     const yScale = offscreenHeight / this.canvas.height
+    console.log('click yScale', yScale)
     const rect = e.target.getBoundingClientRect()
 
     const xPixN = e.clientX - rect.left
