@@ -68,18 +68,22 @@ class App extends Component {
         // this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
       }
 
+      // NOTE: though you are measuring onscreen pixels, the actual scroll value is calculated for the offscreen,
+      //   so transforms are needed for mouse movement as well as boundaries
       const offscreenHeight = offscreenOctavePx*octaves
       const yScale = offscreenHeight / this.state.canvasHeight
       const onscreenOctavePx = offscreenOctavePx / yScale * this.props.zoomY
-      console.log('onscreenOctavePx', onscreenOctavePx)
-      const scrollTopAdjust = - (e.clientY - this.state.mouseTop)
+      const scrollTopAdjust = - (e.clientY - this.state.mouseTop) * yScale / this.props.zoomY
+      const newPianoRollScrollTop = this.props.scrollTop + scrollTopAdjust
+      const maxScrollPixelsOnScreen = onscreenOctavePx * octaves - this.state.canvasHeight
+      // console.log('onscreenOctavePx', onscreenOctavePx)
       // console.log('e.clientY', e.clientY, 'mouseTop', this.state.mouseTop)
       // console.log('scrollTopAdjust', scrollTopAdjust)
-      const newPianoRollScrollTop = this.props.scrollTop + scrollTopAdjust
-      console.log('newPianoRollScrollTop', newPianoRollScrollTop)
-      console.log('onscreenOctavePx*octaves', onscreenOctavePx*octaves)
-      console.log('onscreenOctavePx*octaves-height', onscreenOctavePx*octaves-this.state.canvasHeight)
-      if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= onscreenOctavePx*octaves - this.state.canvasHeight) {
+      // console.log('newPianoRollScrollTop', newPianoRollScrollTop)
+      // console.log('maxScrollPixelsOnScreen', maxScrollPixelsOnScreen)
+      // console.log('maxScrollPixelsOnScreen * yScale / this.props.zoomY', maxScrollPixelsOnScreen * yScale / this.props.zoomY)
+      if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= maxScrollPixelsOnScreen * yScale / this.props.zoomY) {
+      // if (newPianoRollScrollTop >=0) {
         this.setState({
           mouseTop: e.clientY
         })

@@ -11,10 +11,8 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
-    zoom and/or scale affects scrolling cycle...
-        try scrolling a whole octave and watch it track
-            seemss: zoom < 2 mouse gets ahead, >2 canvas gets ahead
-            ooh I think it's the scale too tho
+    strange render on Razer monitor full-screen, 300 scrolltop, 1.5 zoom
+        waits to move with mouse
     https://codepen.io/gntsketches/pen/yLNVmwY
     next to get scroll working...
     add/draw note
