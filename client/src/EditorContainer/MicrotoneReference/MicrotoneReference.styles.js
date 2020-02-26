@@ -12,6 +12,8 @@ export const Wrapper = styled.div`
   
   overflow: hidden;
   
+  cursor: pointer;
+  
   canvas {
    // width: 100%;
    // height: 100%;

@@ -139,7 +139,7 @@ class PianoRoll extends Component {
     // console.log('measures', compositionLength * 50, octaves * 12 * 25);
     // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('piano width', this.canvas.width)
-    console.log('zoomz', zoomX, zoomY)
+    // console.log('zoomz', zoomX, zoomY)
     const offscreenWidth = this.props.compositionLength * offscreenCellWidth;
     const offscreenHeight = octaves * offscreenOctavePx;
     this.ctx.drawImage(

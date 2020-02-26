@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Wrapper } from './App.styles'
-import { fetchUser, updateOctavePx, setScrollTop } from './actions'
+import { fetchUser, updateOctavePx, setScrollTop, setZoomX, setZoomY } from './actions'
 
 import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
@@ -50,7 +50,7 @@ class App extends Component {
   }
 
   togglePianoBarZoomAndScroll = (x, y) => {
-    console.log('toggling')
+    // console.log('toggling')
     this.setState({
       adjustingVerticalZoom: !this.state.adjustingVerticalZoom,
       mouseLeft: x,
@@ -62,10 +62,14 @@ class App extends Component {
     if (this.state.adjustingVerticalZoom) {
       const leftMod = e.clientX - (e.clientX - this.state.mouseLeft)/2
       const leftRatio = leftMod/this.state.mouseLeft
-      const newOctavePx = (this.props.octavePx * leftRatio) // multiplier to adjust zoom speed? tricky... try subtracting (e.clientX-this.state.mouseLeft)/2
-      if (newOctavePx > 400/octaves && newOctavePx < 500) {
-        // this.props.updateOctavePx(newOctavePx)
-        // this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
+      // console.log('leftRatio', leftRatio)
+      const newZoomY = (this.props.zoomY * leftRatio) // multiplier to adjust zoom speed? tricky... try subtracting (e.clientX-this.state.mouseLeft)/2
+      console.log('newZoomY', newZoomY)
+      const newZYAdj = Math.floor(newZoomY*1000)/1000
+      console.log('newZYAdj', newZYAdj)
+      if (newZYAdj >= 1 && newZYAdj <= 4) {
+        this.props.setZoomY(newZYAdj)
+        this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
       }
 
       // NOTE: though you are measuring onscreen pixels, the actual scroll value is calculated for the offscreen,
@@ -84,10 +88,10 @@ class App extends Component {
       // console.log('maxScrollPixelsOnScreen * yScale / this.props.zoomY', maxScrollPixelsOnScreen * yScale / this.props.zoomY)
       if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= maxScrollPixelsOnScreen * yScale / this.props.zoomY) {
       // if (newPianoRollScrollTop >=0) {
-        this.setState({
-          mouseTop: e.clientY
-        })
-        this.props.setScrollTop(newPianoRollScrollTop);
+      //   this.setState({
+      //     mouseTop: e.clientY
+      //   })
+      //   this.props.setScrollTop(newPianoRollScrollTop);
       }
 
     }
@@ -150,6 +154,8 @@ export default connect(
     fetchUser,
     updateOctavePx,
     setScrollTop,
+    setZoomX,
+    setZoomY,
   }
 )(App);
 

@@ -36,34 +36,28 @@ export const saveComposition = composition => async dispatch => {
 // MANAGE CURRENT COMPOSITION ************************************************************
 
 export const processNoteEvent = (note) => {
-    return {
-      type: 'PROCESS_NOTE_EVENT',
-      payload: note
-    }
+    return { type: 'PROCESS_NOTE_EVENT', payload: note }
 };
 
 export const changeTitle = value => {
-  return {
-    type: 'CHANGE_TITLE',
-    payload: value
-  }
+  return { type: 'CHANGE_TITLE', payload: value }
 };
 
 export const updateOctavePx = value => {
-  return {
-    type: 'UPDATE_PX',
-    payload: value
-  }
+  return { type: 'UPDATE_PX', payload: value }
 };
 
 export const setScrollTop = value => {
-  return {
-    type: 'SET_SCROLL_TOP',
-    payload: value,
-  }
+  return { type: 'SET_SCROLL_TOP', payload: value, }
 };
 
+export const setZoomX = value => {
+  return { type: 'SET_ZOOM_X', payload: value, }
+};
 
+export const setZoomY = value => {
+  return { type: 'SET_ZOOM_Y', payload: value, }
+};
 
 // export const addRemoveNote = (stateNotes, newNote) => {
 //   if (stateNotes.some(note => {
