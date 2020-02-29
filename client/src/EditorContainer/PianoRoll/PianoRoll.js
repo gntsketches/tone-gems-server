@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { processNoteEvent, setGemBoxY } from '../../actions';
+import { setCanvasHeight, processNoteEvent } from '../../redux/actions';
 import { Wrapper } from './PianoRoll.styles';
 import { buildPitchSet } from "../../helpers/helpers";
 import { octaves, offscreenOctavePx, offscreenCellWidth } from "../../config/constants";
@@ -20,7 +20,6 @@ class PianoRoll extends Component {
       // SO the offscreen hard-codes a base cell size here (scaling octave by 12 also as a base...)
 
     this.state = {
-
       pitchMap: buildPitchSet(
         261.63,
         [
@@ -43,6 +42,8 @@ class PianoRoll extends Component {
 
   componentDidMount() {
     // console.log(this.state.pitchMap)
+    const { setCanvasHeight } = this.props;
+
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d')
     this.canvas.style.width='100%';
@@ -51,7 +52,7 @@ class PianoRoll extends Component {
     this.canvas.height = this.canvas.offsetHeight;
       // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
 
-    this.props.setCanvasHeight(this.canvas.height)
+    setCanvasHeight(this.canvas.height)
 
     this.drawOffScreen()
     this.drawNotes()
@@ -240,6 +241,7 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
+    setCanvasHeight,
     processNoteEvent,
   }
 )(PianoRoll);

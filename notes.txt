@@ -11,35 +11,41 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
+    https://daveceddia.com/access-redux-store-outside-react/
+        & move zoom & scroll checks to actions
+    width zoom & scroll
+    fix note click function
     ask Seo: where should all the logic go?
+        ("can you extract the mouseDrag logic to a helper or something?")
         access store in actions/reducers for compares?
     set gemBox dimensions to onscreen dimensions on mount/resize
+    conditional render per dirty...
+        incorporate with scroll feature...
+
+conditions:
+    reference - y, height
+    time - x, width
+    piano - x, y
+
+    if logic was in actions:
+        setGemBoxX(deltaX)
+
+
+
+https://medium.com/@ktruong008/absolute-imports-with-create-react-app-4338fbca7e3d
+
 
     bug? strange render on Razer monitor full-screen, 300 scrolltop, 1.5 zoom
         waits to move with mouse
-    https://codepen.io/gntsketches/pen/yLNVmwY
-    next to get scroll working...
-    add/draw note
     octavePx to go?
         removed from use, leaving old code on App for reference
 
-
     LINES PianoRoll var
         note you can add a prevCents (as well as nextCents) to help calc click placement
-    conditional render per dirty...
-        incorporate with scroll feature...
+
     HMMM, use of offsetwidth in componentDidMount
     const { cellwidth, cellCountX } = this.state
       // aren't those on redux now?
-    ? (how) Are you still going to be using 'octavePx'
-        betcha just as a constant. probs octavePx for onscreen will be offscreenOctavePx * zoomY
-    Did state fields: zoomX, zoomY, scrollX, scrollY
-    - TRY the alternate render option..
-    - build top and side scrolls
-        - scroll 'em and resize
-    - add/remove notes by click
-    - what's coming from redux? vs constants?
-        octavePx: state.octavePx,
 
 
 color: "#aaa"
@@ -53,8 +59,6 @@ index: 0
 max: 11
 
 CANVAS RENDER QUESTIONS
-    - x & y scroll zones as separate canvas or render to just one offscreen?
-    - pitches/notes: render to offscreen? layer as separate canvas?
 
     Seo:
      - window size or scroll/zoom dirties onScreen

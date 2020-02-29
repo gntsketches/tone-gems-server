@@ -1,6 +1,13 @@
 import axios from 'axios';
 
+import store from '../store';
 import { FETCH_USER } from "./types";
+import {
+  octaves, offscreenOctavePx, offscreenCellWidth, maxZoom
+} from "../../config/constants";
+
+const offscreenHeight = offscreenOctavePx*octaves
+
 
 // AUTHENTICATE **************************************************************************
 
@@ -47,20 +54,36 @@ export const updateOctavePx = value => {
   return { type: 'UPDATE_PX', payload: value }
 };
 
+export const setCanvasHeight = height => {
+  return { type: 'SET_CANVAS_HEIGHT', payload: height }
+}
+
 export const setGemBoxX = value => {
   return { type: 'SET_GEM_BOX_X', payload: value, }
 };
 
-export const setGemBoxY = value => {
-  return { type: 'SET_GEM_BOX_Y', payload: value, }
+export const setGemBoxY = deltaY => {
+  const state = store.getState()
+  const { gemBoxY, gemBoxHeight } = state
+  const deltaYAdjusted = deltaY * (gemBoxHeight / state.canvasHeight)
+  let gemBoxYAdjusted = gemBoxY - deltaYAdjusted
+  const gemBoxYMax =  offscreenHeight - gemBoxHeight
+  if (gemBoxYAdjusted < 0) { gemBoxYAdjusted = 0 }
+  if (gemBoxYAdjusted > gemBoxYMax) { gemBoxYAdjusted = gemBoxYMax}
+  return { type: 'SET_GEM_BOX_Y', payload: gemBoxYAdjusted } // could limit calls with if-already-at-range logic
 };
 
 export const setGemBoxWidth = value => {
   return { type: 'SET__GEM_BOX_WIDTH', payload: value, }
 };
 
-export const setGemBoxHeight = value => {
-  return { type: 'SET_GEM_BOX_HEIGHT', payload: value, }
+export const setGemBoxHeight = deltaX => {
+  const state = store.getState()
+  const { gemBoxHeight } = state
+  let gemBoxHeightAdjusted = gemBoxHeight - deltaX
+  if (gemBoxHeightAdjusted > offscreenHeight) { gemBoxHeightAdjusted = offscreenHeight } // could limit calls with if-already-at-range logic
+  if (gemBoxHeightAdjusted < offscreenHeight / maxZoom) { gemBoxHeightAdjusted = offscreenHeight / maxZoom }
+  return { type: 'SET_GEM_BOX_HEIGHT', payload: gemBoxHeightAdjusted, }
 };
 
 // export const addRemoveNote = (stateNotes, newNote) => {

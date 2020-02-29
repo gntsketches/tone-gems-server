@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { processNoteEvent } from '../../actions';
+import { processNoteEvent } from '../../redux/actions';
 import { Wrapper } from './PianoRoll.styles';
 
 

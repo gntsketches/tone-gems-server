@@ -7,7 +7,7 @@ import { Wrapper } from './App.styles'
 import {
   fetchUser, updateOctavePx,
   setGemBoxX, setGemBoxY, setGemBoxWidth, setGemBoxHeight
-} from './actions'
+} from './redux/actions'
 
 import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
@@ -66,36 +66,15 @@ class App extends Component {
       gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
       setGemBoxY, setGemBoxHeight
     } = this.props;
-    const offscreenHeight = offscreenOctavePx*octaves
 
     if (this.state.adjustingVerticalZoom) {
-      // RATHER than zoomx/Y, think of 'height/width' of an inner box relative to the offscreen (which happens to be mapped to onscren)
-      // also call it xOffset yOffset rather than scrollLeft/Right
-      // (x, y, width, height) and also (offscreenWidth, offscreenHeight)
-        // so it's way easier to bound this using min & max functions -
-          // can you extract the mouseDrag logic to a helper or something?
-
       const deltaY = e.clientY - this.state.mouseTop
-      const deltaYAdjusted = deltaY * (gemBoxHeight / this.state.canvasHeight)
-      let gemBoxYAdjusted = gemBoxY - deltaYAdjusted
-      const gemBoxYMax =  offscreenHeight - gemBoxHeight
-      if (gemBoxYAdjusted < 0) { gemBoxYAdjusted = 0 }
-      if (gemBoxYAdjusted > gemBoxYMax) { gemBoxYAdjusted = gemBoxYMax}
+      setGemBoxY(deltaY)
       this.setState({ mouseTop: e.clientY })
-      this.props.setGemBoxY(gemBoxYAdjusted) // could limit calls with if-already-at-range logic
 
       const deltaX = e.clientX - this.state.mouseLeft
-      console.log('dx', deltaX)
-      let gemBoxHeightAdjusted = gemBoxHeight - deltaX
-      console.log('height', gemBoxHeightAdjusted)
-      if (gemBoxHeightAdjusted > offscreenHeight) { gemBoxHeightAdjusted = offscreenHeight } // could limit calls with if-already-at-range logic
-      if (gemBoxHeightAdjusted < offscreenHeight / maxZoom) { gemBoxHeightAdjusted = offscreenHeight / maxZoom }
-      setGemBoxHeight(gemBoxHeightAdjusted)
-      this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
-
-
-      // }
-      //   console.log('maxScrollPixelsOnScreen * yScale / this.props.zoomY', maxScrollPixelsOnScreen * yScale / this.props.zoomY)
+      setGemBoxHeight(deltaX)
+      this.setState({mouseLeft: e.clientX})
     }
   }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { loadComposition, saveComposition } from "../../actions"
+import { loadComposition, saveComposition } from "../../redux/actions"
 import { NavWrapper } from "./Header.styles"
 import { bundleComposition } from "../../helpers/helpers"
 

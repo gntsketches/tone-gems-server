@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Wrapper } from './Compose.styles'
 import EditorContainer from "../EditorContainer/EditorContainer"
-import {changeTitle, setScrollTop} from "../actions"
+import {changeTitle, setScrollTop} from "../redux/actions"
 
 class Compose extends Component {
   render() {

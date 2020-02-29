@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { changeTitle } from '../actions';
+import { changeTitle } from '../redux/actions';
 import { Wrapper } from './EditorContainer.styles';
 import TimeScroll from "./TimeScroll/TimeScroll"
 // import ReferenceRoll from './WesternReference/WesternReference';
@@ -38,7 +38,7 @@ class EditorContainer extends Component {
           togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
         />
         <PianoRoll
-          setCanvasHeight={this.props.setCanvasHeight}
+          // setCanvasHeight={this.props.setCanvasHeight}
         />
       </Wrapper>
     );
