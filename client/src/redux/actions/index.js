@@ -88,8 +88,14 @@ export const setGemBoxY = deltaY => {
   return { type: 'SET_GEM_BOX_Y', payload: gemBoxYAdj } // could limit calls with if-already-at-range logic
 };
 
-export const setGemBoxWidth = value => {
-  return { type: 'SET__GEM_BOX_WIDTH', payload: value, }
+export const setGemBoxWidth = deltaY => {
+  const state = store.getState()
+  const { gemBoxWidth } = state
+  const offscreenWidth = offscreenCellWidth * state.compositionLength
+  let gemBoxWidthAdjusted = gemBoxWidth - deltaY * 2
+  if (gemBoxWidthAdjusted > offscreenWidth) { gemBoxWidthAdjusted = offscreenWidth } // could limit calls with if-already-at-range logic
+  if (gemBoxWidthAdjusted < offscreenWidth / maxZoom) { gemBoxWidthAdjusted = offscreenWidth / maxZoom }
+  return { type: 'SET_GEM_BOX_WIDTH', payload: gemBoxWidthAdjusted, }
 };
 
 export const setGemBoxHeight = deltaX => {

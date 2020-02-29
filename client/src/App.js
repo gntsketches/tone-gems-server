@@ -81,10 +81,10 @@ class App extends Component {
       setGemBoxX(deltaX)
       this.setState({mouseLeft: e.clientX})
     }
-    // if (this.state.adjustingZoomX) {
-    //   setGemBoxWidth(deltaY)
-    //   this.setState({mouseTop: e.clientY})
-    // }
+    if (this.state.adjustingZoomX) {
+      setGemBoxWidth(deltaY)
+      this.setState({mouseTop: e.clientY})
+    }
     if (this.state.adjustingScrollY) {
       setGemBoxY(deltaY)
       this.setState({mouseTop: e.clientY})
@@ -112,6 +112,7 @@ class App extends Component {
       <Wrapper
         onMouseMove={this.handleMouseMove}
         onMouseUp={this.handleOnMouseUp}
+        onMouseLeave={this.handleOnMouseUp}
       >
 
         <BrowserRouter>
