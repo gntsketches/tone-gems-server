@@ -145,8 +145,7 @@ class PianoRoll extends Component {
     this.ctx.drawImage(
       this.offscreen,
       scrollLeft, scrollTop,
-      offscreenWidth / zoomX,
-      offscreenHeight / zoomY,
+      offscreenWidth / zoomX, offscreenHeight / zoomY,
       0, 0,
       this.canvas.offsetWidth, this.canvas.offsetHeight
     );

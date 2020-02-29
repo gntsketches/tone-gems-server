@@ -60,24 +60,18 @@ class App extends Component {
 
   handleMouseMove = e => {
     if (this.state.adjustingVerticalZoom) {
-      const leftMod = e.clientX - (e.clientX - this.state.mouseLeft)/2
-      const leftRatio = leftMod/this.state.mouseLeft
-      // console.log('leftRatio', leftRatio)
-      const newZoomY = (this.props.zoomY * leftRatio) // multiplier to adjust zoom speed? tricky... try subtracting (e.clientX-this.state.mouseLeft)/2
-      console.log('newZoomY', newZoomY)
-      const newZYAdj = Math.floor(newZoomY*1000)/1000
-      console.log('newZYAdj', newZYAdj)
-      if (newZYAdj >= 1 && newZYAdj <= 4) {
-        this.props.setZoomY(newZYAdj)
-        this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
-      }
+      // RATHER than zoomx/Y, think of 'height/width' of an inner box relative to the offscreen (which happens to be mapped to onscren)
+      // also call it xOffset yOffset rather than scrollLeft/Right
+      // (x, y, width, height) and also (offscreenWidth, offscreenHeight)
+        // so it's way easier to bound this using min & max functions -
+          // can you extract the mouseDrag logic to a helper or something?
 
       // NOTE: though you are measuring onscreen pixels, the actual scroll value is calculated for the offscreen,
       //   so transforms are needed for mouse movement as well as boundaries
       const offscreenHeight = offscreenOctavePx*octaves
       const yScale = offscreenHeight / this.state.canvasHeight
       const onscreenOctavePx = offscreenOctavePx / yScale * this.props.zoomY
-      const scrollTopAdjust = - (e.clientY - this.state.mouseTop) * yScale / this.props.zoomY
+      const scrollTopAdjust = (e.clientY - this.state.mouseTop) * yScale / this.props.zoomY
       const newPianoRollScrollTop = this.props.scrollTop + scrollTopAdjust
       const maxScrollPixelsOnScreen = onscreenOctavePx * octaves - this.state.canvasHeight
       // console.log('onscreenOctavePx', onscreenOctavePx)
@@ -88,12 +82,27 @@ class App extends Component {
       // console.log('maxScrollPixelsOnScreen * yScale / this.props.zoomY', maxScrollPixelsOnScreen * yScale / this.props.zoomY)
       if (newPianoRollScrollTop >=0 && newPianoRollScrollTop <= maxScrollPixelsOnScreen * yScale / this.props.zoomY) {
       // if (newPianoRollScrollTop >=0) {
-      //   this.setState({
-      //     mouseTop: e.clientY
-      //   })
-      //   this.props.setScrollTop(newPianoRollScrollTop);
+        this.setState({
+          mouseTop: e.clientY
+        })
+        this.props.setScrollTop(newPianoRollScrollTop);
       }
 
+
+      const leftMod = e.clientX - (e.clientX - this.state.mouseLeft)/2
+      const leftRatio = leftMod/this.state.mouseLeft
+      console.log('leftRatio', leftRatio)
+      const newZoomY = (this.props.zoomY * leftRatio) // multiplier to adjust zoom speed? tricky... try subtracting (e.clientX-this.state.mouseLeft)/2
+      console.log('newZoomY', newZoomY)
+      const newZYAdj = Math.floor(newZoomY*1000)/1000
+      console.log('newZYAdj', newZYAdj)
+      if (newZYAdj >= 1 && newZYAdj <= 4) {
+        this.props.setZoomY(newZYAdj)
+        this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
+
+
+      }
+        console.log('maxScrollPixelsOnScreen * yScale / this.props.zoomY', maxScrollPixelsOnScreen * yScale / this.props.zoomY)
     }
   }
 
