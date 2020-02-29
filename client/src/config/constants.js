@@ -5,3 +5,5 @@ export const offscreenCellWidth = 50;
 
 export const offscreenTimeScrollHeight = 75;
 export const offscreenReferenceWidth = 90;
+
+export const maxZoom = 4;

@@ -13,7 +13,7 @@ import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
 import Header from "./components/Header/Header"
 import Landing from './components/Landing';
-import { octaves, offscreenOctavePx, offscreenCellWidth } from "./config/constants";
+import { octaves, offscreenOctavePx, offscreenCellWidth, maxZoom } from "./config/constants";
 
 const Community = () => <h2>Other people who do this</h2>
 const Wander = () => <h2>Explore stuff people have made</h2>
@@ -62,7 +62,12 @@ class App extends Component {
   }
 
   handleMouseMove = e => {
-    const { gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
+    const {
+      gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
+      setGemBoxY, setGemBoxHeight
+    } = this.props;
+    const offscreenHeight = offscreenOctavePx*octaves
+
     if (this.state.adjustingVerticalZoom) {
       // RATHER than zoomx/Y, think of 'height/width' of an inner box relative to the offscreen (which happens to be mapped to onscren)
       // also call it xOffset yOffset rather than scrollLeft/Right
@@ -70,27 +75,23 @@ class App extends Component {
         // so it's way easier to bound this using min & max functions -
           // can you extract the mouseDrag logic to a helper or something?
 
-      const offscreenHeight = offscreenOctavePx*octaves
       const deltaY = e.clientY - this.state.mouseTop
       const deltaYAdjusted = deltaY * (gemBoxHeight / this.state.canvasHeight)
-      let gemBoxAdjusted = gemBoxY - deltaYAdjusted
+      let gemBoxYAdjusted = gemBoxY - deltaYAdjusted
       const gemBoxYMax =  offscreenHeight - gemBoxHeight
-      if (gemBoxAdjusted < 0) { gemBoxAdjusted = 0 }
-      if (gemBoxAdjusted > gemBoxYMax) { gemBoxAdjusted = gemBoxYMax}
+      if (gemBoxYAdjusted < 0) { gemBoxYAdjusted = 0 }
+      if (gemBoxYAdjusted > gemBoxYMax) { gemBoxYAdjusted = gemBoxYMax}
       this.setState({ mouseTop: e.clientY })
-      this.props.setGemBoxY(gemBoxAdjusted); // could limit calls with if-already-at-range logic
+      this.props.setGemBoxY(gemBoxYAdjusted) // could limit calls with if-already-at-range logic
 
-
-      // const leftMod = e.clientX - (e.clientX - this.state.mouseLeft)/2
-      // const leftRatio = leftMod/this.state.mouseLeft
-      // console.log('leftRatio', leftRatio)
-      // const newZoomY = (this.props.zoomY * leftRatio) // multiplier to adjust zoom speed? tricky... try subtracting (e.clientX-this.state.mouseLeft)/2
-      // console.log('newZoomY', newZoomY)
-      // const newZYAdj = Math.floor(newZoomY*1000)/1000
-      // console.log('newZYAdj', newZYAdj)
-      // if (newZYAdj >= 1 && newZYAdj <= 4) {
-      //   this.props.setZoomY(newZYAdj)
-      //   this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
+      const deltaX = e.clientX - this.state.mouseLeft
+      console.log('dx', deltaX)
+      let gemBoxHeightAdjusted = gemBoxHeight - deltaX
+      console.log('height', gemBoxHeightAdjusted)
+      if (gemBoxHeightAdjusted > offscreenHeight) { gemBoxHeightAdjusted = offscreenHeight } // could limit calls with if-already-at-range logic
+      if (gemBoxHeightAdjusted < offscreenHeight / maxZoom) { gemBoxHeightAdjusted = offscreenHeight / maxZoom }
+      setGemBoxHeight(gemBoxHeightAdjusted)
+      this.setState({mouseLeft: e.clientX}) //, ()=>console.log('newMouseLeft', this.state.mouseLeft))
 
 
       // }
