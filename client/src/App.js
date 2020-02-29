@@ -41,10 +41,6 @@ class App extends Component {
     console.log('App.js updated')
   }
 
-  setCanvasHeight = height => {
-    this.setState({canvasHeight: height })
-  }
-
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     const newOctavePx = this.props.octavePx !== nextProps.octavePx
     const newScrollTop = this.props.octavePx !== nextProps.scrollTop
@@ -52,7 +48,11 @@ class App extends Component {
     return false
   }
 
-  togglePianoBarZoomAndScroll = (x, y) => {
+  setCanvasHeight = height => { // called on Piano didMount. can probably get rid of it in favor of passing height arg
+    this.setState({canvasHeight: height })
+  }
+
+  togglePianoBarZoomAndScroll = (x, y, height) => {
     // console.log('toggling')
     this.setState({
       adjustingVerticalZoom: !this.state.adjustingVerticalZoom,
@@ -72,17 +72,13 @@ class App extends Component {
 
       const offscreenHeight = offscreenOctavePx*octaves
       const deltaY = e.clientY - this.state.mouseTop
-      console.log('deltay', deltaY)
-      let yAdjust = 0
-      if (deltaY > 0) yAdjust = 1
-      else if (deltaY < 0) yAdjust = -1
-      console.log('yAdjust', yAdjust)
-      // if (gemBoxY - yAdjust > 0 && gemBoxY - yAdjust < offscreenHeight - gemBoxHeight) {
-        this.setState({
-          mouseTop: e.clientY
-        })
-        this.props.setGemBoxY(gemBoxY + yAdjust);
-      // }
+      const deltaYAdjusted = deltaY * (gemBoxHeight / this.state.canvasHeight)
+      let gemBoxAdjusted = gemBoxY - deltaYAdjusted
+      const gemBoxYMax =  offscreenHeight - gemBoxHeight
+      if (gemBoxAdjusted < 0) { gemBoxAdjusted = 0 }
+      if (gemBoxAdjusted > gemBoxYMax) { gemBoxAdjusted = gemBoxYMax}
+      this.setState({ mouseTop: e.clientY })
+      this.props.setGemBoxY(gemBoxAdjusted); // could limit calls with if-already-at-range logic
 
 
       // const leftMod = e.clientX - (e.clientX - this.state.mouseLeft)/2
