@@ -90,6 +90,7 @@ class MicrotoneReference extends Component {
     const { gemBoxY, height } = this.props;
     // console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('zoomY', zoomY)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(
       this.offscreen,
       0, gemBoxY, offscreenReferenceWidth, height,

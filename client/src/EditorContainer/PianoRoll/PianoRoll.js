@@ -118,7 +118,7 @@ class PianoRoll extends Component {
     const offscreenCtx = this.offscreen.getContext('2d')
 
     let x = 0
-    for (let i=0; i<compositionLength; i++) {
+    for (let i=0; i < compositionLength; i++) {
       let y =  offscreenOctavePx * octaves
       this.state.pitchMap.forEach((pitchObj, i) => {
         const cellheight = offscreenOctavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
@@ -137,13 +137,9 @@ class PianoRoll extends Component {
   }
 
   drawOnScreen() {
-    const { compositionLength, gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
-    // console.log('measures', compositionLength * 50, octaves * 12 * 25);
-    // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
-    // console.log('piano width', this.canvas.width)
+    const { gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
     // console.log('zoomz', zoomX, zoomY)
-    const offscreenWidth = this.props.compositionLength * offscreenCellWidth;
-    const offscreenHeight = octaves * offscreenOctavePx;
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(
       this.offscreen,
       gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
@@ -152,41 +148,28 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
-    // console.log('canvasHeight', this.canvas.height)
-    // console.log('offscreenHeight', offscreenHeight)
-    const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop,
-      processNoteEvent } = this.props
-    const offscreenWidth = this.offscreen.width;
+    const { gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight, processNoteEvent } = this.props
     const offscreenHeight = this.offscreen.height;
-    const xScale = offscreenWidth / this.canvas.width
-    const yScale = offscreenHeight / this.canvas.height
+    const xScale = gemBoxWidth / this.canvas.width
+    const yScale = gemBoxHeight / this.canvas.height
     console.log('click yScale', yScale)
     const rect = e.target.getBoundingClientRect()
 
-    const xPixN = e.clientX - rect.left
     const xPix = e.clientX - rect.left
     const yPix = e.clientY - rect.top;
-    // console.log('xPIxN', xPixN)
-    console.log('xPIx', xPix)
+    // console.log('xPIx', xPix)
     // console.log('yPix', yPix);
 
-    const scrollScaled = scrollLeft * xScale
-    console.log('scrollScaled', scrollScaled)
-    // const xOffscreen = ((xPix * xScale) / zoomX) + scrollLeft
-    //  really seems like this should work. Perhaps it has to do with the blank right edge of onscreen canvas
-
-    const xOffscreen = ((xPix * xScale) / zoomX) + scrollLeft
-    const yOffscreen = (yPix * yScale) / zoomY + scrollTop
+    const xOffscreen = xPix * xScale + gemBoxX
+    const yOffscreen = yPix * yScale + gemBoxY
     const yFlipOff = offscreenHeight - yOffscreen
-    console.log('xOff', xOffscreen)
-    // console.log('yOff', yOffscreen)
     // console.log('yFlipOff', yFlipOff)
     const noteInfo = {}
     // HMM: this is a map of where each cell is on the OFFSCREEN (I think)
     this.state.pitchMap.forEach((pitchObj, index)=> {
-      const cellStart = (pitchObj.totalCents/1200) * offscreenOctavePx
-      const cellEnd = (pitchObj.totalCentsNext/1200) * offscreenOctavePx
-      if (yFlipOff >= cellStart && yFlipOff < cellEnd) {
+      const cellStartY = (pitchObj.totalCents/1200) * offscreenOctavePx
+      const cellEndY = (pitchObj.totalCentsNext/1200) * offscreenOctavePx
+      if (yFlipOff >= cellStartY && yFlipOff < cellEndY) {
         // console.log('cell clicked', cellStart, cellEnd)
         // console.log('yOff/offOctPx', yFlipOff / offscreenOctavePx)
         noteInfo.octave = Math.floor(yFlipOff / offscreenOctavePx) // note that octave starts at 0.
@@ -275,3 +258,54 @@ export default connect(
 // return false;
 // }
 
+/*
+handleClick(e) {
+  // console.log('offscreenHeight', offscreenHeight)
+  const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop,
+    processNoteEvent } = this.props
+  const offscreenWidth = this.offscreen.width;
+  const offscreenHeight = this.offscreen.height;
+  const xScale = offscreenWidth / this.canvas.width
+  const yScale = offscreenHeight / this.canvas.height
+  console.log('click yScale', yScale)
+  const rect = e.target.getBoundingClientRect()
+
+  const xPixN = e.clientX - rect.left
+  const xPix = e.clientX - rect.left
+  const yPix = e.clientY - rect.top;
+  // console.log('xPIxN', xPixN)
+  console.log('xPIx', xPix)
+  // console.log('yPix', yPix);
+
+  const scrollScaled = scrollLeft * xScale
+  console.log('scrollScaled', scrollScaled)
+  // const xOffscreen = ((xPix * xScale) / zoomX) + scrollLeft
+  //  really seems like this should work. Perhaps it has to do with the blank right edge of onscreen canvas
+
+  const xOffscreen = ((xPix * xScale) / zoomX) + scrollLeft
+  const yOffscreen = (yPix * yScale) / zoomY + scrollTop
+  const yFlipOff = offscreenHeight - yOffscreen
+  console.log('xOff', xOffscreen)
+  // console.log('yOff', yOffscreen)
+  // console.log('yFlipOff', yFlipOff)
+  const noteInfo = {}
+  // HMM: this is a map of where each cell is on the OFFSCREEN (I think)
+  this.state.pitchMap.forEach((pitchObj, index)=> {
+    const cellStart = (pitchObj.totalCents/1200) * offscreenOctavePx
+    const cellEnd = (pitchObj.totalCentsNext/1200) * offscreenOctavePx
+    if (yFlipOff >= cellStart && yFlipOff < cellEnd) {
+      // console.log('cell clicked', cellStart, cellEnd)
+      // console.log('yOff/offOctPx', yFlipOff / offscreenOctavePx)
+      noteInfo.octave = Math.floor(yFlipOff / offscreenOctavePx) // note that octave starts at 0.
+      noteInfo.cents = pitchObj.cents
+      noteInfo.nextCents = pitchObj.nextCents
+      noteInfo.start = Math.floor(xOffscreen / offscreenCellWidth)
+      noteInfo.duration = 1
+      noteInfo.selected = false
+    }
+  })
+  console.log('noteInfo', noteInfo)
+
+  processNoteEvent(noteInfo);
+}
+ */

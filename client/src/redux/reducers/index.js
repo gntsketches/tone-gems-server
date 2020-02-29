@@ -82,7 +82,7 @@ export const setCanvasHeight = (height=null, action={}) => {
 }
 
 export const setGemBoxX = (x=0, action={}) => {
-    console.log('reducer box x', action.payload)
+    // console.log('reducer box x', action.payload)
   switch(action.type) {
     case 'SET_GEM_BOX_X':
       return action.payload;

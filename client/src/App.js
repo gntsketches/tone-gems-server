@@ -96,7 +96,7 @@ class App extends Component {
   }
 
   handleOnMouseUp = () => {
-    console.log('up')
+    // console.log('up')
     this.setState({
       adjustingScrollX: false,
       adjustingZoomX: false,
