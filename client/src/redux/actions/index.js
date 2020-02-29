@@ -54,12 +54,27 @@ export const updateOctavePx = value => {
   return { type: 'UPDATE_PX', payload: value }
 };
 
+export const setCanvasWidth = width => {
+  return { type: 'SET_CANVAS_WIDTH', payload: width }
+}
+
 export const setCanvasHeight = height => {
   return { type: 'SET_CANVAS_HEIGHT', payload: height }
 }
 
-export const setGemBoxX = value => {
-  return { type: 'SET_GEM_BOX_X', payload: value, }
+export const setGemBoxX = deltaX => {
+  console.log('boxx', deltaX)
+  const state = store.getState()
+  const { gemBoxX, gemBoxWidth, compositionLength } = state
+  const offscreenWidth = offscreenCellWidth * compositionLength
+
+  const deltaXAdjusted = deltaX * (gemBoxWidth / state.canvasWidth)
+  let gemBoxXAdjusted = gemBoxX - deltaXAdjusted
+  const gemBoxXMax =  offscreenWidth - gemBoxWidth
+  if (gemBoxXAdjusted < 0) { gemBoxXAdjusted = 0 }
+  if (gemBoxXAdjusted > gemBoxXMax) { gemBoxXAdjusted = gemBoxXMax}
+  console.log('boxxadj', gemBoxXAdjusted)
+  return { type: 'SET_GEM_BOX_X', payload: gemBoxXAdjusted }
 };
 
 export const setGemBoxY = deltaY => {

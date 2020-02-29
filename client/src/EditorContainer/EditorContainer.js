@@ -13,9 +13,7 @@ class EditorContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.pianoRollWrapRef = React.createRef();
-    this.state = {
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -33,13 +31,13 @@ class EditorContainer extends Component {
     // console.log('title', title)
     return (
       <Wrapper>
-        <TimeScroll />
+        <TimeScroll
+          activateXZoomAndScroll={this.props.activateXZoomAndScroll}
+        />
         <MicrotoneReference
-          togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
+          activateYZoomAndScroll={this.props.activateYZoomAndScroll}
         />
-        <PianoRoll
-          // setCanvasHeight={this.props.setCanvasHeight}
-        />
+        <PianoRoll />
       </Wrapper>
     );
   }
@@ -53,7 +51,6 @@ class EditorContainer extends Component {
   const mapStateToProps = state => {
   // console.log('state', state)
   return {
-    notes: state.notes,
     title: state.title,
   };
 };

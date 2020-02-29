@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Wrapper } from './Compose.styles'
 import EditorContainer from "../EditorContainer/EditorContainer"
-import {changeTitle, setScrollTop} from "../redux/actions"
+import {changeTitle } from "../redux/actions"
 
 class Compose extends Component {
   render() {
@@ -22,10 +22,8 @@ class Compose extends Component {
         </div>
 
         <EditorContainer
-          setCanvasHeight={this.props.setCanvasHeight}
-          togglePianoBarZoomAndScroll={this.props.togglePianoBarZoomAndScroll}
-          // handlePianoRollScroll={this.props.handlePianoRollScroll}
-          // scrollTop={this.props.scrollTop}
+          activateXZoomAndScroll={this.props.activateXZoomAndScroll}
+          activateYZoomAndScroll={this.props.activateYZoomAndScroll}
         />
       </Wrapper>
     )

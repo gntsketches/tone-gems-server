@@ -60,9 +60,19 @@ export const compositionLength = (length=32, action={}) => {
   }
 }
 
+export const setCanvasWidth = (width=null, action={}) => {
+  // console.log('set width', action)
+  switch(action.type) {
+    case 'SET_CANVAS_WIDTH':
+      return action.payload;
+    default:
+      return width;
+  }
+}
+
 export const setCanvasHeight = (height=null, action={}) => {
   // rename 'onscreenHeight'
-  console.log('set height', action)
+  // console.log('set height', action)
   switch(action.type) {
     case 'SET_CANVAS_HEIGHT':
       return action.payload;
@@ -72,6 +82,7 @@ export const setCanvasHeight = (height=null, action={}) => {
 }
 
 export const setGemBoxX = (x=0, action={}) => {
+  console.log('reducer box x', action)
   switch(action.type) {
     case 'SET_GEM_BOX_X':
       return action.payload;
@@ -115,6 +126,7 @@ export default combineReducers({
   notes: notes,
   compositionLength: compositionLength,
   octavePx: updateOctavePx,
+  canvasWidth: setCanvasWidth,
   canvasHeight: setCanvasHeight,
   gemBoxX: setGemBoxX,
   gemBoxY: setGemBoxY,

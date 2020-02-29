@@ -24,7 +24,8 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      adjustingVerticalZoom: false, // rename that
+      adjustingZoomY: false, // rename that
+      adjustingScrollY: false,
       mouseLeft: '',
       mouseTop: '',
       canvasHeight: null
@@ -48,14 +49,20 @@ class App extends Component {
     return false
   }
 
-  setCanvasHeight = height => { // called on Piano didMount. can probably get rid of it in favor of passing height arg
-    this.setState({canvasHeight: height })
+  activateXZoomAndScroll = (x, y) => {
+    console.log('xzs')
+    this.setState({
+      adjustingScrollX: true,
+      adjustingZoomX: true,
+      mouseLeft: x,
+      mouseTop: y,
+    })
   }
 
-  togglePianoBarZoomAndScroll = (x, y, height) => {
-    // console.log('toggling')
+  activateYZoomAndScroll = (x, y) => {
     this.setState({
-      adjustingVerticalZoom: !this.state.adjustingVerticalZoom,
+      adjustingScrollY: true,
+      adjustingZoomY: true,
       mouseLeft: x,
       mouseTop: y,
     })
@@ -63,26 +70,39 @@ class App extends Component {
 
   handleMouseMove = e => {
     const {
-      gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
-      setGemBoxY, setGemBoxHeight
+      // gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
+      setGemBoxX, setGemBoxWidth, setGemBoxY, setGemBoxHeight
     } = this.props;
 
-    if (this.state.adjustingVerticalZoom) {
-      const deltaY = e.clientY - this.state.mouseTop
-      setGemBoxY(deltaY)
-      this.setState({ mouseTop: e.clientY })
+    const deltaX = e.clientX - this.state.mouseLeft
+    const deltaY = e.clientY - this.state.mouseTop
 
-      const deltaX = e.clientX - this.state.mouseLeft
-      setGemBoxHeight(deltaX)
+    if (this.state.adjustingScrollX) {
+      setGemBoxX(deltaX)
+      this.setState({mouseTop: e.clientY})
+    }
+    // if (this.state.adjustingZoomX) {
+    //   setGemBoxWidth(deltaY)
+    //   this.setState({mouseLeft: e.clientX})
+    // }
+    if (this.state.adjustingScrollY) {
+      setGemBoxY(deltaY)
       this.setState({mouseLeft: e.clientX})
+    }
+    if (this.state.adjustingZoomY) {
+      setGemBoxHeight(deltaX)
+      this.setState({mouseTop: e.clientY})
     }
   }
 
   handleOnMouseUp = () => {
-    if (this.state.adjustingVerticalZoom) {
-      console.log('up')
-      this.togglePianoBarZoomAndScroll()
-    }
+    console.log('up')
+    this.setState({
+      adjustingScrollX: false,
+      adjustingZoomX: false,
+      adjustingScrollY: false,
+      adjustingZoomY: false,
+    })
   }
 
 
@@ -102,8 +122,8 @@ class App extends Component {
             <Route
               exact path="/compose"
               component={passPropsToEmbededComponent({
-                setCanvasHeight: this.setCanvasHeight,
-                togglePianoBarZoomAndScroll: this.togglePianoBarZoomAndScroll,
+                activateXZoomAndScroll: this.activateXZoomAndScroll,
+                activateYZoomAndScroll: this.activateYZoomAndScroll,
               })(Compose)}
             />
             <Route exact path="/community" component={Community} />

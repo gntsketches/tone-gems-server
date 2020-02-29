@@ -99,8 +99,7 @@ class MicrotoneReference extends Component {
   }
 
   handleOnMouseDown(e) {
-    // console.log('scrollTop', e.target.scrollTop)
-    this.props.togglePianoBarZoomAndScroll(e.clientX, e.clientY)
+    this.props.activateYZoomAndScroll(e.clientX, e.clientY)
   }
 
 

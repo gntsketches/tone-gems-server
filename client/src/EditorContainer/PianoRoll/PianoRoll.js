@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { setCanvasHeight, processNoteEvent } from '../../redux/actions';
+import { setCanvasWidth, setCanvasHeight, processNoteEvent } from '../../redux/actions';
 import { Wrapper } from './PianoRoll.styles';
 import { buildPitchSet } from "../../helpers/helpers";
 import { octaves, offscreenOctavePx, offscreenCellWidth } from "../../config/constants";
@@ -42,7 +42,7 @@ class PianoRoll extends Component {
 
   componentDidMount() {
     // console.log(this.state.pitchMap)
-    const { setCanvasHeight } = this.props;
+    const { setCanvasWidth, setCanvasHeight } = this.props;
 
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d')
@@ -52,6 +52,7 @@ class PianoRoll extends Component {
     this.canvas.height = this.canvas.offsetHeight;
       // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
 
+    setCanvasWidth(this.canvas.width)
     setCanvasHeight(this.canvas.height)
 
     this.drawOffScreen()
@@ -241,6 +242,7 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
+    setCanvasWidth,
     setCanvasHeight,
     processNoteEvent,
   }
