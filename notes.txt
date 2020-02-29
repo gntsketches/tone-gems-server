@@ -11,29 +11,20 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
-    fix note click function
     conditional render per dirty...
         incorporate with scroll feature...
+    window.onresize
     ask Seo: where should all the logic go?
         ("can you extract the mouseDrag logic to a helper or something?")
         access store in actions/reducers for compares?
     set gemBox dimensions to onscreen dimensions on mount/resize
-
-conditions:
-    reference - y, height
-    time - x, width
-    piano - x, y
-
-    if logic was in actions:
-        setGemBoxX(deltaX)
 
 
 
 https://medium.com/@ktruong008/absolute-imports-with-create-react-app-4338fbca7e3d
 
 
-    bug? strange render on Razer monitor full-screen, 300 scrolltop, 1.5 zoom
-        waits to move with mouse
+
     octavePx to go?
         removed from use, leaving old code on App for reference
 
@@ -59,7 +50,7 @@ CANVAS RENDER QUESTIONS
 
     Seo:
      - window size or scroll/zoom dirties onScreen
-     - window.onResize (or whatever) put that in componentDidMount (of PinaoRoll or anything where it needs to know.)
+     - window.onResize (or whatever) put that in componentDidMount (of PianoRoll or anything where it needs to know.)
         - (eafaa7: open console and then scroll/resize on Microtonal reference - it clips like 60% to re-size and the right 40% doesn't
     - set flags to true when you make 'em dirty
     Example:

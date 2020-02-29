@@ -50,10 +50,6 @@ export const changeTitle = value => {
   return { type: 'CHANGE_TITLE', payload: value }
 };
 
-export const updateOctavePx = value => {
-  return { type: 'UPDATE_PX', payload: value }
-};
-
 export const setCanvasWidth = width => {
   return { type: 'SET_CANVAS_WIDTH', payload: width }
 }

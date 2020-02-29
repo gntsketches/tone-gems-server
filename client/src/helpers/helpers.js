@@ -63,7 +63,6 @@ export function bundleComposition(state) {
   return JSON.stringify({
     title: state.title,
     notes: state.notes,
-    octavePx: state.octavePx,
     scrollTop: state.scrollTop,
   });
 

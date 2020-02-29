@@ -39,18 +39,6 @@ export const notes = (notes=initialNotes, action={}) => {
    }
  };
 
-
-
-export const updateOctavePx = (octavePx=240, action={}) => {
-  switch(action.type) {
-    case 'UPDATE_PX':
-      return action.payload;
-    default:
-      return octavePx;
-  }
-}
-
-
 export const compositionLength = (length=32, action={}) => {
   switch(action.type) {
     case 'SET_COMPOSITION_LENGTH':
@@ -125,7 +113,6 @@ export default combineReducers({
   title: title,
   notes: notes,
   compositionLength: compositionLength,
-  octavePx: updateOctavePx,
   canvasWidth: setCanvasWidth,
   canvasHeight: setCanvasHeight,
   gemBoxX: setGemBoxX,

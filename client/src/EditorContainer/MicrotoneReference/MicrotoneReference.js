@@ -122,7 +122,6 @@ class MicrotoneReference extends Component {
 
 const mapStateToProps = state => {
   return {
-    octavePx: state.octavePx,
     height: state.gemBoxHeight,
     gemBoxY: state.gemBoxY,
   };

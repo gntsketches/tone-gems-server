@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Wrapper } from './App.styles'
 import {
-  fetchUser, updateOctavePx,
+  fetchUser,
   setGemBoxX, setGemBoxY, setGemBoxWidth, setGemBoxHeight
 } from './redux/actions'
 
@@ -42,10 +42,8 @@ class App extends Component {
     console.log('App.js updated')
   }
 
+  // THIS IS NEEDED to prevent re-render on click
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    const newOctavePx = this.props.octavePx !== nextProps.octavePx
-    const newScrollTop = this.props.octavePx !== nextProps.scrollTop
-    // console.log('nextProps.scrollTop', nextProps.scrollTop)
     return false
   }
 
@@ -70,7 +68,6 @@ class App extends Component {
 
   handleMouseMove = e => {
     const {
-      // gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
       setGemBoxX, setGemBoxWidth, setGemBoxY, setGemBoxHeight
     } = this.props;
 
@@ -142,7 +139,6 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    octavePx: state.octavePx,
     gemBoxX: state.gemBoxX,
     gemBoxY: state.gemBoxY,
     gemBoxWidth: state.gemBoxWidth,
@@ -155,7 +151,6 @@ export default connect(
   mapStateToProps,
   {
     fetchUser,
-    updateOctavePx,
     setGemBoxX,
     setGemBoxY,
     setGemBoxWidth,

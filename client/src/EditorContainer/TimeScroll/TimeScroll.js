@@ -98,7 +98,6 @@ class TimeScroll extends Component {
 
 const mapStateToProps = state => {
   return {
-    // notes: state.notes,
     compositionLength: state.compositionLength,
     width: state.gemBoxWidth,
     gemBoxX: state.gemBoxX,
