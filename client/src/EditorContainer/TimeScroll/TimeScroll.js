@@ -15,7 +15,6 @@ class TimeScroll extends Component {
     const offscreenWidth = this.props.compositionLength * offscreenCellWidth;
     this.offscreen = new OffscreenCanvas(offscreenWidth, offscreenTimeScrollHeight);
 
-
     this.state = {
       mouseDown: false
     };
@@ -69,10 +68,11 @@ class TimeScroll extends Component {
     // console.log('measures', compositionLength * 50, octaves * 12 * 25);
     // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('zoomz', zoomX, zoomY)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(
       this.offscreen,
       gemBoxX, 0, width, offscreenTimeScrollHeight,
-      0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight
+      0, 0, this.canvas.width, this.canvas.height
     );
   }
 
@@ -86,7 +86,7 @@ class TimeScroll extends Component {
     return (
       <Wrapper>
         <canvas
-          style={{background: '#ccc'}}
+          // style={{background: '#ccc'}}
           ref={this.canvasRef}
           onMouseDown={(e) => this.handleOnMouseDown(e)}
         />

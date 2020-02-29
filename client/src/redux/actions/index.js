@@ -68,24 +68,24 @@ export const setGemBoxX = deltaX => {
   const { gemBoxX, gemBoxWidth, compositionLength } = state
   const offscreenWidth = offscreenCellWidth * compositionLength
 
-  const deltaXAdjusted = deltaX * (gemBoxWidth / state.canvasWidth)
-  let gemBoxXAdjusted = gemBoxX - deltaXAdjusted
+  const deltaXAdj = deltaX * (gemBoxWidth / state.canvasWidth)
+  let gemBoxXAdj = gemBoxX - deltaXAdj
   const gemBoxXMax =  offscreenWidth - gemBoxWidth
-  if (gemBoxXAdjusted < 0) { gemBoxXAdjusted = 0 }
-  if (gemBoxXAdjusted > gemBoxXMax) { gemBoxXAdjusted = gemBoxXMax}
-  console.log('boxxadj', gemBoxXAdjusted)
-  return { type: 'SET_GEM_BOX_X', payload: gemBoxXAdjusted }
+  if (gemBoxXAdj < 0) { gemBoxXAdj = 0 }
+  if (gemBoxXAdj > gemBoxXMax) { gemBoxXAdj = gemBoxXMax}
+  console.log('boxxadj', gemBoxXAdj)
+  return { type: 'SET_GEM_BOX_X', payload: gemBoxXAdj }
 };
 
 export const setGemBoxY = deltaY => {
   const state = store.getState()
   const { gemBoxY, gemBoxHeight } = state
-  const deltaYAdjusted = deltaY * (gemBoxHeight / state.canvasHeight)
-  let gemBoxYAdjusted = gemBoxY - deltaYAdjusted
+  const deltaYAdj = deltaY * (gemBoxHeight / state.canvasHeight)
+  let gemBoxYAdj = gemBoxY - deltaYAdj
   const gemBoxYMax =  offscreenHeight - gemBoxHeight
-  if (gemBoxYAdjusted < 0) { gemBoxYAdjusted = 0 }
-  if (gemBoxYAdjusted > gemBoxYMax) { gemBoxYAdjusted = gemBoxYMax}
-  return { type: 'SET_GEM_BOX_Y', payload: gemBoxYAdjusted } // could limit calls with if-already-at-range logic
+  if (gemBoxYAdj < 0) { gemBoxYAdj = 0 }
+  if (gemBoxYAdj > gemBoxYMax) { gemBoxYAdj = gemBoxYMax}
+  return { type: 'SET_GEM_BOX_Y', payload: gemBoxYAdj } // could limit calls with if-already-at-range logic
 };
 
 export const setGemBoxWidth = value => {

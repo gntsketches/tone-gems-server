@@ -79,19 +79,19 @@ class App extends Component {
 
     if (this.state.adjustingScrollX) {
       setGemBoxX(deltaX)
-      this.setState({mouseTop: e.clientY})
+      this.setState({mouseLeft: e.clientX})
     }
     // if (this.state.adjustingZoomX) {
     //   setGemBoxWidth(deltaY)
-    //   this.setState({mouseLeft: e.clientX})
+    //   this.setState({mouseTop: e.clientY})
     // }
     if (this.state.adjustingScrollY) {
       setGemBoxY(deltaY)
-      this.setState({mouseLeft: e.clientX})
+      this.setState({mouseTop: e.clientY})
     }
     if (this.state.adjustingZoomY) {
       setGemBoxHeight(deltaX)
-      this.setState({mouseTop: e.clientY})
+      this.setState({mouseLeft: e.clientX})
     }
   }
 

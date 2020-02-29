@@ -90,7 +90,6 @@ class MicrotoneReference extends Component {
     const { gemBoxY, height } = this.props;
     // console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('zoomY', zoomY)
-    const offscreenHeight = octaves * offscreenOctavePx;
     this.ctx.drawImage(
       this.offscreen,
       0, gemBoxY, offscreenReferenceWidth, height,
@@ -110,7 +109,6 @@ class MicrotoneReference extends Component {
     return (
       <Wrapper>
         <canvas
-          // height={offscreenHeight}
           style={{background: 'blue'}}
           ref={this.canvasRef}
           onMouseDown={(e) => this.handleOnMouseDown(e)}

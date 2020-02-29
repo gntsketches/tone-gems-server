@@ -6,7 +6,7 @@ import authReducer from "./authReducer";
 const initialNotes = [
   // { octave: 3, cents: 0, nextCents: 75, start: 0, duration: 4, selected: false },
   // { octave: 4, cents: 200, nextCents: 250, start: 4, duration: 2, selected: false },
-  { octave: 2, cents: 850, nextCents: 1000, start: 1, duration: 3, selected: true },
+  { octave: 2, cents: 850, nextCents: 1000, start: 9, duration: 2, selected: true },
 ]
 
 export const notes = (notes=initialNotes, action={}) => {
@@ -82,7 +82,7 @@ export const setCanvasHeight = (height=null, action={}) => {
 }
 
 export const setGemBoxX = (x=0, action={}) => {
-  console.log('reducer box x', action)
+    console.log('reducer box x', action.payload)
   switch(action.type) {
     case 'SET_GEM_BOX_X':
       return action.payload;
