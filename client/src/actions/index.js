@@ -47,16 +47,20 @@ export const updateOctavePx = value => {
   return { type: 'UPDATE_PX', payload: value }
 };
 
-export const setScrollTop = value => {
-  return { type: 'SET_SCROLL_TOP', payload: value, }
+export const setGemBoxX = value => {
+  return { type: 'SET_GEM_BOX_X', payload: value, }
 };
 
-export const setZoomX = value => {
-  return { type: 'SET_ZOOM_X', payload: value, }
+export const setGemBoxY = value => {
+  return { type: 'SET_GEM_BOX_Y', payload: value, }
 };
 
-export const setZoomY = value => {
-  return { type: 'SET_ZOOM_Y', payload: value, }
+export const setGemBoxWidth = value => {
+  return { type: 'SET__GEM_BOX_WIDTH', payload: value, }
+};
+
+export const setGemBoxHeight = value => {
+  return { type: 'SET_GEM_BOX_HEIGHT', payload: value, }
 };
 
 // export const addRemoveNote = (stateNotes, newNote) => {

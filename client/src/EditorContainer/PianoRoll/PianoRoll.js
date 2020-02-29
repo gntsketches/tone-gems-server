@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { processNoteEvent, setScrollTop } from '../../actions';
+import { processNoteEvent, setGemBoxY } from '../../actions';
 import { Wrapper } from './PianoRoll.styles';
 import { buildPitchSet } from "../../helpers/helpers";
 import { octaves, offscreenOctavePx, offscreenCellWidth } from "../../config/constants";
@@ -135,7 +135,7 @@ class PianoRoll extends Component {
   }
 
   drawOnScreen() {
-    const { compositionLength, zoomX, zoomY, scrollLeft, scrollTop } = this.props;
+    const { compositionLength, gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
     // console.log('measures', compositionLength * 50, octaves * 12 * 25);
     // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('piano width', this.canvas.width)
@@ -144,10 +144,8 @@ class PianoRoll extends Component {
     const offscreenHeight = octaves * offscreenOctavePx;
     this.ctx.drawImage(
       this.offscreen,
-      scrollLeft, scrollTop,
-      offscreenWidth / zoomX, offscreenHeight / zoomY,
-      0, 0,
-      this.canvas.offsetWidth, this.canvas.offsetHeight
+      gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
+      0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight
     );
   }
 
@@ -208,7 +206,6 @@ class PianoRoll extends Component {
     // [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive. See https://www.chromestatus.com/features/6662647093133312
     // console.log('e.deltaX', e.deltaX)
     // console.log('e.deltaY', e.deltaY)
-    // this.props.setScrollTop(e.deltaY)
   }
 
   render() {
@@ -232,10 +229,10 @@ const mapStateToProps = state => {
   return {
     notes: state.notes,
     compositionLength: state.compositionLength,
-    zoomX: state.zoomX,
-    zoomY: state.zoomY,
-    scrollLeft: state.scrollLeft,
-    scrollTop: state.scrollTop
+    gemBoxX: state.gemBoxX,
+    gemBoxY: state.gemBoxY,
+    gemBoxWidth: state.gemBoxWidth,
+    gemBoxHeight: state.gemBoxHeight,
   };
 };
 
@@ -244,7 +241,6 @@ export default connect(
   mapStateToProps,
   {
     processNoteEvent,
-    setScrollTop
   }
 )(PianoRoll);
 

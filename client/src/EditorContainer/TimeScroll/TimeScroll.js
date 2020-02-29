@@ -65,17 +65,14 @@ class TimeScroll extends Component {
   }
 
   drawOnScreen() {
-    const { compositionLength, zoomX, scrollLeft } = this.props;
+    const { gemBoxX, width } = this.props;
     // console.log('measures', compositionLength * 50, octaves * 12 * 25);
     // console.log('piano offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('zoomz', zoomX, zoomY)
     this.ctx.drawImage(
       this.offscreen,
-      scrollLeft, 0,
-      (compositionLength * offscreenCellWidth) / zoomX + scrollLeft,
-      offscreenTimeScrollHeight,
-      0, 0,
-      this.canvas.offsetWidth, this.canvas.offsetHeight
+      gemBoxX, 0, width, offscreenTimeScrollHeight,
+      0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight
     );
   }
 
@@ -104,15 +101,13 @@ const mapStateToProps = state => {
   return {
     // notes: state.notes,
     compositionLength: state.compositionLength,
-    zoomX: state.zoomX,
-    // zoomY: state.zoomY,
-    scrollLeft: state.scrollLeft,
-    // scrollTop: state.scrollTop
+    width: state.gemBoxWidth,
+    gemBoxX: state.gemBoxX,
   };
 };
 
 
 export default connect(
   mapStateToProps,
-  // { addRemoveNote: addRemoveNote }
+  null,
 )(TimeScroll);

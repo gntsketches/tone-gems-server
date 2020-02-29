@@ -11,8 +11,10 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
 TODO NEXT 2/17
-    try - scroll all the way up and zoom out.
-        so you'll need to adjust zoom then.
+    ask Seo: where should all the logic go?
+        access store in actions/reducers for compares?
+    set gemBox dimensions to onscreen dimensions on mount/resize
+
     bug? strange render on Razer monitor full-screen, 300 scrolltop, 1.5 zoom
         waits to move with mouse
     https://codepen.io/gntsketches/pen/yLNVmwY

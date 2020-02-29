@@ -87,17 +87,14 @@ class MicrotoneReference extends Component {
   }
 
   drawOnScreen() {
-    const { zoomY, scrollTop } = this.props;
+    const { gemBoxY, height } = this.props;
     // console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
     // console.log('zoomY', zoomY)
     const offscreenHeight = octaves * offscreenOctavePx;
     this.ctx.drawImage(
       this.offscreen,
-      0, scrollTop,
-      offscreenReferenceWidth,
-      offscreenHeight / zoomY,
-      0, 0,
-      this.canvas.offsetWidth, this.canvas.offsetHeight
+      0, gemBoxY, offscreenReferenceWidth, height,
+      0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight,
     );
   }
 
@@ -128,15 +125,13 @@ class MicrotoneReference extends Component {
 const mapStateToProps = state => {
   return {
     octavePx: state.octavePx,
-    // zoomX: state.zoomX,
-    zoomY: state.zoomY,
-    // scrollLeft: state.scrollLeft,
-    scrollTop: state.scrollTop
+    height: state.gemBoxHeight,
+    gemBoxY: state.gemBoxY,
   };
 };
 
 
 export default connect(
   mapStateToProps,
-  // { addRemoveNote: addRemoveNote }
+  null
 )(MicrotoneReference);

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { changeTitle, setScrollTop } from '../actions';
+import { changeTitle } from '../actions';
 import { Wrapper } from './EditorContainer.styles';
 import TimeScroll from "./TimeScroll/TimeScroll"
 // import ReferenceRoll from './WesternReference/WesternReference';
@@ -19,23 +19,13 @@ class EditorContainer extends Component {
   }
 
   componentDidMount() {
-    // console.log('mounted scrollTop', this.props.scrollTop)
-    // this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 
   componentDidUpdate() {
     // what, what actually does UPDATE mean?
       // note that loads of rerenders happen in the piano roll without this ever being called...
-    // console.log('updated scrollTop', this.props.scrollTop)
-    // this.pianoRollWrapRef.current.scrollTop = this.props.scrollTop;
   }
 
-
-
-  handleOnScroll = (e) => {
-    // console.log('onScroll in Editor Container', e.target.scrollTop)
-    this.props.setScrollTop(e.target.scrollTop);
-  }
 
   render() {
     // console.log('EditorContainer.js rendering')
@@ -65,7 +55,6 @@ class EditorContainer extends Component {
   return {
     notes: state.notes,
     title: state.title,
-    scrollTop: state.scrollTop,
   };
 };
 
@@ -74,6 +63,5 @@ export default connect(
   mapStateToProps,
   {
     changeTitle: changeTitle,
-    setScrollTop: setScrollTop,
   }
 )(EditorContainer);

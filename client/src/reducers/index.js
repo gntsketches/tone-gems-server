@@ -60,40 +60,40 @@ export const compositionLength = (length=32, action={}) => {
   }
 }
 
-export const setScrollLeft = (scrollLeft=0, action={}) => {
+export const setGemBoxX = (x=0, action={}) => {
   switch(action.type) {
-    case 'SET_SCROLL_LEFT':
+    case 'SET_GEM_BOX_X':
       return action.payload;
     default:
-      return scrollLeft;
+      return x;
   }
 }
 
-export const setScrollTop = (scrollTop=0, action={}) => {
+export const setGemBoxY = (y=0, action={}) => {
   switch(action.type) {
-    case 'SET_SCROLL_TOP':
+    case 'SET_GEM_BOX_Y':
       return action.payload;
     default:
-      return scrollTop;
+      return y;
   }
 }
 
-export const setZoomX = (zoomX=2, action={}) => {
+export const setGemBoxWidth = (width=600, action={}) => {
   switch(action.type) {
-    case 'SET_ZOOM_X':
+    case 'SET_GEM_BOX_WIDTH':
       return action.payload;
     default:
-      return zoomX;
+      return width;
   }
 }
 
-export const setZoomY = (zoomY=2, action={}) => {
+export const setGemBoxHeight = (height=350, action={}) => {
   // note how zoom setting affects scroll speed...
   switch(action.type) {
-    case 'SET_ZOOM_Y':
+    case 'SET_GEM_BOX_HEIGHT':
       return action.payload;
     default:
-      return zoomY;
+      return height;
   }
 }
 
@@ -104,10 +104,10 @@ export default combineReducers({
   notes: notes,
   compositionLength: compositionLength,
   octavePx: updateOctavePx,
-  scrollLeft: setScrollLeft,
-  scrollTop: setScrollTop,
-  zoomX: setZoomX,
-  zoomY: setZoomY,
+  gemBoxX: setGemBoxX,
+  gemBoxY: setGemBoxY,
+  gemBoxWidth: setGemBoxWidth,
+  gemBoxHeight: setGemBoxHeight,
 });
 
 // export const notes = (notes=initialNotes, action={}) => {
