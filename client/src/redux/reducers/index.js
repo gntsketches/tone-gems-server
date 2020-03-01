@@ -107,10 +107,32 @@ export const setGemBoxHeight = (height=350, action={}) => {
   }
 }
 
+export const setOffscreenDirty = (isDirty=true, action={}) => {
+  switch (action.type) {
+    case 'SET_OFFSCREEN_DIRTY':
+      return action.payload;
+    default:
+      return isDirty;
+  }
+}
+
+export const setOnscreenDirty = (isDirty=true, action={}) => {
+  switch (action.type) {
+    case 'SET_ONSCREEN_DIRTY':
+      ;
+      return action.payload;
+    default:
+      return isDirty;
+  }
+}
+
+
 export default combineReducers({
   auth: authReducer,
 
   title: title,
+  offscreenDirty: setOffscreenDirty,
+  onscreenDirty: setOnscreenDirty,
   notes: notes,
   compositionLength: compositionLength,
   canvasWidth: setCanvasWidth,

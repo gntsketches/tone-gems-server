@@ -2,7 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { setCanvasWidth, setCanvasHeight, processNoteEvent } from '../../redux/actions';
+import {
+  setCanvasWidth, setCanvasHeight, processNoteEvent,
+  setOffscreenDirty, setOnscreenDirty,
+} from '../../redux/actions';
 import { Wrapper } from './PianoRoll.styles';
 import { buildPitchSet } from "../../helpers/helpers";
 import { octaves, offscreenOctavePx, offscreenCellWidth } from "../../config/constants";
@@ -55,8 +58,8 @@ class PianoRoll extends Component {
     setCanvasWidth(this.canvas.width)
     setCanvasHeight(this.canvas.height)
 
-    this.drawOffScreen()
-    this.drawNotes()
+    // this.drawOffScreen()
+    // this.drawNotes()
     this.drawOnScreen()
 
   }
@@ -69,8 +72,9 @@ class PianoRoll extends Component {
   // }
 
   componentDidUpdate() {
-    this.drawOffScreen()
-    this.drawNotes()
+    console.log('piano update')
+    // this.drawOffScreen()
+    // this.drawNotes()
     this.drawOnScreen()
   }
 
@@ -114,8 +118,12 @@ class PianoRoll extends Component {
 
 
   drawOffScreen() {
+    console.log('piano offscreen')
     let { compositionLength } = this.props;
     const offscreenCtx = this.offscreen.getContext('2d')
+
+    // do this
+    // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     let x = 0
     for (let i=0; i < compositionLength; i++) {
@@ -134,11 +142,22 @@ class PianoRoll extends Component {
       })
       x+=offscreenCellWidth
     }
+
+    this.drawNotes()
   }
 
   drawOnScreen() {
-    const { gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
-    // console.log('zoomz', zoomX, zoomY)
+    console.log('piano onscreen')
+    const { offscreenDirty, onscreenDirty, setOffscreenDirty,
+      gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
+
+    console.log('offscreen dirty', offscreenDirty)
+    if (offscreenDirty) {
+      this.drawOffScreen()
+      setOffscreenDirty(false)
+    }
+    console.log('onscreen dirty', onscreenDirty)
+    if (!onscreenDirty) {return }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(
       this.offscreen,
@@ -148,7 +167,10 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
-    const { gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight, processNoteEvent } = this.props
+    const {
+      setOffscreenDirty, processNoteEvent,
+      gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
+    } = this.props
     const offscreenHeight = this.offscreen.height;
     const xScale = gemBoxWidth / this.canvas.width
     const yScale = gemBoxHeight / this.canvas.height
@@ -183,6 +205,9 @@ class PianoRoll extends Component {
     console.log('noteInfo', noteInfo)
 
     processNoteEvent(noteInfo);
+    // does this go here?
+    setOffscreenDirty(true)
+
   }
 
   handleWheel(e) {
@@ -212,6 +237,8 @@ class PianoRoll extends Component {
 
 const mapStateToProps = state => {
   return {
+    offscreenDirty: state.offscreenDirty,
+    onscreenDirty: state.onscreenDirty,
     notes: state.notes,
     compositionLength: state.compositionLength,
     gemBoxX: state.gemBoxX,
@@ -227,6 +254,8 @@ export default connect(
   {
     setCanvasWidth,
     setCanvasHeight,
+    setOffscreenDirty,
+    setOnscreenDirty,
     processNoteEvent,
   }
 )(PianoRoll);

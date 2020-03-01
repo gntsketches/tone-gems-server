@@ -59,7 +59,6 @@ export const setCanvasHeight = height => {
 }
 
 export const setGemBoxX = deltaX => {
-  console.log('boxx', deltaX)
   const state = store.getState()
   const { gemBoxX, gemBoxWidth, compositionLength } = state
   const offscreenWidth = offscreenCellWidth * compositionLength
@@ -69,7 +68,6 @@ export const setGemBoxX = deltaX => {
   const gemBoxXMax =  offscreenWidth - gemBoxWidth
   if (gemBoxXAdj < 0) { gemBoxXAdj = 0 }
   if (gemBoxXAdj > gemBoxXMax) { gemBoxXAdj = gemBoxXMax}
-  console.log('boxxadj', gemBoxXAdj)
   return { type: 'SET_GEM_BOX_X', payload: gemBoxXAdj }
 };
 
@@ -102,6 +100,15 @@ export const setGemBoxHeight = deltaX => {
   if (gemBoxHeightAdjusted < offscreenHeight / maxZoom) { gemBoxHeightAdjusted = offscreenHeight / maxZoom }
   return { type: 'SET_GEM_BOX_HEIGHT', payload: gemBoxHeightAdjusted, }
 };
+
+export const setOffscreenDirty = isDirty => {
+  return { type: 'SET_OFFSCREEN_DIRTY', payload: isDirty }
+};
+
+export const setOnscreenDirty = isDirty => {
+  return { type: 'SET_ONSCREEN_DIRTY', payload: isDirty }
+};
+
 
 // export const addRemoveNote = (stateNotes, newNote) => {
 //   if (stateNotes.some(note => {

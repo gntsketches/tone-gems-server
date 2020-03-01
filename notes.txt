@@ -14,11 +14,13 @@ TODO NEXT 2/17
     conditional render per dirty...
         incorporate with scroll feature...
     window.onresize
-    ask Seo: where should all the logic go?
-        ("can you extract the mouseDrag logic to a helper or something?")
-        access store in actions/reducers for compares?
     set gemBox dimensions to onscreen dimensions on mount/resize
-
+    ask Seo:
+        where should all the logic go?
+            ("can you extract the mouseDrag logic to a helper or something?")
+            access store in actions/reducers for compares?
+        check buffers in render?
+        wait where to I put that offscreenDirty true?
 
 
 https://medium.com/@ktruong008/absolute-imports-with-create-react-app-4338fbca7e3d
