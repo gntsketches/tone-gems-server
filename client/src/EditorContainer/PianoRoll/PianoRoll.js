@@ -40,7 +40,7 @@ class PianoRoll extends Component {
         ]
       ),
       offscreenDirty: true,
-      // onscreenDirty: true,
+      onscreenDirty: true,
     };
   }
 
@@ -76,12 +76,24 @@ class PianoRoll extends Component {
   }
 
   handleResize = () => {
+    console.log('resizing')
     const { setCanvasWidth, setCanvasHeight, setGemBoxWidth, setGemBoxHeight } = this.props;
 
+    this.canvas.style.width='100%';
+    this.canvas.style.height='100%';
     setCanvasWidth(this.canvas.width)
     setCanvasHeight(this.canvas.height)
-    setGemBoxWidth(this.canvas.width)
-    setGemBoxHeight(this.canvas.height)
+    setGemBoxWidth(this.canvas.width, true)
+    setGemBoxHeight(this.canvas.height, true)
+      // wait. do you really want to change the gemBox when you resize?
+        // because that changes what notes are displayed and such
+        // seems like that's what you want to keep constant...
+      // potentially call setGemBoxWidth from setCanvasWidth?
+      // is there any situation where you don't want to do that?
+
+    // this.setState({ onscreenDirty: true })
+    // this.forceUpdate() // because otherwise apparently you have to add arbitrary stuff
+      // wait why is this needed at all? You're setting redux...
   }
 
   drawNotes() {

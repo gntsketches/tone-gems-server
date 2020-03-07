@@ -82,20 +82,26 @@ export const setGemBoxY = deltaY => {
   return { type: 'SET_GEM_BOX_Y', payload: gemBoxYAdj } // could limit calls with if-already-at-range logic
 };
 
-export const setGemBoxWidth = deltaY => {
+export const setGemBoxWidth = (deltaYOrWidth, passedWidth) => {
+  if (passedWidth) {
+    return { type: 'SET_GEM_BOX_WIDTH', payload: deltaYOrWidth, }
+  }
   const state = store.getState()
   const { gemBoxWidth } = state
   const offscreenWidth = offscreenCellWidth * state.compositionLength
-  let gemBoxWidthAdjusted = gemBoxWidth - deltaY * 2
+  let gemBoxWidthAdjusted = gemBoxWidth - deltaYOrWidth * 2
   if (gemBoxWidthAdjusted > offscreenWidth) { gemBoxWidthAdjusted = offscreenWidth } // could limit calls with if-already-at-range logic
   if (gemBoxWidthAdjusted < offscreenWidth / maxZoom) { gemBoxWidthAdjusted = offscreenWidth / maxZoom }
   return { type: 'SET_GEM_BOX_WIDTH', payload: gemBoxWidthAdjusted, }
 };
 
-export const setGemBoxHeight = deltaX => {
+export const setGemBoxHeight = (deltaXOrHeight, passedHeight) => {
+  if (passedHeight) {
+    return { type: 'SET_GEM_BOX_WIDTH', payload: deltaXOrHeight, }
+  }
   const state = store.getState()
   const { gemBoxHeight } = state
-  let gemBoxHeightAdjusted = gemBoxHeight - deltaX
+  let gemBoxHeightAdjusted = gemBoxHeight - deltaXOrHeight
   if (gemBoxHeightAdjusted > offscreenHeight) { gemBoxHeightAdjusted = offscreenHeight } // could limit calls with if-already-at-range logic
   if (gemBoxHeightAdjusted < offscreenHeight / maxZoom) { gemBoxHeightAdjusted = offscreenHeight / maxZoom }
   return { type: 'SET_GEM_BOX_HEIGHT', payload: gemBoxHeightAdjusted, }
