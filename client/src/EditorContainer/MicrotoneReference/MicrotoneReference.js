@@ -31,16 +31,17 @@ class MicrotoneReference extends Component {
     this.canvas.height = this.canvas.offsetHeight;
     // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
 
-    this.drawOffscreen();
-    this.drawOnScreen()
+    this.DrawOffscreen();
+    this.DrawOnscreen()
   }
 
   componentDidUpdate() {
-    this.drawOffscreen();
-    this.drawOnScreen()
+    // console.log('reference update')
+    this.DrawOnscreen()
   }
 
-  drawOffscreen() {
+  DrawOffscreen() {
+    // console.log('drawing offscreen reference')
     let cellwidth = this.canvas.offsetWidth;
     let y =  offscreenOctavePx * octaves
     // console.log('y', y)
@@ -86,10 +87,11 @@ class MicrotoneReference extends Component {
     })
   }
 
-  drawOnScreen() {
+  DrawOnscreen() {
     const { gemBoxY, height } = this.props;
     // console.log('reference offsets', this.canvas.offsetWidth, this.canvas.offsetHeight)
-    // console.log('zoomY', zoomY)
+
+    // console.log('drawing onscreen reference')
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(
       this.offscreen,

@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  setCanvasWidth, setCanvasHeight, processNoteEvent,
-  setOffscreenDirty, setOnscreenDirty,
+  setCanvasWidth, setCanvasHeight, setGemBoxWidth, setGemBoxHeight, processNoteEvent,
 } from '../../redux/actions';
 import { Wrapper } from './PianoRoll.styles';
 import { buildPitchSet } from "../../helpers/helpers";
@@ -39,13 +38,14 @@ class PianoRoll extends Component {
           {cents:1000, color: '#99a', name: 'A#'},
           {cents:1100, color: '#333', name: 'B' },
         ]
-      )
+      ),
+      offscreenDirty: true,
+      // onscreenDirty: true,
     };
   }
 
   componentDidMount() {
     // console.log(this.state.pitchMap)
-    const { setCanvasWidth, setCanvasHeight } = this.props;
 
     this.canvas = this.canvasRef.current;
     this.ctx = this.canvas.getContext('2d')
@@ -55,27 +55,33 @@ class PianoRoll extends Component {
     this.canvas.height = this.canvas.offsetHeight;
       // WORKS BUT DOESN'T ACCOUNT FOR SCREEN RESIZE
 
-    setCanvasWidth(this.canvas.width)
-    setCanvasHeight(this.canvas.height)
+    this.handleResize()
+    this.DrawOnscreen()
 
-    // this.drawOffScreen()
-    // this.drawNotes()
-    this.drawOnScreen()
-
+    window.addEventListener('resize', this.handleResize) // remove this at some point?
   }
 
-  // shouldComponentUpdate(nextProps, nextState, nextContext) {
-    // POSSIBLY test HERE if there's a reason to re render?
-    // "offscreenBufferDirty" as a state flag.
-    // "onscreenBufferDirty" also as a stae flag
-      // that means Do rerender it...
-  // }
+  shouldComponentUpdate(nextProps, nextState, nextContext) { // PureComponent?
+    console.log('nextProps', nextProps, 'nextState', nextState)
+    // skip the note add re-render because the state change to offscreen dirty catches it
+    return this.props.notes.length === nextProps.notes.length;
+    // is there a use for onscreenDirty?
+      // currently it's just rerendering for any props update other than note change
+    // are there any other conditions where it should not update?
+  }
 
-  componentDidUpdate() {
-    console.log('piano update')
-    // this.drawOffScreen()
-    // this.drawNotes()
-    this.drawOnScreen()
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('piano didUpdate')
+    this.DrawOnscreen()
+  }
+
+  handleResize = () => {
+    const { setCanvasWidth, setCanvasHeight, setGemBoxWidth, setGemBoxHeight } = this.props;
+
+    setCanvasWidth(this.canvas.width)
+    setCanvasHeight(this.canvas.height)
+    setGemBoxWidth(this.canvas.width)
+    setGemBoxHeight(this.canvas.height)
   }
 
   drawNotes() {
@@ -117,7 +123,7 @@ class PianoRoll extends Component {
   }
 
 
-  drawOffScreen() {
+  drawOffscreen() {
     console.log('piano offscreen')
     let { compositionLength } = this.props;
     const offscreenCtx = this.offscreen.getContext('2d')
@@ -146,18 +152,18 @@ class PianoRoll extends Component {
     this.drawNotes()
   }
 
-  drawOnScreen() {
-    console.log('piano onscreen')
-    const { offscreenDirty, onscreenDirty, setOffscreenDirty,
-      gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
+  DrawOnscreen() {
+    const {
+      offscreenDirty,
+      // onscreenDirty
+    } = this.state;
+    const { gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight } = this.props;
 
-    console.log('offscreen dirty', offscreenDirty)
     if (offscreenDirty) {
-      this.drawOffScreen()
-      setOffscreenDirty(false)
+      this.drawOffscreen()
+      this.setState({ offscreenDirty: false })
     }
-    console.log('onscreen dirty', onscreenDirty)
-    if (!onscreenDirty) {return }
+    // if (!onscreenDirty) {return }
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(
       this.offscreen,
@@ -167,10 +173,9 @@ class PianoRoll extends Component {
   }
 
   handleClick(e) {
-    const {
-      setOffscreenDirty, processNoteEvent,
-      gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight,
-    } = this.props
+
+    const { processNoteEvent, gemBoxX, gemBoxY, gemBoxWidth, gemBoxHeight, } = this.props
+
     const offscreenHeight = this.offscreen.height;
     const xScale = gemBoxWidth / this.canvas.width
     const yScale = gemBoxHeight / this.canvas.height
@@ -202,12 +207,10 @@ class PianoRoll extends Component {
         noteInfo.selected = false
       }
     })
-    console.log('noteInfo', noteInfo)
+    // console.log('noteInfo', noteInfo)
 
     processNoteEvent(noteInfo);
-    // does this go here?
-    setOffscreenDirty(true)
-
+    this.setState({offscreenDirty: true})
   }
 
   handleWheel(e) {
@@ -219,7 +222,7 @@ class PianoRoll extends Component {
   }
 
   render() {
-    // console.log('PianoRoll.js rendering')
+    console.log('PianoRoll.js rendering')
     // console.log('ctx', this.ctx) // NOTE: undefined on initial render
 
     return (
@@ -237,8 +240,6 @@ class PianoRoll extends Component {
 
 const mapStateToProps = state => {
   return {
-    offscreenDirty: state.offscreenDirty,
-    onscreenDirty: state.onscreenDirty,
     notes: state.notes,
     compositionLength: state.compositionLength,
     gemBoxX: state.gemBoxX,
@@ -254,8 +255,8 @@ export default connect(
   {
     setCanvasWidth,
     setCanvasHeight,
-    setOffscreenDirty,
-    setOnscreenDirty,
+    setGemBoxWidth,
+    setGemBoxHeight,
     processNoteEvent,
   }
 )(PianoRoll);

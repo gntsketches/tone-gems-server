@@ -34,7 +34,6 @@ class TimeScroll extends Component {
   }
 
   componentDidUpdate() {
-    this.drawOffscreen();
     this.drawOnScreen()
   }
 

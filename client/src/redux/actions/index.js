@@ -101,13 +101,7 @@ export const setGemBoxHeight = deltaX => {
   return { type: 'SET_GEM_BOX_HEIGHT', payload: gemBoxHeightAdjusted, }
 };
 
-export const setOffscreenDirty = isDirty => {
-  return { type: 'SET_OFFSCREEN_DIRTY', payload: isDirty }
-};
 
-export const setOnscreenDirty = isDirty => {
-  return { type: 'SET_ONSCREEN_DIRTY', payload: isDirty }
-};
 
 
 // export const addRemoveNote = (stateNotes, newNote) => {

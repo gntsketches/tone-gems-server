@@ -10,9 +10,53 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
         Offscreen would be a bit cleaner code because then you're not having to deal with those two render methods.
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
 
+
+? Playhead - use an overlay canvas? seems way cheaper than re-rendering offscreen!
+
+
+REVIEW:
+    shouldComponentUpdate (piano)
+        skip the note add re-render because the state change to offscreen dirty catches it
+        is there a use for piano onscreenDirty?
+    no current use for re-rendering offscreen for reference or time rolls
+        will be later, like with changing cents, colors, time numbers, etc.
+    if initial gemBoxWidth/Height set from onscreenCanvas dimensions on window resize
+        ... won't that mess up the zoom?
+        you could track zoom settings as you deviate from original then apply those
+        might be complicated with the offset.
+        or you could just forget it...
+    remove window listener for handleResize
+        document listener vs window listener
+
 TODO NEXT 2/17
+    rename 'canvasHeight/Width' redux to 'pianoCanvasWidth/Height'
+    Box Display:
+        width & height of gembox at initial zoom should be that of the onscreen canvas
+            that way it won't be distorted
+                it seems more distorted.
+                yeah something is wrong here...
+                    ? this.canvas.width  = this.canvas.offsetWidth;
+                    canvas dimensions assigned on mount, so also may not be properly re-assigned
+            https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
     conditional render per dirty...
-        incorporate with scroll feature...
+    Each canvas component has it's own on/offscreen dirty state
+        ie: not globally on redux
+    when global scroll changes (for example) test for this in componentShouldUpdate
+        you might want getDerivedStateFromProps
+            because we're changing state based on something there
+
+
+        ? why is piano update called twice for a note click?
+            betcha it's: once for note props changing, another due to setoffscreenDirty props
+            yeah that seems to be it. how to handle it tho.
+                "Every dispatched action in Redux is sent to all reducers. This means a single action can be handled in different ways by different reducers."
+                ok so will *that* trigger multiple re-renders? or does redux ship it all simultaneously?
+            might be relevant: https://developmentarc.gitbooks.io/react-indepth/content/life_cycle/update/postrender_with_componentdidupdate.html
+        note that onscreenDirty is never set false
+        how to manage on reference and time rolls?
+            seems like each need their own dirty/clean state
+                currently neither will ever actually need offscreen re-render
+            does this really need to be managed on redux?
     window.onresize
     set gemBox dimensions to onscreen dimensions on mount/resize
     ask Seo:
@@ -21,6 +65,7 @@ TODO NEXT 2/17
             access store in actions/reducers for compares?
         check buffers in render?
         wait where to I put that offscreenDirty true?
+    playhead!
 
 
 https://medium.com/@ktruong008/absolute-imports-with-create-react-app-4338fbca7e3d

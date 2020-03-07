@@ -77,22 +77,18 @@ class App extends Component {
     if (this.state.adjustingScrollX) {
       setGemBoxX(deltaX)
       this.setState({mouseLeft: e.clientX})
-      setOnscreenDirty(true)
     }
     if (this.state.adjustingZoomX) {
       setGemBoxWidth(deltaY)
       this.setState({mouseTop: e.clientY})
-      setOnscreenDirty(true)
     }
     if (this.state.adjustingScrollY) {
       setGemBoxY(deltaY)
       this.setState({mouseTop: e.clientY})
-      setOnscreenDirty(true)
     }
     if (this.state.adjustingZoomY) {
       setGemBoxHeight(deltaX)
       this.setState({mouseLeft: e.clientX})
-      setOnscreenDirty(true)
     }
   }
 
@@ -155,7 +151,6 @@ export default connect(
   mapStateToProps,
   {
     fetchUser,
-    setOnscreenDirty,
     setGemBoxX,
     setGemBoxY,
     setGemBoxWidth,

@@ -20,6 +20,7 @@ class EditorContainer extends Component {
   }
 
   componentDidUpdate() {
+    // console.log('EditorContainer update')
     // what, what actually does UPDATE mean?
       // note that loads of rerenders happen in the piano roll without this ever being called...
   }
