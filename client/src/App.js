@@ -1,19 +1,15 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, {Component} from 'react'
+import {BrowserRouter, Route} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-import { Wrapper } from './App.styles'
-import {
-  fetchUser, setOnscreenDirty,
-  setGemBoxX, setGemBoxY, setGemBoxWidth, setGemBoxHeight
-} from './redux/actions'
+import {Wrapper} from './App.styles'
+import {fetchUser, setGemBoxHeight, setGemBoxWidth, setGemBoxX, setGemBoxY} from './redux/actions'
 
 import Compose from './containers/Compose'
 import passPropsToEmbededComponent from "./HOCS/passPropsToEmbededComponent"
 import Header from "./components/Header/Header"
-import Landing from './components/Landing';
-import { octaves, offscreenOctavePx, offscreenCellWidth, maxZoom } from "./config/constants";
+import Landing from './components/Landing'
 
 const Community = () => <h2>Other people who do this</h2>
 const Wander = () => <h2>Explore stuff people have made</h2>

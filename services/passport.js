@@ -6,15 +6,17 @@ const keys = require('../config/keys');
 const User = mongoose.model('users');
 
 // to support putting id token into cookie
+  // only called on login
 passport.serializeUser((user, done) => { // 'user' is user model returned by database
   console.log('passport serializeUser user:', user)
   // user.id is *database* id - NOT the googleId/profile.id
-    // user.id is a shortcut; on db side it will look like "_id": { "$old":  etc...
-    // using this because user is not necessarily using google for OAuth!
+  // user.id is a shortcut; on db side it will look like "_id": { "$old":  etc...
+  // using this because user is not necessarily using google for OAuth!
   done(null, user.id);
 });
 
 // to support getting user from db based on id token in cookie
+  // note how it is called on login as well as logout
 passport.deserializeUser((id, done) => {  // id is token we put in cookie (from user.id)
   console.log('passport deserializeUser id:', id)
   User.findById(id)

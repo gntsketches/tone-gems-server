@@ -14,6 +14,7 @@ module.exports = (app) => {
     //#90 .authenticate is a middleware. takes code from URL, fetches profile, then calls callback in GoogleStrategy sends request on to
     // after all that, it passes req to next middleware:
     (req, res) => {
+      console.log('/auth/google/callback')
       res.redirect('/compose');
     }
   );

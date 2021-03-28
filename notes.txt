@@ -1,3 +1,5 @@
+
+
 Canvas: is a way to use open GL in yer browser.
     Canvas is it's own window and shouldn't be bigger than your browser window. Should (basically) be fixed to your page.
         Not so cheap.
@@ -9,6 +11,9 @@ https://webplatform.github.io/docs/concepts/programming/drawing_images_onto_canv
         Seo: drawImage (the hiding method) will work better. (You can draw a canvas without adding it to the DOM.).
         Offscreen would be a bit cleaner code because then you're not having to deal with those two render methods.
     NEXT STEP: figure out how to get your canvas to draw to another canvas, and render only part
+
+https://stackoverflow.com/questions/21064101/understanding-offsetwidth-clientwidth-scrollwidth-and-height-respectively
+https://stackoverflow.com/questions/30379924/understanding-offsetwidth-and-clientwidth-when-css-border-box-is-activ
 
 
 ? Playhead - use an overlay canvas? seems way cheaper than re-rendering offscreen!
