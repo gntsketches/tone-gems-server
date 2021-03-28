@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
 
 
 
-  background: skyblue;
+  background: #565;
   
   display: grid;
   grid-template-rows: 1fr 8fr 1fr;
@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
   overflow: auto;
   
   .title {
-    background: #adadcf;
+    background: #676;
     grid-row-start: 1;
     grid-row-end: 2;
     grid-column-start: 2;

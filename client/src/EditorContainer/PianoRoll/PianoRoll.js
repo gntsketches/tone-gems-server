@@ -25,18 +25,18 @@ class PianoRoll extends Component {
       pitchMap: buildPitchSet(
         261.63,
         [
-          {cents:0,    color: '#fff', name: 'C' },
-          {cents:75,   color: '#99a', name: 'c#'},
-          {cents:200,  color: '#aaa', name: 'D' },
-          {cents:250,  color: '#99a', name: 'd#'},
-          {cents:400,  color: '#aaa', name: 'E' },
-          {cents:500,  color: '#aaa', name: 'F' },
-          {cents:600,  color: '#99a', name: 'F#'},
-          {cents:700,  color: '#aaa', name: 'G' },
-          {cents:800,  color: '#99a', name: 'G#'},
-          {cents:850,  color: '#aaa', name: 'a' },
-          {cents:1000, color: '#99a', name: 'A#'},
-          {cents:1100, color: '#333', name: 'B' },
+          {cents:0,    color: 'red', name: 'C' },
+          {cents:75,   color: 'white', name: 'c#'},
+          {cents:200,  color: 'orange', name: 'D' },
+          {cents:250,  color: 'grey', name: 'd#'},
+          {cents:400,  color: 'yellow', name: 'E' },
+          {cents:500,  color: 'white', name: 'F' },
+          {cents:600,  color: 'green', name: 'F#'},
+          {cents:700,  color: 'grey', name: 'G' },
+          {cents:800,  color: 'blue', name: 'G#'},
+          {cents:850,  color: 'white', name: 'a' },
+          {cents:1000, color: 'purple', name: 'A#'},
+          {cents:1100, color: 'grey', name: 'B' },
         ]
       ),
       offscreenDirty: true,
@@ -150,9 +150,11 @@ class PianoRoll extends Component {
         const cellheight = offscreenOctavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
         const celltop = y - cellheight
         offscreenCtx.beginPath();
-        offscreenCtx.fillStyle = pitchObj.color;
+        // offscreenCtx.fillStyle = pitchObj.color;
+        offscreenCtx.fillStyle = "rgb(24,24,24)";
 
-        offscreenCtx.strokeStyle = "rgb(24,24,24)";
+        // offscreenCtx.strokeStyle = "rgb(24,24,24)";
+        offscreenCtx.strokeStyle = pitchObj.color;
         offscreenCtx.fillRect(x, celltop, offscreenCellWidth, cellheight);
         offscreenCtx.strokeRect(x, celltop, offscreenCellWidth, cellheight);
 

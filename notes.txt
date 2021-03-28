@@ -1,3 +1,16 @@
+*** LINES UI ***
+
+> just draw the thing on the canvas
+    stroke-style x vs y?
+
+> then adjust the pre-rendered notes to be circles
+    ? long notes?
+> then handle clicks
+
+
+
+****************************************
+
 
 
 Canvas: is a way to use open GL in yer browser.
