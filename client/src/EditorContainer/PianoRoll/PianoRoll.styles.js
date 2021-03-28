@@ -5,6 +5,8 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
 
+  background: white;
+  
   grid-row-start: 2;
   grid-row-end: 4;
   grid-column-start: 2;

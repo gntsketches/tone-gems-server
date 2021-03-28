@@ -26,16 +26,16 @@ class PianoRoll extends Component {
         261.63,
         [
           {cents:0,    color: '#ffffff', name: 'C' },
-          {cents:75,   color: '#888888', name: 'c#'},
+          {cents:75,   color: 'blue', name: 'c#'},
           {cents:200,  color: '#ffffff', name: 'D' },
-          {cents:250,  color: '#888888', name: 'd#'},
+          {cents:250,  color: '#ffffff', name: 'd#'},
           {cents:400,  color: '#ffffff', name: 'E' },
           {cents:500,  color: '#ffffff', name: 'F' },
-          {cents:600,  color: '#888888', name: 'F#'},
+          {cents:600,  color: '#ffffff', name: 'F#'},
           {cents:700,  color: '#ffffff', name: 'G' },
-          {cents:800,  color: '#888888', name: 'G#'},
+          {cents:800,  color: '#ffffff', name: 'G#'},
           {cents:850,  color: '#ffffff', name: 'a' },
-          {cents:1000, color: '#888888', name: 'A#'},
+          {cents:1000, color: '#ffffff', name: 'A#'},
           {cents:1100, color: '#ffffff', name: 'B' },
         ]
       ),
@@ -156,9 +156,19 @@ class PianoRoll extends Component {
           offscreenCtx.fillStyle = "rgb(33,33,33)";
         }
 
+        offscreenCtx.fillRect(x, celltop, offscreenCellWidth-1, cellheight-1);
+
         offscreenCtx.strokeStyle = pitchObj.color;
-        offscreenCtx.fillRect(x, celltop, offscreenCellWidth, cellheight);
-        offscreenCtx.strokeRect(x, celltop, offscreenCellWidth, cellheight);
+        // ctx.beginPath();
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(300, 150);
+        // ctx.stroke();
+        // offscreenCtx.strokeRect(x, celltop, offscreenCellWidth, cellheight);
+        offscreenCtx.beginPath();
+        offscreenCtx.moveTo(x, y)
+        offscreenCtx.lineWidth = 1;
+        offscreenCtx.lineTo(x+offscreenCellWidth, y)
+        offscreenCtx.stroke();
 
         y -= cellheight
       })
