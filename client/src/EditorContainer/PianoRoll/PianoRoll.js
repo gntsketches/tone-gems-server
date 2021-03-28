@@ -25,18 +25,18 @@ class PianoRoll extends Component {
       pitchMap: buildPitchSet(
         261.63,
         [
-          {cents:0,    color: 'red', name: 'C' },
-          {cents:75,   color: 'white', name: 'c#'},
-          {cents:200,  color: 'orange', name: 'D' },
-          {cents:250,  color: 'grey', name: 'd#'},
-          {cents:400,  color: 'yellow', name: 'E' },
-          {cents:500,  color: 'white', name: 'F' },
-          {cents:600,  color: 'green', name: 'F#'},
-          {cents:700,  color: 'grey', name: 'G' },
-          {cents:800,  color: 'blue', name: 'G#'},
-          {cents:850,  color: 'white', name: 'a' },
-          {cents:1000, color: 'purple', name: 'A#'},
-          {cents:1100, color: 'grey', name: 'B' },
+          {cents:0,    color: '#ffffff', name: 'C' },
+          {cents:75,   color: '#888888', name: 'c#'},
+          {cents:200,  color: '#ffffff', name: 'D' },
+          {cents:250,  color: '#888888', name: 'd#'},
+          {cents:400,  color: '#ffffff', name: 'E' },
+          {cents:500,  color: '#ffffff', name: 'F' },
+          {cents:600,  color: '#888888', name: 'F#'},
+          {cents:700,  color: '#ffffff', name: 'G' },
+          {cents:800,  color: '#888888', name: 'G#'},
+          {cents:850,  color: '#ffffff', name: 'a' },
+          {cents:1000, color: '#888888', name: 'A#'},
+          {cents:1100, color: '#ffffff', name: 'B' },
         ]
       ),
       offscreenDirty: true,
@@ -62,7 +62,7 @@ class PianoRoll extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) { // PureComponent?
-    console.log('nextProps', nextProps, 'nextState', nextState)
+    // console.log('nextProps', nextProps, 'nextState', nextState)
     // skip the note add re-render because the state change to offscreen dirty catches it
     return this.props.notes.length === nextProps.notes.length;
     // is there a use for onscreenDirty?
@@ -71,12 +71,12 @@ class PianoRoll extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('piano didUpdate')
+    // console.log('piano didUpdate')
     this.DrawOnscreen()
   }
 
   handleResize = () => {
-    console.log('resizing')
+    // console.log('resizing')
     const { setCanvasWidth, setCanvasHeight, setGemBoxWidth, setGemBoxHeight } = this.props;
 
     this.canvas.style.width='100%';
@@ -136,7 +136,7 @@ class PianoRoll extends Component {
 
 
   drawOffscreen() {
-    console.log('piano offscreen')
+    // console.log('piano offscreen')
     let { compositionLength } = this.props;
     const offscreenCtx = this.offscreen.getContext('2d')
 
@@ -150,10 +150,12 @@ class PianoRoll extends Component {
         const cellheight = offscreenOctavePx * ((pitchObj.nextCents - pitchObj.cents) / 1200)
         const celltop = y - cellheight
         offscreenCtx.beginPath();
-        // offscreenCtx.fillStyle = pitchObj.color;
-        offscreenCtx.fillStyle = "rgb(24,24,24)";
+        if (Math.floor(((x/offscreenCellWidth)/4) % (2)) === 0) {
+          offscreenCtx.fillStyle = "rgb(11,11,11)"
+        } else {
+          offscreenCtx.fillStyle = "rgb(33,33,33)";
+        }
 
-        // offscreenCtx.strokeStyle = "rgb(24,24,24)";
         offscreenCtx.strokeStyle = pitchObj.color;
         offscreenCtx.fillRect(x, celltop, offscreenCellWidth, cellheight);
         offscreenCtx.strokeRect(x, celltop, offscreenCellWidth, cellheight);
@@ -193,7 +195,7 @@ class PianoRoll extends Component {
     const offscreenHeight = this.offscreen.height;
     const xScale = gemBoxWidth / this.canvas.width
     const yScale = gemBoxHeight / this.canvas.height
-    console.log('click yScale', yScale)
+    // console.log('click yScale', yScale)
     const rect = e.target.getBoundingClientRect()
 
     const xPix = e.clientX - rect.left
@@ -236,7 +238,7 @@ class PianoRoll extends Component {
   }
 
   render() {
-    console.log('PianoRoll.js rendering')
+    // console.log('PianoRoll.js rendering')
     // console.log('ctx', this.ctx) // NOTE: undefined on initial render
 
     return (
